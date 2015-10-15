@@ -3,7 +3,11 @@
 	
 \section{Kecerdasan Bisnis}
 \label{sec:kecerdasan_bisnis}
-Kecerdasan bisnis dapat diartikan sebagai suatu kumpulan metode, proses, teori, arsitektur dan teknologi yang dapat mengubah data menjadi informasi yang bermanfaat dan memiliki nilai yang berguna dalam kepentingan bisnis. Sistem kecerdasan bisnis dapat menyediakan data di masa lalu dan saat ini. Data yang ditampilkan dapat berupa laporan, statistik, dll. Selain itu data data yang ditampilkan dapat dilihat berdasarkan suatu dimensi tertentu, misal berdasarkan dimensi waktu, pelanggan, dll.
+Kecerdasan bisnis dapat diartikan sebagai suatu kumpulan metode, proses, teori, arsitektur dan teknologi yang dapat mengubah data menjadi informasi yang bermanfaat dan memiliki nilai yang berguna dalam kepentingan bisnis. Sistem kecerdasan bisnis dapat dimanfaatkan untuk proses identifikasi informasi yang berjumlah sangat banyak untuk kepentingan pengembangan peluang-peluang bisnis baru. Dengan menemukan peluang-peluang bisnis baru dan mengimplementasikan strategi yang efektif, maka sebuah perusahan dapat mendapatkan keuntungan dari sisi daya saing dan stabilitas jangka panjang.
+
+Sistem kecerdasan bisnis dapat menyediakan data di masa lalu dan saat ini. Data yang ditampilkan dapat berupa laporan, statistik, dll. Selain itu data data yang ditampilkan dapat dilihat berdasarkan suatu dimensi tertentu, misal berdasarkan dimensi waktu, pelanggan, dll.
+
+%harus ada tambahan sentimen analisisnya
 
 \section{Integrasi Sistem Kecerdasan Bisnis dalam Sistem Big Data}
 \label{sec:integrasi_kecerdasan_bisnis}
@@ -108,30 +112,47 @@ Sentimen analisis mengacu pada bidang yang luas dari pengolahan bahasa alami, ko
 
 \subsection{Pengertian Hadoop}
 \label{sec:pengertian_hadoop}
-Apache Hadoop adalah sebuah framework opensource yang memungkinkan untuk memproses set data yang besar secara terdistribusi di cluster komputer menggunakan model pemrograman yang sederhana. Hadoop dirancang untuk meningkatkan kemampuan server tunggal menjadi ribuan mesin yang masing-masing menawarkan komputasi dan penyimpanan lokal. Hadoop sendiri dirancang untuk mendetexti dan menangani kegagalan pada lapisan aplikasi, sehingga memberikan layanan yang \textit{highly-available} pada sekelompok komputer yang masing-masingnya mungkin rentan terhadap kegagalan. Hal tersebut lebih baik dibanding hanya mengandalkan perangkat keras untuk memberikan \textit{high-availability}.
+Apache Hadoop adalah sebuah \textit{framework opensource} yang memungkinkan untuk memproses set data yang besar secara terdistribusi di \textit{cluster} komputer menggunakan model pemrograman yang sederhana. Hadoop dirancang untuk mendeteksi dan menangani kegagalan pada lapisan aplikasi, sehingga memberikan layanan yang \textit{highly-available} pada sekelompok komputer yang masing-masingnya mungkin rentan terhadap kegagalan. Hal tersebut lebih baik dibanding hanya mengandalkan perangkat keras untuk memberikan \textit{high-availability}.
+
+Hadoop bekerja dengan menggunakan penyimpanan terdistribusi dan mentransfer kode program bukan datanya. Hadoop menghindari langkah transmisi yang mahal ketika bekerja dengan kumpulan data besar. Selain itu, redundansi data memungkinkan Hadoop untuk memulihkan \textit{single node} yang gagal. Anda akan mendapatkan kemudahan membuat program dengan Hadoop menggunakan MapReduce \textit{framework}. Yang juga tak kalah penting adalah apa yang Anda tidak harus khawatir tentang cara melakukan partisi data, menentukan node yang akan melakukan tugas, atau menangani komunikasi antar node. Hadoop menangani ini untuk Anda, sehingga Anda dapat fokus pada apa yang paling penting bagi data Anda dan apa yang ingin Anda lakukan dengan itu.
 
 \subsection{Komponen Utama Hadoop}
 \label{sec:komponen_utama_hadoop}
-Hadoop pada dasarnya memiliki empat buah komponen utama, yaitu:
-\begin{enumerate}
-	\item Hadoop Common\\
-	Hadoop Common adalah utilitas umum yang mendukung modul lain di Hadoop.
-	\item Hadoop Distributed File System (HDFS)\\
-	HDFS adalah sebuah file sistem yang didesain untuk memproses data distribusi skala besar di dalam framwork seperti MapReduce. HDFS dapat menyimpan sebuat data set sebesar 100TB sebagai sebuah single file.\cite{Lam:2010:HA:1965594} HDFS bisa bersifat single node atau multiple node. HDFS bukan native File System seperti layaknya EXT3, EXT4, FAT atau NTFS. HDFS ada pada layer di atasnya.
-	
-	\item Hadoop YARN\\
-	Hadoop YARN atau Yet Another Resource Negotiator adalah teknologi untuk mengatur \textit{resource} dan \textit{scheduling} pada sebuah cluster.
-	\item Hadoop MapReduce\\
-	MapReduce adalah sebuah model pemrosesan data\cite{Lam:2010:HA:1965594}. MapReduce ditujukan untuk memproses data berukuran raksasa secara terdistribusi dan paralel dalam cluster yang terdiri atas banyak komputer. Dalam memproses data, secara garis besar MapReduce dapat dibagi dalam dua proses yaitu proses \textit{Map} dan proses \textit{Reduce}. Kedua jenis proses ini didistribusikan ke setiap komputer nodes dalam suatu cluster (kelompok komputer yang salih terhubung) dan berjalan secara paralel tanpa saling bergantung satu dengan yang lainnya. Proses \textit{Map} bertugas untuk mengumpulkan informasi dari potongan-potongan data yang terdistribusi dalam tiap komputer dalam cluster. Hasilnya diserahkan kepada proses \textit{Reduce} untuk diproses lebih lanjut. Hasil proses Reduce merupakan hasil akhir yang dikirim ke pengguna. \cite{Dean:2008:MSD:1327452.1327492}
-	
-	\begin{figure}
-		\centering
-		\includegraphics[scale=0.4]{Gambar/MapReduce_Work_Structure.png}
-		\caption[Contoh Cara Kerja MapReduce]{Contoh Cara Kerja MapReduce. \\Sumber: http://www.milanor.net/blog/?p=853}
-	\end{figure}
-	
-\end{enumerate}
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.5]{Gambar/hadoop-architecture.png}
+	\caption[Arsitektur Komponen Hadoop]{Arsitektur Komponen Hadoop.\cite{karanth2014mastering}} 
+\end{figure}
 
+Hadoop pada dasarnya memiliki empat buah komponen utama, yaitu:
+\subsubsection{Hadoop Common}
+Hadoop Common adalah utilitas umum yang mendukung modul lain di Hadoop.
+
+\subsubsection{Hadoop Distributed File System (HDFS)}
+HDFS adalah sebuah file sistem yang didesain untuk memproses data distribusi skala besar di dalam framwork seperti MapReduce. HDFS dapat menyimpan sebuat data set sebesar 100TB sebagai sebuah single file.\cite{Lam:2010:HA:1965594} HDFS bisa bersifat single node atau multiple node. HDFS bukan native File System seperti layaknya EXT3, EXT4, FAT atau NTFS. HDFS ada pada layer di atasnya.
+	
+\subsubsection{Hadoop YARN}
+Hadoop YARN atau Yet Another Resource Negotiator adalah teknologi untuk mengatur \textit{resource} dan \textit{scheduling} pada sebuah cluster.
+	
+\subsubsection{Hadoop MapReduce}
+MapReduce adalah sebuah model pemrosesan data\cite{Lam:2010:HA:1965594}. MapReduce ditujukan untuk memproses data berukuran raksasa secara terdistribusi dan paralel dalam cluster yang terdiri atas banyak komputer. Dalam memproses data, secara garis besar MapReduce dapat dibagi dalam dua proses yaitu proses \textit{Map} dan proses \textit{Reduce}. Kedua jenis proses ini didistribusikan ke setiap komputer nodes dalam suatu cluster (kelompok komputer yang saling terhubung) dan berjalan secara paralel tanpa saling bergantung satu dengan yang lainnya. Proses \textit{Map} bertugas untuk mengumpulkan informasi dari potongan-potongan data yang terdistribusi dalam tiap komputer dalam \textit{cluster}. Hasilnya diserahkan kepada proses \textit{Reduce} untuk diproses lebih lanjut. Hasil proses Reduce merupakan hasil akhir yang dikirim ke pengguna. \cite{Dean:2008:MSD:1327452.1327492}
+
+MapReduce menggunakan tipe data \textit{list} dan \textit{(key/value) pairs} sebagai data primitif utamanya. \textit{Keys} dan \textit{values} biasanya berupa integer atau string tapi bisa juga menggunakan \textit{dummy value} atau objek data lainnya. Oleh karena itu fungsi \textit{map} dan \textit{reduce} harus bisa menangani berbagai data tersebut.
+
+Di dalam \textit{framework} MapReduce, aplikasi ditulis dengan memspesifikasikan \textit{mapper} dan \textit{reducer}. Berikut adalah contoh lengkap aliran data yang terjadi pada MapReduce.
+
+\begin{enumerate}
+	\item Masukan data ke dalam aplikasi harus terstruktur dalam bentuk \textit{lists} dari \textit{(key/value) pairs}, list(<k1, v1>). Dalam pengaplikasiannya input dapat dibuat seperti contoh berikut, list(<String filename, String filecontent>) atau list(<Integer messageid, String message>).
+	\item Setelah masukan diterima maka proses mapper akan dijalankan. Proses mapper akan membagi masukan \textit{lists} dari \textit{(key/value) pairs} menjadi masing-masing \textit{(key/value) pairs}, <k1, v1>. \textit{Mapper} mengubah setiap <k1, v1> dan memasangkannya menjadi list(<k2, v2>) secara acak. Pada contoh kasus penghitung kata, mapper mendapatkan masukan berupa list(<String filename, String filecontent>), kemudian \textit{list} dipecah menjadi <String filename, String filecontent> \textit{pairs}. Teks yang terdapat pada filecontent dihitung satu per satu yang akan menghasilkan keluaran berupa <String word, Integer count>, contoh: <"hello", 1>, <"hello", 2>, <"world", 1>. 
+	\item Seluruh keluaran yang dihasilkan dari proses Mapper dikumpulkan dan menjadi sebuah \textit{list of <k2, v2> pairs} raksasa. Semua pasangan yang memiliki nilai k2 yang sama akan dikelompokan menjadi satu pasangan baru yaitu <k2, list(v2)>. Kemudian \textit{framework} akan menjalakan fungsi \textit{reducer} untuk memproses masing-masing pasangan baru menjadi list(<k3, v3>). Pada contoh kasus penghitung kata, misal ada pasangan <"hello", 1> sebanyak dua buah, maka reducer akan memprosesnya menjadi <"hello", list(1,1)> dan keluaran yang dihasilkan oleh reducer akan menjadi <"hello", 2>. Hasil dari masing-masing pasangan akan disatukan kembali dalam bentuk list, misal list(<"hello", 2>, <"world", 1>).
+\end{enumerate} 
+	
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.4]{Gambar/MapReduce_Work_Structure.png}
+	\caption[Contoh Cara Kerja MapReduce]{Contoh Cara Kerja MapReduce. \\Sumber: http://www.milanor.net/blog/?p=853}
+\end{figure}
+	
 \subsection{Sqoop}
 \label{sec:sqoop}
 Apache Sqoop adalah sebuah \textit{tool} yang dirancang untuk mentransfer data dari Apache Hadoop ke tempat penyimpanan data terstruktur seperti basis data relasional secara efisien. Sqoop dapat dimanfaatkan untuk menyimpan informasi atau pola yang dihasilkan dari proses text mining ke dalam sistem kecerdasan bisnis. \cite{sqoop:2015}
@@ -148,3 +169,12 @@ Apache Hive adalah perangkat lunak \textit{data warehouse} yang memfasilitasi ku
 \end{itemize}
 
 Hive mendefinisikan sebuah SQL sederhana seperti bahasa kueri yang disebut QL. QL memungkingkan pengguna yang terbiasa dengan SQL untuk melakukan kueri pada data. Bahasa ini juga memungkinkan programmer yang terbiasa dengan MapReduce untuk menyambungkan \textit{custom mapper} dan \textit{reducer} untuk melakukan analisis yang lebih canggih yang mungkin tidak didukung oleh kemampuan \textit{built-in} bahasa pemrogramman. QL juga memiliki \textit{custom scalar functions} (UDF's), \textit{aggregations} (UDAF's), dan \textit{table functions} (UDTF's). \cite{sqoop:2015}
+
+\subsection{Apache Mahout}
+\label{sec:apache_mahout}
+
+\section{Algoritma Naive Bayes Classifier}
+\label{sec:algoritma_naive_bayes}
+
+\section{Algoritma SVN}
+\label{sec:algoritma_svn}
