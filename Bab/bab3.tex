@@ -1,0 +1,174 @@
+\chapter{Analisis dan Eksperimen}
+
+\section{Analisis Masalah}
+Keberadaan sosial media khususnya Twitter di Indonesia tidak dapat dipungkiri lagi sudah menjadi bagian hidup bagi kebanyakan orang. Masyarakat dapat menulis tentang apapun di sosial media miliknya, mulai dari opini pribadi tentang suatu barang atau jasa, membahas topik yang sedang hangat, ataupun hanya sekedar menuliskan lokasi keberadaannya saat ini. Namun sayangnya data yang tersebar di sosial media belum diolah dengan baik oleh para pemilik usaha. Padahal potensi yang dimiliki dari sosial media sangatlah besar bagi pertumbuhan usaha.
+
+Salah satu sektor yang dapat memanfaatkan data dari sosial media adalah sektor pariwisata. Di sektor ini para pemilik usaha dapat memanfaatkan pesan dari sosial media untuk memprediksi tren wisata saat itu dan di masa depan. Selain itu mereka juga dapat mempelajari analisis sentimen negatif ataupun positif pengguna sosial media terhadap suatu lokasi wisata. 
+
+Pesan media sosial saat ini khususnya Twitter jumlahnya sudah sangat banyak. Hal ini mengakibatkan pemilik usaha di bidang pariwisata kesulitan dalam mempelajari pesan-pesan tersebut secara manual. Masalah lainnya bagi mereka adalah pertumbungan pesan-pesan di sosial media yang berjalan dengan sangat cepat bahkan dalam hitungan detik datanya sudah berubah. 
+
+Oleh karena itu, para pemilik usaha di bidang pariwisata memerlukan sebuah sistem yang dapat membantu mereka dalam mempelajari pesan-pesan di sosial media yang jumlahnya sangat banyak dan berkembang sangat cepat. Sistem yang dilengkapi dengan kecerdasan bisnis diharapkan dapat membantu para pemilik usaha di bidang pariwisata untuk melakukan pengambilan keputusan berdasarkan laporan, grafik dan hasil analisis sentimen dari pesan-pesan sosial media yang terkumpul di dalam \textit{datawarehouse}.
+
+%\section{Analisis Data}
+
+%\section{Analisis Sistem}
+
+\section{Eksperimen}
+Pada bagian ini, penulis melakukan uji coba beberapa kasus sederhana yang masih berhubungan dengan proses analisis text pada sosial media Twitter. Eksperimen yang dilakukan seperti membuat program Java untuk melakukan streaming data melalui Streaming API Twitter dan menyimpan hasilnya ke dalam file text. Selain itu penulis juga melakukan eksperimen untuk melakukan text preprocessing sederhana pada data tweet di lingkungan Hadoop.
+
+\subsection{Streaming Tweet}
+Dalam penelitian ini dibutuhkan tweet-tweet yang berhubungan dengan kegiatan pariwisata. Oleh karena itu penulis mencoba membuat sebuah program sederhana berbasis Java untuk melakukan streaming tweet. Kode sumber untuk eksperimen ini dapat dilihat pada Lampiran \ref{app:B}. Pada proses streaming tweet penulis menggunakan kata kunci  libur, liburan, travel, travelling, wisata, tour, pariwisata, destinasi, hotel, pesawat. Data tweet yang diambil juga dibatasi berdasarkan bahasa yang digunakan, hanya yang dalam bahasa Indonesia saja yang diambil. Berikut adalah salah satu contoh hasil tweet yang dihasilkan.
+
+\begin{lstlisting}[language=Java,basicstyle=\tiny,caption=Hasil Streaming]
+{
+  "created_at": "Mon Sep 28 00:48:47 +0000 2015",
+  "id": 6.4829827034363e+17,
+  "id_str": "648298270343626752",
+  "text": "Ujudkan ikon Pariwisata berwawasan lingkungan. Bali sdh banyak bermasalah dg air, fungsi lahan, dan sampah. http:\/\/t.co\/mj8l3D4xvy #AjegBali",
+  "source": "<a href=\"http:\/\/twitter.com\/download\/iphone\" rel=\"nofollow\">Twitter for iPhone<\/a>",
+  "truncated": false,
+  "in_reply_to_status_id": null,
+  "in_reply_to_status_id_str": null,
+  "in_reply_to_user_id": null,
+  "in_reply_to_user_id_str": null,
+  "in_reply_to_screen_name": null,
+  "user": {
+    "id": 1690141351,
+    "id_str": "1690141351",
+    "name": "Bali Tolak Reklamasi",
+    "screen_name": "ForBALI13",
+    "location": "Bali",
+    "url": "http:\/\/forbali.org",
+    "description": "Official account Forum Rakyat Bali #TolakReklamasiTelukBenoa | Petisi: http:\/\/chn.ge\/1kyV5Bu | Ganti Profpic: http:\/\/twibbon.com\/support\/forbali-2",
+    "protected": false,
+    "verified": false,
+    "followers_count": 43317,
+    "friends_count": 178,
+    "listed_count": 21,
+    "favourites_count": 388,
+    "statuses_count": 11135,
+    "created_at": "Thu Aug 22 05:27:11 +0000 2013",
+    "utc_offset": 21600,
+    "time_zone": "Urumqi",
+    "geo_enabled": false,
+    "lang": "en",
+    "contributors_enabled": false,
+    "is_translator": false,
+    "profile_background_color": "C0DEED",
+    "profile_background_image_url": "http:\/\/pbs.twimg.com\/profile_background_images\/378800000077490261\/b733ff1364e61ccf11b48d972a419799.jpeg",
+    "profile_background_image_url_https": "https:\/\/pbs.twimg.com\/profile_background_images\/378800000077490261\/b733ff1364e61ccf11b48d972a419799.jpeg",
+    "profile_background_tile": true,
+    "profile_link_color": "0084B4",
+    "profile_sidebar_border_color": "FFFFFF",
+    "profile_sidebar_fill_color": "DDEEF6",
+    "profile_text_color": "333333",
+    "profile_use_background_image": true,
+    "profile_image_url": "http:\/\/pbs.twimg.com\/profile_images\/494053969430200320\/X2xjdPf-_normal.png",
+    "profile_image_url_https": "https:\/\/pbs.twimg.com\/profile_images\/494053969430200320\/X2xjdPf-_normal.png",
+    "profile_banner_url": "https:\/\/pbs.twimg.com\/profile_banners\/1690141351\/1402672316",
+    "default_profile": false,
+    "default_profile_image": false,
+    "following": null,
+    "follow_request_sent": null,
+    "notifications": null
+  },
+  "geo": null,
+  "coordinates": null,
+  "place": null,
+  "contributors": null,
+  "retweet_count": 0,
+  "favorite_count": 0,
+  "entities": {
+    "hashtags": [
+      {
+        "text": "AjegBali",
+        "indices": [
+          131,
+          140
+        ]
+      }
+    ],
+    "trends": [
+      
+    ],
+    "urls": [
+      {
+        "url": "http:\/\/t.co\/mj8l3D4xvy",
+        "expanded_url": "http:\/\/bit.ly\/1PIgk0x",
+        "display_url": "bit.ly\/1PIgk0x",
+        "indices": [
+          108,
+          130
+        ]
+      }
+    ],
+    "user_mentions": [
+      
+    ],
+    "symbols": [
+      
+    ]
+  },
+  "favorited": false,
+  "retweeted": false,
+  "possibly_sensitive": false,
+  "filter_level": "low",
+  "lang": "in",
+  "timestamp_ms": "1443401327106"
+}
+\end{lstlisting}
+
+Proses yang dilakukan pada eksperimen ini adalah
+\begin{enumerate}
+	\item Mendaftar di https://dev.twitter.com/ untuk mendapatkan \textit{consumer key,  consumer secret, access token,} dan \textit{access token secret} yang akan digunakan untuk mendapatkan data dari Twitter Streaming API.
+	\item Membuat program Java dengan bantuan library org.scribe versi 1.3.7 yang berfungsi untuk melakukan autentikasi OAuth ke server Twitter.
+	\item Mendapatkan tweet yang dikirim Twitter Streaming Server dan menyimpannya ke dalam file text.
+\end{enumerate}
+ 
+Dari hasil eksperimen ini ada beberapa hal yang perlu dievaluasi dan dikembangkan, yaitu:
+
+\begin{itemize}
+	\item Penulisan hasil streaming tweet langsung ke HDFS.
+\end{itemize}
+
+
+\subsection{Text Preprocessing Tweet Sederhana di Lingkungan Hadoop}
+Untuk melakukan text mining pada tweet perlu diawali dengan text preprocessing terlebih dahulu. Oleh karena itu penulis melakukan eksperimen untuk melakukan text preprocessing sederhana pada data tweet di lingkungan sistem terdistribusi Hadoop. Kode sumber untuk eksperimen ini dapat dilihat pada Lampiran \ref{app:C}. Berikut adalah proses yang penulis lakukan pada eksperimen ini.
+
+\begin{enumerate}
+	\item Mengubah text ke dalam huruf kecil.
+	\item Membuang stopwords pada tweet. Daftar stopwords yang digunakan dapat dilihat di Lampiran \ref{app:A}.
+	\item Membuang tag ke pengguna lain (diawali dengan @) dan hashtag topik tertentu (diawali dengan \#).
+	\item Membuang URL yang terdapat pada tweet.
+	\item Menghilangkan karakter-karakter lainnya selain alfabet dari A sampai Z atau angka 0 sampai 9.
+	\item Membuan spasi di awal dan akhir tweet serta menghilangkan multiple spasi.
+\end{enumerate}
+ 
+Untuk mendukung proses tersebut di atas dibutuhkan library pendukung lainnya yaitu org.apache.hadoop versi 2.7.1. Berikut adalah beberapa contoh masukan dan keluaran dari program sederhana ini.\\
+ 
+     
+\textbf{Masukan:}
+\begin{enumerate}
+	\item RT @CJRisCJR: Mau liburan ke Jepang bareng kita?Yuk ikut \#BoneetoTemuinKerenmu dari @BoneetoID ! Info, klik  http://t.co/THYLKLnSbX http://?
+	\item @Hai @dimasarasta  Lets Joint With Us Wisata Seluler ke Jantungnya XL http://t.co/VPO4QyOBOt
+	\item WISATA PULAU TIDUNG- Pemerintah Pusat Tetapkan Pantai Rupat jadi Tujuan Wisata Nasional - Metroterkini  http://t.co/LCUZJQveuX
+	\item Paket Tour Karimunjawa 3hari 2malam | Mulai 805k/pax, min 8 pax | MoreInfo: 0271-733176, WA 089602910275, BB 5A4CC077 http://t.co/bc7os4f35J
+	\item RT @detikcom: Ini Dampak Kabut Asap Terhadap Tour de Singkarak 2015 http://t.co/lNbnyPB485  via @detiktravel
+\end{enumerate} 
+     
+\textbf{Keluaran:}
+\begin{enumerate}
+	\item liburan jepang bareng yuk info klik 
+	\item lets joint with us wisata seluler jantungnya xl
+	\item wisata pulau tidung pemerintah pusat tetapkan pantai rupat tujuan wisata nasional metroterkini
+	\item paket tour karimunjawa 3hari 2malam 805kpax min 8 pax moreinfo 0271733176 wa 089602910275 bb 5a4cc077
+	\item dampak kabut asap tour de singkarak 2015 via
+\end{enumerate}
+
+  
+Dari hasil eksperimen ini ada beberapa hal yang perlu dievaluasi dan dikembangkan, yaitu:
+\begin{itemize}
+	\item Menghilangkan angka pada tweet, karena tidak dapat dimanfaatkan dalam proses text mining untuk mendapatkan sentimen tweetnya.
+	\item Menambahkan daftar kata stopwords.
+	\item Mengatasi penggunaan bahasa slang dan singkatan kata.
+\end{itemize}
