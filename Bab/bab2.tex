@@ -5,11 +5,49 @@
 \label{sec:kecerdasan_bisnis}
 Kecerdasan bisnis dapat diartikan sebagai suatu kumpulan metode, proses, teori, arsitektur dan teknologi yang dapat mengubah data menjadi informasi yang bermanfaat dan memiliki nilai yang berguna dalam kepentingan bisnis. Sistem kecerdasan bisnis dapat dimanfaatkan untuk proses identifikasi informasi yang berjumlah sangat banyak untuk kepentingan pengembangan peluang-peluang bisnis baru. Dengan menemukan peluang-peluang bisnis baru dan mengimplementasikan strategi yang efektif, maka sebuah perusahan dapat mendapatkan keuntungan dari sisi daya saing dan stabilitas jangka panjang.
 
-Sistem kecerdasan bisnis dapat menyediakan data di masa lalu dan saat ini. Data yang ditampilkan dapat berupa laporan, statistik, dll. Selain itu data data yang ditampilkan dapat dilihat berdasarkan suatu dimensi tertentu, misal berdasarkan dimensi waktu, pelanggan, dll.
+Sistem kecerdasan bisnis dapat menyediakan data di masa lalu dan saat ini. Data yang ditampilkan dapat berupa laporan, statistik, dll. Selain itu data data yang ditampilkan dapat dilihat berdasarkan suatu dimensi tertentu, misal berdasarkan dimensi waktu, pelanggan, dll. Kecerdasan bisnis menghasilkan suatu pengetahuan yang berisi tentang kebutuhan pelanggan, keputusan konsumen dalam melakukan proses bisnis, kondisi di perusahaan, dan tren ekonomi, teknologi serta tren budaya yang terjadi saat ini. Oleh karena itu, pengetahuan yang dihasilkan ini akan menjadi bagian penting dari perencanaan organisasi dan pengambilan keputusan untuk memahami keadaan konsumen atau persaingan yang terjadi saat ini.
 
 %harus ada tambahan sentimen analisisnya
 
-\section{Integrasi Sistem Kecerdasan Bisnis dalam Sistem Big Data}
+\subsection{Arsitektur Kecerdasan Bisnis}
+\label{sec:arsitektur_kecerdasan_bisnis}
+
+Dalam membangun sebuah sistem kecerdasan bisnis diperlukan masukan dari berbagai sumber data. Data-data yang terkumpul dari berbagai sumber tentunya memiliki format dan bentuk yang berbeda, sehingga diperlukan proses-proses pembersihan data untuk menghasilkan data yang baik dan siap diolah lebih lanjut. Data yang sudah dibersihkan kemudian akan dikumpulkan dalam sebuah \textit{data warehouse}. Di dalam data warehouse data-data yang terkumpul dapat dipecah kembali menjadi beberapa OLAP Cubes yang dapat ditampilkan secara visual kepada pengguna ataupun berupa laporan berharga yang dapat diolah lebih lanjut.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.5]{Gambar/arsitektur-kecerdasan-bisnis.png}
+\caption[Arsitektur Kecerdasan Bisnis]{Arsitektur Kecerdasan Bisnis} 
+\label{fig:arsitektur_kecerdasan_bisnis_fig}
+\end{figure}
+
+Berdasarkan Gambar \ref{fig:arsitektur_kecerdasan_bisnis_fig} sistem kecerdasan bisnis terdiri dari empat tahap, yaitu:
+
+\begin{enumerate}
+	\item \textbf{Source Systems}\\
+	\textit{Source systems} merupakan sumber data yang akan disimpan dan dimanfaatkan di sistem kecerdasaan bisnis. Data yang menjadi masukan sangat bermacam-macam. Data dapat berupa data terstruktur seperti basis data relasional, data excel, dan lain-lain. Data juga dapat berupa data yang tidak terstruktur seperti file teks, pesan dari sosial media, gambar, video dan lain-lain.
+	
+	\item \textbf{Data Staging Area}\\
+	Data yang didapat dari berbagai sumber dengan format dan bentuk yang berbagai macam mengakibatkan perlunya pra pengolahan data terlebih dahulu agar mendapatkan data yang sesuai dan siap dimasukan ke dalam \textit{data warehouse}. Pra pengolahan data ini dilakukan di tempat penampungan data sementara yang biasanya disebut \textit{staging area}. Proses pra pengolahan data di \textit{staging area} terdiri dari ETCL (\textit{Extract Trasnform Cleaning and Load}).
+		\begin{itemize}
+			\item \textit{Extract} adalah proses pemilihan data-data yang dirasa perlu untuk diolah dan dianalisis. Proses \textit{Extract} ini diperlukan karena sumber data yang digunakan dapat sangat banyak dan besar namun tidak seluruh data tersebut dapat dimanfaatkan, sehingga diperlukan pemilihan data-data yang diperlukan saja agar dapat bermanfaat dan menghemat waktu pemrosesan.
+			\item \textit{Transform} adalah proses mengubah bentuk data yang sudah ada ke dalam bentuk yang standar sesuai dengan kebutuhan di \textit{data warehouse}. Proses \textit{transform} ini diperlukan karena data yang diambil dari berbagai sumber kemungkinan memiliki standarisasi yang berbeda pula.
+			\item \textit{Cleaning} adalah proses pembersihan data-data yang didapat agar hasil keluaran dari sistem kecerdasan bisnis yang dibuat dapat lebih baik kualitasnya.
+			\item \textit{Load} adalah proses mengirimkan data-data hasil pembersihan ke dalam \textit{data warehouse}.
+		\end{itemize}
+	
+	\item \textbf{Data Warehouse}
+		
+	
+	\item \textbf{User Interface}
+\end{enumerate} 
+
+
+\subsection{Sentimen Analisis dalam Sistem Kecerdasan Bisnis}
+\label{sec:sentimen_analisis}
+Sentimen analisis mengacu pada bidang yang luas dari pengolahan bahasa alami, komputasi linguistik dan text mining yang bertujuan menganalisis pendapat, sentimen, evaluasi, sikap, penilaian dan emosi seseorang apakah pembicara atau penulis berkenaan dengan suatu topik, produk, layanan, organisasi, individu, ataupun kegiatan tertentu. \cite{liu2012sentiment} Hasil dari sentimen analisis berupa kelompok teks dengan nilai sentimen positif, netral atau negatif pada suatu objek tertentu.
+
+\subsection{Integrasi Sistem Kecerdasan Bisnis dalam Sistem Big Data}
 \label{sec:integrasi_kecerdasan_bisnis}
 
 \section{Sosial Media Twitter}
@@ -102,11 +140,6 @@ Proses-proses yang umumnya dilakukan dalam melakukan Text Mining adalah
 	Setelah melalui proses \textit{stopword removal} langkah berikutnya adalah proses \textit{stemming}. \textit{Stemming} adalah proses pemetaan dan penguraian berbagai bentuk (variants) dari suatu kata menjadi bentuk kata dasarnya (stem) \cite{tala2003study}. Tujuan dari proses ini adalah untuk menghilangkan imbuhan-imbuhan baik itu berupa prefiks, sufiks, maupun konfiks yang ada pada setiap kata. \cite{manalu2014analisis} Dengan adanya proses stemming ini maka dimensi data akan berkurang sehingga data dapat diproses dengan lebih cepat dan akurat.
 \end{enumerate}
 
-
-\section{Sentimen Analisis}
-\label{sec:sentimen_analisis}
-Sentimen analisis mengacu pada bidang yang luas dari pengolahan bahasa alami, komputasi linguistik dan text mining yang bertujuan menganalisis pendapat, sentimen, evaluasi, sikap, penilaian dan emosi seseorang apakah pembicara atau penulis berkenaan dengan suatu topik, produk, layanan, organisasi, individu, ataupun kegiatan tertentu. \cite{liu2012sentiment} Hasil dari sentimen analisis berupa kelompok teks dengan nilai sentimen positif, netral atau negatif pada suatu objek tertentu.
-
 \section{Hadoop}
 \label{sec:hadoop}
 
@@ -121,25 +154,45 @@ Hadoop bekerja dengan menggunakan penyimpanan terdistribusi dan mentransfer kode
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.5]{Gambar/hadoop-architecture.png}
-	\caption[Arsitektur Komponen Hadoop]{Arsitektur Komponen Hadoop.\cite{karanth2014mastering}} 
+	\caption[Arsitektur Komponen Hadoop]{Arsitektur Komponen Hadoop.\cite{holmes2012hadoop}} 
 \end{figure}
-
-Hadoop pada dasarnya memiliki empat buah komponen utama, yaitu:
-\subsubsection{Hadoop Common}
-Hadoop Common adalah utilitas umum yang mendukung modul lain di Hadoop.
 
 \subsubsection{Hadoop Distributed File System (HDFS)}
 HDFS adalah sebuah file sistem yang didesain untuk memproses data distribusi skala besar di dalam framwork seperti MapReduce. HDFS dapat menyimpan sebuat data set sebesar 100TB sebagai sebuah single file.\cite{Lam:2010:HA:1965594} HDFS bisa bersifat single node atau multiple node. HDFS bukan native File System seperti layaknya EXT3, EXT4, FAT atau NTFS. HDFS ada pada layer di atasnya.
-	
-\subsubsection{Hadoop YARN}
-Hadoop YARN atau Yet Another Resource Negotiator adalah teknologi untuk mengatur \textit{resource} dan \textit{scheduling} pada sebuah cluster.
+
+HDFS menyimpan suatu data dengan cara membelahnya menjadi potongan-potongan data yang berukuran 64 MB, dan potongan-potongan data ini kemudian disimpan tersebar dalam komputer-komputer yang membentuk clusternya. Potongan-potongan data tersebut dalam HDFS disebut block, dan ukurannya tidak terpaku harus 64 MB. Ukuran block dapat diatur sesuai kebutuhan 128MB, 256MB ataupun 1GB.
+
+Walaupun data disimpan secara tersebar, dari kacamata pengguna, data tetap terlihat seperti halnya kita mengakses file pada satu komputer. File yang secara fisik disimpan tersebar dalam banyak komputer itu pun dapat diperlakukan layaknya memperlakukan file dalam satu komputer.
+
+Sebagai distributed file system, HDFS memiliki komponen-komponen utama berupa NameNode dan DataNode. NameNode adalah sebuah komputer yang bertindak sebagai master, sedangkan DataNode adalah komputer-komputer dalam Hadoop Cluster yang bertugas sebagai slaves. NameNode bertanggungjawab menyimpan informasi tentang penempatan block-block data dalam Hadoop Cluster. Ia memiliki JobTracker yang bertanggungjawab mengorganisir dan mengontrol block-block data yang disimpan tersebar dalam komputer-komputer yang menyusun Hadoop Cluster. Sedangkan DataNode dilengkapi dengan TaskTracker bertugas menyimpan block-block data yang dialamatkan kepadanya, dan secara berkala melaporkan kondisinya kepada NameNode. Laporan berkala DataNode kepada NameNode ini disebut Heartbeat. Berdasarkan Heartbeat ini NameNode dapat mengetahui dan menguasai kondisi cluster secara keseluruhan. Sebagai balasan atas Heartbeat dari DataNode, NameNode akan mengirimkan perintah kepada DataNode. Jadi, dalam HDFS, NameNode adalah bos yang mengatur dan mengendalikan atau me-manage Hadoop Cluster. Sedangkan, DataNode adalah pekerja yang bertugas menyimpan data dan melaksanakan perintah dari NameNode.
+
+Cara kerja MapReduce pada HDFS dapat digambarkan seperti pada Gambar \ref{fig:hdfs_architecture}. 
+\begin{enumerate}
+	\item Masukan data berukuran besar dari pesan, log, sensor, dsb.
+	\item Pengguna/client memasukannya ke dalam sistem HDFS. Pertama-tama data akan masuk ke NameNode kemudian akan disebar ke DataNode.  
+	\item Blok data disebar ke DataNode. Pada proses ini blok data akan ditulis sebanyak 3 kali di cluster yang berbeda. Hal ini dilakukan agar apabila terjadi kerusakan pada salah satu DataNode/cluster maka Hadoop dapat melakukan perbaikan karena memiliki 2 blok data yang tersedia di cluster lainnya. DataNode dapat dianggap rusak apabila dalam interval waktu tertentu tidak mengirimkan Heartbeat kepada NameNode.
+	\item Blok data diproses di setiap DataNode sesuai Mapper dan Reducer pada MapReduce. Pembahasan tentang MapReduce akan dibahas pada sub bagian Hadoop MapReduce. 
+\end{enumerate}
 	
 \subsubsection{Hadoop MapReduce}
+\label{sec:hadoop_mapreduce}
 MapReduce adalah sebuah model pemrosesan data\cite{Lam:2010:HA:1965594}. MapReduce ditujukan untuk memproses data berukuran raksasa secara terdistribusi dan paralel dalam cluster yang terdiri atas banyak komputer. Dalam memproses data, secara garis besar MapReduce dapat dibagi dalam dua proses yaitu proses \textit{Map} dan proses \textit{Reduce}. Kedua jenis proses ini didistribusikan ke setiap komputer nodes dalam suatu cluster (kelompok komputer yang saling terhubung) dan berjalan secara paralel tanpa saling bergantung satu dengan yang lainnya. Proses \textit{Map} bertugas untuk mengumpulkan informasi dari potongan-potongan data yang terdistribusi dalam tiap komputer dalam \textit{cluster}. Hasilnya diserahkan kepada proses \textit{Reduce} untuk diproses lebih lanjut. Hasil proses Reduce merupakan hasil akhir yang dikirim ke pengguna. \cite{Dean:2008:MSD:1327452.1327492}
 
 MapReduce menggunakan tipe data \textit{list} dan \textit{(key/value) pairs} sebagai data primitif utamanya. \textit{Keys} dan \textit{values} biasanya berupa integer atau string tapi bisa juga menggunakan \textit{dummy value} atau objek data lainnya. Oleh karena itu fungsi \textit{map} dan \textit{reduce} harus bisa menangani berbagai data tersebut.
 
 Di dalam \textit{framework} MapReduce, aplikasi ditulis dengan memspesifikasikan \textit{mapper} dan \textit{reducer}. Berikut adalah contoh lengkap aliran data yang terjadi pada MapReduce.
+
+\begin{table}
+	\centering
+	\begin{tabular}{l | c | c}
+		 & Input & Output \\
+	 	\hline
+		map & <k1, v1> & list(<k2, v2>) \\
+		reduce & <k3, list(v2)> & list(<k3, v3>) \\ 
+		\label{tab:mapreduce_process}
+	\end{tabular}	
+	\caption{Input dan Output pada MapReduce}
+\end{table}	
 
 \begin{enumerate}
 	\item Masukan data ke dalam aplikasi harus terstruktur dalam bentuk \textit{lists} dari \textit{(key/value) pairs}, list(<k1, v1>). Dalam pengaplikasiannya input dapat dibuat seperti contoh berikut, list(<String filename, String filecontent>) atau list(<Integer messageid, String message>).
@@ -152,6 +205,17 @@ Di dalam \textit{framework} MapReduce, aplikasi ditulis dengan memspesifikasikan
 	\includegraphics[scale=0.4]{Gambar/MapReduce_Work_Structure.png}
 	\caption[Contoh Cara Kerja MapReduce]{Contoh Cara Kerja MapReduce. \\Sumber: http://www.milanor.net/blog/?p=853}
 \end{figure}
+
+
+\begin{figure}
+	\label{fig:hdfs_architecture}
+	\centering
+	\includegraphics[scale=0.5]{Gambar/hdfs-architecture.png}
+	\caption[HDFS and MapReduce]{HDFS and MapReduce} 
+\end{figure}
+	
+\subsubsection{Hadoop YARN}
+Hadoop Yet Another Resource Negotiator atau YARN adalah teknologi untuk mengatur \textit{resource} dan \textit{scheduling} pada sebuah cluster. YARN berada suatu layer diatas HDFS yang memungkinkan aplikasi lain untuk memproses data yang sama di Hadoop secara paralel dengan MapReduce. Pada Hadoop versi 2.x MapReduce dianggap sebuah aplikasi YARN.
 	
 \subsection{Sqoop}
 \label{sec:sqoop}
