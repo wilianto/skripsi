@@ -15,10 +15,10 @@ Sistem kecerdasan bisnis dapat menyediakan data di masa lalu dan saat ini. Data 
 Dalam membangun sebuah sistem kecerdasan bisnis diperlukan masukan dari berbagai sumber data. Data-data yang terkumpul dari berbagai sumber tentunya memiliki format dan bentuk yang berbeda, sehingga diperlukan proses-proses pembersihan data untuk menghasilkan data yang baik dan siap diolah lebih lanjut. Data yang sudah dibersihkan kemudian akan dikumpulkan dalam sebuah \textit{data warehouse}. Di dalam data warehouse data-data yang terkumpul dapat dipecah kembali menjadi beberapa OLAP Cubes yang dapat ditampilkan secara visual kepada pengguna ataupun berupa laporan berharga yang dapat diolah lebih lanjut.
 
 \begin{figure}
-\centering
-\includegraphics[scale=0.5]{Gambar/arsitektur-kecerdasan-bisnis.png}
-\caption[Arsitektur Kecerdasan Bisnis]{Arsitektur Kecerdasan Bisnis} 
-\label{fig:arsitektur_kecerdasan_bisnis_fig}
+	\centering
+	\includegraphics[scale=0.5]{Gambar/arsitektur-kecerdasan-bisnis.png}
+	\caption[Arsitektur Kecerdasan Bisnis]{Arsitektur Kecerdasan Bisnis} 
+	\label{fig:arsitektur_kecerdasan_bisnis_fig}
 \end{figure}
 
 Berdasarkan Gambar \ref{fig:arsitektur_kecerdasan_bisnis_fig} sistem kecerdasan bisnis terdiri dari empat tahap, yaitu:
@@ -46,9 +46,6 @@ Berdasarkan Gambar \ref{fig:arsitektur_kecerdasan_bisnis_fig} sistem kecerdasan 
 \subsection{Sentimen Analisis dalam Sistem Kecerdasan Bisnis}
 \label{sec:sentimen_analisis}
 Sentimen analisis mengacu pada bidang yang luas dari pengolahan bahasa alami, komputasi linguistik dan text mining yang bertujuan menganalisis pendapat, sentimen, evaluasi, sikap, penilaian dan emosi seseorang apakah pembicara atau penulis berkenaan dengan suatu topik, produk, layanan, organisasi, individu, ataupun kegiatan tertentu. \cite{liu2012sentiment} Hasil dari sentimen analisis berupa kelompok teks dengan nilai sentimen positif, netral atau negatif pada suatu objek tertentu.
-
-\subsection{Integrasi Sistem Kecerdasan Bisnis dalam Sistem Big Data}
-\label{sec:integrasi_kecerdasan_bisnis}
 
 \section{Sosial Media Twitter}
 \label{sec:twitter}
@@ -147,7 +144,7 @@ Proses-proses yang umumnya dilakukan dalam melakukan Text Mining adalah
 \label{sec:pengertian_hadoop}
 Apache Hadoop adalah sebuah \textit{framework opensource} yang memungkinkan untuk memproses set data yang besar secara terdistribusi di \textit{cluster} komputer menggunakan model pemrograman yang sederhana. Hadoop dirancang untuk mendeteksi dan menangani kegagalan pada lapisan aplikasi, sehingga memberikan layanan yang \textit{highly-available} pada sekelompok komputer yang masing-masingnya mungkin rentan terhadap kegagalan. Hal tersebut lebih baik dibanding hanya mengandalkan perangkat keras untuk memberikan \textit{high-availability}.
 
-Hadoop bekerja dengan menggunakan penyimpanan terdistribusi dan mentransfer kode program bukan datanya. Hadoop menghindari langkah transmisi yang mahal ketika bekerja dengan kumpulan data besar. Selain itu, redundansi data memungkinkan Hadoop untuk memulihkan \textit{single node} yang gagal. Anda akan mendapatkan kemudahan membuat program dengan Hadoop menggunakan MapReduce \textit{framework}. Yang juga tak kalah penting adalah apa yang Anda tidak harus khawatir tentang cara melakukan partisi data, menentukan node yang akan melakukan tugas, atau menangani komunikasi antar node. Hadoop menangani ini untuk Anda, sehingga Anda dapat fokus pada apa yang paling penting bagi data Anda dan apa yang ingin Anda lakukan dengan itu.
+Hadoop bekerja dengan menggunakan penyimpanan terdistribusi dan mentransfer kode program bukan datanya. Hadoop menghindari langkah transmisi yang mahal ketika bekerja dengan kumpulan data besar. Selain itu, redundansi data pada Hadoop memungkinkan Hadoop untuk memulihkan \textit{single node} yang gagal. Anda akan mendapatkan kemudahan membuat program dengan Hadoop menggunakan MapReduce \textit{framework}. Yang juga tak kalah penting adalah Anda tidak perlu khawatir tentang cara melakukan partisi data, menentukan node yang akan melakukan tugas, atau menangani komunikasi antar node. Hadoop menangani ini untuk Anda, sehingga Anda dapat fokus pada apa yang paling penting bagi data Anda dan apa yang ingin Anda lakukan dengan itu.
 
 \subsection{Komponen Utama Hadoop}
 \label{sec:komponen_utama_hadoop}
@@ -155,7 +152,10 @@ Hadoop bekerja dengan menggunakan penyimpanan terdistribusi dan mentransfer kode
 	\centering
 	\includegraphics[scale=0.5]{Gambar/hadoop-architecture.png}
 	\caption[Arsitektur Komponen Hadoop]{Arsitektur Komponen Hadoop.\cite{holmes2012hadoop}} 
+	\label{fig:komponen_utama_hadoop}
 \end{figure}
+
+Gambar \ref{fig:komponen_utama_hadoop} menjelas tentang arsitektur Hadoop. Terdapat HDFS, YARN dan MapReduce yang menjadi komponen dasar pembentuk Hadoop. Di bagian atasnya terdapat ekosistem lainnya yang dapat berjalan di atas Hadoop.
 
 \subsubsection{Hadoop Distributed File System (HDFS)}
 HDFS adalah sebuah file sistem yang didesain untuk memproses data distribusi skala besar di dalam framwork seperti MapReduce. HDFS dapat menyimpan sebuat data set sebesar 100TB sebagai sebuah single file.\cite{Lam:2010:HA:1965594} HDFS bisa bersifat single node atau multiple node. HDFS bukan native File System seperti layaknya EXT3, EXT4, FAT atau NTFS. HDFS ada pada layer di atasnya.
@@ -164,15 +164,16 @@ HDFS menyimpan suatu data dengan cara membelahnya menjadi potongan-potongan data
 
 Walaupun data disimpan secara tersebar, dari kacamata pengguna, data tetap terlihat seperti halnya kita mengakses file pada satu komputer. File yang secara fisik disimpan tersebar dalam banyak komputer itu pun dapat diperlakukan layaknya memperlakukan file dalam satu komputer.
 
-Sebagai distributed file system, HDFS memiliki komponen-komponen utama berupa NameNode dan DataNode. NameNode adalah sebuah komputer yang bertindak sebagai master, sedangkan DataNode adalah komputer-komputer dalam Hadoop Cluster yang bertugas sebagai slaves. NameNode bertanggungjawab menyimpan informasi tentang penempatan block-block data dalam Hadoop Cluster. Ia memiliki JobTracker yang bertanggungjawab mengorganisir dan mengontrol block-block data yang disimpan tersebar dalam komputer-komputer yang menyusun Hadoop Cluster. Sedangkan DataNode dilengkapi dengan TaskTracker bertugas menyimpan block-block data yang dialamatkan kepadanya, dan secara berkala melaporkan kondisinya kepada NameNode. Laporan berkala DataNode kepada NameNode ini disebut Heartbeat. Berdasarkan Heartbeat ini NameNode dapat mengetahui dan menguasai kondisi cluster secara keseluruhan. Sebagai balasan atas Heartbeat dari DataNode, NameNode akan mengirimkan perintah kepada DataNode. Jadi, dalam HDFS, NameNode adalah bos yang mengatur dan mengendalikan atau me-manage Hadoop Cluster. Sedangkan, DataNode adalah pekerja yang bertugas menyimpan data dan melaksanakan perintah dari NameNode.
+Sebagai distributed file system, HDFS memiliki komponen-komponen utama berupa NameNode dan DataNode seperti yang digambarkan pada Gambar \ref{fig:fig:hadoop-cluster}. NameNode adalah sebuah komputer yang bertindak sebagai master, sedangkan DataNode adalah komputer-komputer dalam Hadoop Cluster yang bertugas sebagai slaves. NameNode bertanggungjawab menyimpan informasi tentang penempatan block-block data dalam Hadoop Cluster. Ia memiliki JobTracker yang bertanggungjawab mengorganisir dan mengontrol block-block data yang disimpan tersebar dalam komputer-komputer yang menyusun Hadoop Cluster. Sedangkan DataNode dilengkapi dengan TaskTracker bertugas menyimpan block-block data yang dialamatkan kepadanya, dan secara berkala melaporkan kondisinya kepada NameNode. Laporan berkala DataNode kepada NameNode ini disebut Heartbeat. Berdasarkan Heartbeat ini NameNode dapat mengetahui dan menguasai kondisi cluster secara keseluruhan. Sebagai balasan atas Heartbeat dari DataNode, NameNode akan mengirimkan perintah kepada DataNode. Apabila terjadi kerusakan pada NameNode, maka Secondary NameNode akan langsung aktif dan bertugas sebagai pengganti NameNode.
 
-Cara kerja MapReduce pada HDFS dapat digambarkan seperti pada Gambar \ref{fig:hdfs_architecture}. 
-\begin{enumerate}
-	\item Masukan data berukuran besar dari pesan, log, sensor, dsb.
-	\item Pengguna/client memasukannya ke dalam sistem HDFS. Pertama-tama data akan masuk ke NameNode kemudian akan disebar ke DataNode.  
-	\item Blok data disebar ke DataNode. Pada proses ini blok data akan ditulis sebanyak 3 kali di cluster yang berbeda. Hal ini dilakukan agar apabila terjadi kerusakan pada salah satu DataNode/cluster maka Hadoop dapat melakukan perbaikan karena memiliki 2 blok data yang tersedia di cluster lainnya. DataNode dapat dianggap rusak apabila dalam interval waktu tertentu tidak mengirimkan Heartbeat kepada NameNode.
-	\item Blok data diproses di setiap DataNode sesuai Mapper dan Reducer pada MapReduce. Pembahasan tentang MapReduce akan dibahas pada sub bagian Hadoop MapReduce. 
-\end{enumerate}
+Jadi, dalam HDFS, NameNode adalah bos yang mengatur dan mengendalikan Hadoop Cluster. Sedangkan, DataNode adalah pekerja yang bertugas menyimpan data dan melaksanakan perintah dari NameNode.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.3]{Gambar/hadoop-cluster.png}
+	\caption[Hadoop Cluster]{Hadoop Cluster.\cite{Lam:2010:HA:1965594}}
+	\label{fig:hadoop-cluster}
+\end{figure}
 	
 \subsubsection{Hadoop MapReduce}
 \label{sec:hadoop_mapreduce}
@@ -199,40 +200,349 @@ Di dalam \textit{framework} MapReduce, aplikasi ditulis dengan memspesifikasikan
 	\item Setelah masukan diterima maka proses mapper akan dijalankan. Proses mapper akan membagi masukan \textit{lists} dari \textit{(key/value) pairs} menjadi masing-masing \textit{(key/value) pairs}, <k1, v1>. \textit{Mapper} mengubah setiap <k1, v1> dan memasangkannya menjadi list(<k2, v2>) secara acak. Pada contoh kasus penghitung kata, mapper mendapatkan masukan berupa list(<String filename, String filecontent>), kemudian \textit{list} dipecah menjadi <String filename, String filecontent> \textit{pairs}. Teks yang terdapat pada filecontent dihitung satu per satu yang akan menghasilkan keluaran berupa <String word, Integer count>, contoh: <"hello", 1>, <"hello", 2>, <"world", 1>. 
 	\item Seluruh keluaran yang dihasilkan dari proses Mapper dikumpulkan dan menjadi sebuah \textit{list of <k2, v2> pairs} raksasa. Semua pasangan yang memiliki nilai k2 yang sama akan dikelompokan menjadi satu pasangan baru yaitu <k2, list(v2)>. Kemudian \textit{framework} akan menjalakan fungsi \textit{reducer} untuk memproses masing-masing pasangan baru menjadi list(<k3, v3>). Pada contoh kasus penghitung kata, misal ada pasangan <"hello", 1> sebanyak dua buah, maka reducer akan memprosesnya menjadi <"hello", list(1,1)> dan keluaran yang dihasilkan oleh reducer akan menjadi <"hello", 2>. Hasil dari masing-masing pasangan akan disatukan kembali dalam bentuk list, misal list(<"hello", 2>, <"world", 1>).
 \end{enumerate} 
-	
+
+Gambar \ref{fig:mapper_works} menggambarkan cara kerja Map pada HDFS. 
+\begin{enumerate}
+	\item Masukan data berukuran besar dari pesan, log, sensor, dsb ke dalam HDFS yang dibagi ke dalam beberapa block data, kemudian dibagi ke dalam \textit{record-record}.
+	\item Data yang sudah dibagi-bagi ke DataNode melakukan tugas Map. 
+	\item Keluaran yang dihasilkan diurutkan dan akan menjadi masukan bagi reducer.
+\end{enumerate}
+
+
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.4]{Gambar/MapReduce_Work_Structure.png}
-	\caption[Contoh Cara Kerja MapReduce]{Contoh Cara Kerja MapReduce. \\Sumber: http://www.milanor.net/blog/?p=853}
+	\includegraphics[scale=0.5]{Gambar/how-mapper-works.png}
+	\caption[Cara  Kerja Map]{Cara Kerja Map.\cite{sammer2012hadoop}}
+	\label{fig:mapper_works}
 \end{figure}
 
+Gambar \ref{fig:reducer_works} menggambarkan cara kerja Reduce pada HDFS.
+\begin{enumerate}
+	\item Masukan data dari hasil fungsi mapper.
+	\item Menjalankan fungsi reduce untuk menyatukan data kembali.
+	\item Keluaran yang dihasilkan disimpan kembali ke dalam HDFS.
+\end{enumerate}
 
 \begin{figure}
-	\label{fig:hdfs_architecture}
 	\centering
-	\includegraphics[scale=0.5]{Gambar/hdfs-architecture.png}
-	\caption[HDFS and MapReduce]{HDFS and MapReduce} 
+	\includegraphics[scale=0.5]{Gambar/how-reducer-works.png}
+	\caption[Cara  Kerja Reduce]{Cara Kerja Reduce.\cite{sammer2012hadoop}}
+	\label{fig:reducer_works}
 \end{figure}
 	
 \subsubsection{Hadoop YARN}
 Hadoop Yet Another Resource Negotiator atau YARN adalah teknologi untuk mengatur \textit{resource} dan \textit{scheduling} pada sebuah cluster. YARN berada suatu layer diatas HDFS yang memungkinkan aplikasi lain untuk memproses data yang sama di Hadoop secara paralel dengan MapReduce. Pada Hadoop versi 2.x MapReduce dianggap sebuah aplikasi YARN.
-	
-\subsection{Sqoop}
-\label{sec:sqoop}
-Apache Sqoop adalah sebuah \textit{tool} yang dirancang untuk mentransfer data dari Apache Hadoop ke tempat penyimpanan data terstruktur seperti basis data relasional secara efisien. Sqoop dapat dimanfaatkan untuk menyimpan informasi atau pola yang dihasilkan dari proses text mining ke dalam sistem kecerdasan bisnis. \cite{sqoop:2015}
 
 \subsection{Hive}
 \label{sec:hive}
-Apache Hive adalah perangkat lunak \textit{data warehouse} yang memfasilitasi kueri dan mengelola dataset besar yang berada dalam penyimpanan terdistribusikan. Dibangun di atas Apache Hadoop, ia menyediakan hal-hal berikut ini.\cite{hive:2015}
+Apache Hive adalah perangkat lunak \textit{data warehouse} yang memfasilitasi kueri dan mengelola dataset besar yang berada dalam penyimpanan terdistribusikan. Apache Hive dibangun dan berjalan di atas Apache Hadoop. Pada awalnya Hive dibuat oleh Facebook untuk memproses data user dan log yang sangat besar. Saat ini Hive sudah menjadi proyek \textit{open source} dengan banyak kontributor dan merupakan subproyek dari Hadoop.  
+
+Target dari pengguna Hive adalah para data analis yang terbiasa menggunakan SQL dalam pekerjaannya. Hive mendefinisikan sebuah SQL sederhana seperti bahasa kueri yang disebut HiveQL. HiveQL memungkingkan pengguna yang terbiasa dengan SQL untuk melakukan kueri pada data. Dengan menggunakan Hive para pengguna dapat melakukan kueri-kueri untuk \textit{summarization} dan data analisis pada lingkungan data Hadoop. 
+
+HiveQL terinspirasi untuk memisahkan bahasa yang digunakan pengguna dengan kompleksitas MapReduce. HiveQL menggunakan kembali konsep dari \textit{database} relasional, seperti tabel, baris, kolom, dan skema, untuk memudahkan pembelajaran. Namun perlu diingat karena Hive dibangun di atas Hadoop dan sifatnya yang dirancang untuk tipe \textit{batch oriented} dalam pemrosesan datanya, maka Hive bukanlah pengganti langsung untuk data warehouse SQL tradisional.
+
+Hive memiliki sedikit perbedaan dengan Hadoop dalam penyimpanan datanya. Di Hadoop data disimpan dalam bentuk flat file, sedangkan di Hive data dapat menggunakan direktori untuk melakukan partisi data. Dengan adanya partisi pada data di Hive, maka proses pencarian dapat dilakukan dengan lebih baik daripada disimpan dalam bentuk flat file. Untuk mendukung fitur-fitur tambahan ini, Hive memerlukan komponen tambahan seperti metastore. Metastore berfungsi untuk menyimpan informasi skema. Metastore ini biasanya berada dalam database relasional. Metastore disimpan di dalam sebuah direktori di dalam Hive.
+
+Pengguna dapat berinteraksi dengan Hive menggunakan beberapa metode, termasuk GUI Web dan Java Database Connectivity (JDBC). Gambar \ref{fig:hive_architecture} menggambarkan sebuah diagram \textit{high level} arsitektur dari Hive. Pada arsitektur Hive kueri dipecah dan dijalankan pada Hadoop. Metastore merupakan komponen penting yang membantu menentukan bagaimana kueri akan dijalankan pada Hive.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.5]{Gambar/arsitektur-hive.png}
+	\caption[Arsitektur Hive]{Arsitektur Hive} 
+	\label{fig:hive_architecture}
+\end{figure}
+
+\subsubsection{DDL Operation Hive}
+Seperti layaknya sebuah SQL tradisional, Hive memiliki fungsi-fungsi Data Definition Language (DDL) yang dapat digunakan untuk membantu pengguna dalam membuat dan mengelola tabel-tabel, view, index ataupun function. Berikut adalah \textit{statement} DDL yang dapat digunakan oleh pengguna.
 
 \begin{itemize}
-	\item \textit{Tools} yang memudahkan proses data extract/transform/load (ETL)
-	\item Suatu mekanisme untuk menentukan struktur pada berbagai format data
-	\item Akses ke file yang tersimpan baik secara langsung di Apache HDFS atau dalam sistem penyimpanan data lainnya seperti Apache HBase
-	\item Eksekusi kueri melalui MapReduce
+	\item CREATE DATABASE/SCHEMA, TABLE, VIEW, FUNCTION, INDEX
+	\item DROP DATABASE/SCHEMA, TABLE, VIEW, INDEX
+	\item TRUNCATE TABLE
+	\item ALTER DATABASE/SCHEMA, TABLE, VIEW
+	\item MSCK REPAIR TABLE (or ALTER TABLE RECOVER PARTITIONS)
+	\item SHOW DATABASES/SCHEMAS, TABLES, TBLPROPERTIES, PARTITIONS, FUNCTIONS, INDEX, COLUMNS, CREATE TABLE
+	\item DESCRIBE DATABASE SCHEMA
 \end{itemize}
 
-Hive mendefinisikan sebuah SQL sederhana seperti bahasa kueri yang disebut QL. QL memungkingkan pengguna yang terbiasa dengan SQL untuk melakukan kueri pada data. Bahasa ini juga memungkinkan programmer yang terbiasa dengan MapReduce untuk menyambungkan \textit{custom mapper} dan \textit{reducer} untuk melakukan analisis yang lebih canggih yang mungkin tidak didukung oleh kemampuan \textit{built-in} bahasa pemrogramman. QL juga memiliki \textit{custom scalar functions} (UDF's), \textit{aggregations} (UDAF's), dan \textit{table functions} (UDTF's). \cite{sqoop:2015}
+Berikut adalah \textit{keyword-keyword} yang dapat digunakan (Non-reserved) di dalam Hive.
+
+\begin{lstlisting}[basicstyle=\tiny,caption=Non-reserved Keywords]
+ADD, ADMIN, AFTER, ANALYZE, ARCHIVE, ASC, BEFORE, BUCKET, BUCKETS, CASCADE, CHANGE, CLUSTER, 
+CLUSTERED, CLUSTERSTATUS, COLLECTION, COLUMNS, COMMENT, COMPACT, COMPACTIONS, COMPUTE, 
+CONCATENATE, CONTINUE, DATA, DATABASES, DATETIME, DAY, DBPROPERTIES, DEFERRED, DEFINED, 
+DELIMITED, DEPENDENCY, DESC, DIRECTORIES, DIRECTORY, DISABLE, DISTRIBUTE, ELEM_TYPE, ENABLE, 
+ESCAPED, EXCLUSIVE, EXPLAIN, EXPORT, FIELDS, FILE, FILEFORMAT, FIRST, FORMAT, FORMATTED, 
+FUNCTIONS, HOLD_DDLTIME, HOUR, IDXPROPERTIES, IGNORE, INDEX, INDEXES, INPATH, INPUTDRIVER, 
+INPUTFORMAT, ITEMS, JAR, KEYS, KEY_TYPE, LIMIT, LINES, LOAD, LOCATION, LOCK, LOCKS, LOGICAL, LONG, 
+MAPJOIN, MATERIALIZED, MINUS, MINUTE, MONTH, MSCK, NOSCAN, NO_DROP, OFFLINE, OPTION, OUTPUTDRIVER, 
+OUTPUTFORMAT, OVERWRITE, OWNER, PARTITIONED, PARTITIONS, PLUS, PRETTY, PRINCIPALS, PROTECTION, 
+PURGE, READ, READONLY, REBUILD, RECORDREADER, RECORDWRITER, REGEXP, 
+RELOAD, RENAME, REPAIR, REPLACE, RESTRICT, REWRITE, RLIKE, ROLE, ROLES, 
+SCHEMA, SCHEMAS, SECOND, SEMI, SERDE, SERDEPROPERTIES, SERVER, SETS, SHARED, SHOW, SHOW_DATABASE, 
+SKEWED, SORT, SORTED, SSL, STATISTICS, STORED, STREAMTABLE, STRING, STRUCT, TABLES, TBLPROPERTIES, 
+TEMPORARY, TERMINATED, TINYINT, TOUCH, TRANSACTIONS, UNARCHIVE, UNDO, UNIONTYPE, UNLOCK, UNSET, 
+UNSIGNED, URI, USE, UTC, UTCTIMESTAMP, VALUE_TYPE, VIEW, WHILE, YEAR
+\end{lstlisting}
+
+Berikut adalah \textit{keyword-keyword} yang tidak dapat digunakan secara langsung (Reserved) di dalam Hive. \textit{Reserved keyword}  ini sebaiknya dihindari penggunaannya dalam menuliskan kueri-kueri Hive. Namun apabila tetap diperlukan maka untuk menggunakan \textit{reserved keyword} dapat menambahkan \textit{quoted identifier} atau mengatur parameter konfigurasi dari Hive (set hive.support.sql11.reserved.keywords=false)
+
+\begin{lstlisting}[basicstyle=\tiny,caption=Reserved Keywords]
+ALL, ALTER, AND, ARRAY, AS, AUTHORIZATION, BETWEEN, BIGINT, BINARY, BOOLEAN, BOTH, BY, CASE, CAST, 
+CHAR, COLUMN, CONF, CREATE, CROSS, CUBE, CURRENT, CURRENT_DATE, CURRENT_TIMESTAMP, CURSOR, 
+DATABASE, DATE, DECIMAL, DELETE, DESCRIBE, DISTINCT, DOUBLE, DROP, ELSE, END, EXCHANGE, EXISTS, 
+EXTENDED, EXTERNAL, FALSE, FETCH, FLOAT, FOLLOWING, FOR, FROM, FULL, FUNCTION, GRANT, GROUP, 
+GROUPING, HAVING, IF, IMPORT, IN, INNER, INSERT, INT, INTERSECT, INTERVAL, INTO, IS, JOIN, LATERAL, 
+LEFT, LESS, LIKE, LOCAL, MACRO, MAP, MORE, NONE, NOT, NULL, OF, ON, OR, ORDER, OUT, OUTER, OVER, 
+PARTIALSCAN, PARTITION, PERCENT, PRECEDING, PRESERVE, PROCEDURE, RANGE, READS, REDUCE, 
+REGEXP (Hive 2.0.0 onward), REVOKE, RIGHT, RLIKE (Hive 2.0.0 onward), ROLLUP, ROW, ROWS, 
+SELECT, SET, SMALLINT, TABLE, TABLESAMPLE, THEN, TIMESTAMP, TO, TRANSFORM, TRIGGER, TRUE, 
+TRUNCATE, UNBOUNDED, UNION, UNIQUEJOIN, UPDATE, USER, USING, VALUES, VARCHAR, WHEN, WHERE, 
+WINDOW, WITH
+\end{lstlisting}
+
+Berikut adalah format-format dan contoh-contoh DDL pada Hive.
+
+\begin{lstlisting}[language=sql,basicstyle=\tiny,caption=DDL untuk create database]
+CREATE (DATABASE|SCHEMA) [IF NOT EXISTS] database_name
+  [COMMENT database_comment]
+  [LOCATION hdfs_path]
+  [WITH DBPROPERTIES (property_name=property_value, ...)];
+\end{lstlisting}
+
+\begin{lstlisting}[language=sql,basicstyle=\tiny,caption=DDL untuk drop database]
+DROP (DATABASE|SCHEMA) [IF EXISTS] database_name [RESTRICT|CASCADE];
+\end{lstlisting}
+
+\begin{lstlisting}[language=sql,basicstyle=\tiny,caption=DDL untuk alter database]
+ALTER (DATABASE|SCHEMA) database_name SET DBPROPERTIES (property_name=property_value, ...);   -- (Note: SCHEMA added in Hive 0.14.0)
+ALTER (DATABASE|SCHEMA) database_name SET OWNER [USER|ROLE] user_or_role;   -- (Note: Hive 0.13.0 and later; SCHEMA added in Hive 0.14.0)
+\end{lstlisting}
+
+\begin{lstlisting}[language=sql,basicstyle=\tiny,caption=DDL untuk use database]
+USE database_name;
+USE DEFAULT;
+\end{lstlisting}
+
+\begin{lstlisting}[language=sql,basicstyle=\tiny,caption=Contoh DDL untuk membuat tabel dengan partisi]
+create table table_name (
+  id			int,
+  dtDontQuery	string,
+  name			string
+)
+partitioned by (date string)
+\end{lstlisting}
+
+\begin{lstlisting}[language=sql,basicstyle=\tiny,caption=Contoh DDL untuk drop tabel]
+DROP TABLE [IF EXISTS] table_name [PURGE];     -- (Note: PURGE available in Hive 0.14.0 and later)
+\end{lstlisting}
+
+\subsubsection{DML Operation Hive}
+Data Manipulation Languange (DML) digunakan untuk melakukan kueri-kueri terhadap isi data dari suatu tabel. Pada Hive ada beberapa operasi dalam melakukan manipulasi data seperti load, insert, update, dan delete. 
+
+\textbf{Load}\\
+Pada proses load Hive tidak melakukan transformasi data apapun. Proses ini murni hanya untuk melakukan operasi copy/move data files ke dalam lokasi yang sesuai pada tabel Hive. Berikut syntax dari proses load pada Hive.
+
+\begin{lstlisting}[language=sql,basicstyle=\tiny,caption=Syntax DML Load]
+LOAD DATA [LOCAL] INPATH 'filepath' [OVERWRITE] INTO TABLE tablename [PARTITION (partcol1=val1, partcol2=val2 ...)]
+\end{lstlisting}
+
+\begin{lstlisting}[language=sql,basicstyle=\tiny,caption=Contoh DML Load]
+LOAD DATA INPATH '/user/myname/kv2.txt' OVERWRITE INTO TABLE invites PARTITION (ds='2008-08-15');
+\end{lstlisting}
+
+\textbf{Penjelasan: }
+\begin{itemize}
+	\item \textit{filepath} dapat berupa:
+		\begin{itemize}
+			\item sebuah \textit{relative path}, seperti project/data1
+			\item sebuah \textit{absolut path}, seperti /user/hive/project/data1
+			\item sebuah \textit{full URI}, seperti hdfs://namenode:9000/user/hive/project/data1
+		\end{itemize}
+	\item Target yang dimasukan dapat berupa tabel atau partisi. Jika tabel dipartisi, maka harus menentukan partisi tertentu dari tabel yang akan dimuat berupa nilai dari seluruh kolom yang dipartisi.
+	\item Keyword LOCAL sifatnya adalah optional, jika digunakan maka yang akan terjadi adalah perintah load akan melihat \textit{filepath} di the local file system. Namun jika keyword LOCAL tidak digunakan maka yang akan terjadi adalah Hive akan menggunakan URI \textit{filepath} lengkap.
+\end{itemize}
+
+Beberapa catatan yang perlu diingat dalam menggunakan kueri load ini adalah
+\begin{itemize}
+	\item \textit{filepath} tidak boleh terdiri dari sub direktori
+	\item Jika \textit{keyword} LOCAL tidak digunakan, \textit{filepath} harus mengacu ke file dalam \textit{filesystem} yang sama dengan tabel atau partisi.
+\end{itemize}
+
+\textbf{Insert}\\
+Perintah insert berfungsi untuk memasukan data ke dalam tabel pada Hive. Syntax kueri insert pada Hive memiliki \textit{standard syntax, multiple insert dan dynamic partition insert}. Standard syntax merupakan kueri dasar dari insert dalam melakukan input data ke dalam sebuah tabel. Multiple insert digunakan untuk melakukan proses input data ke dalam beberapa tabel sekaligus. Sedangkan dynamic partition insert digunakan untuk melakukan input data menggunakan partisi.
+
+\begin{lstlisting}[language=sql,basicstyle=\tiny,caption=Syntax DML Insert]
+Standard syntax:
+INSERT OVERWRITE TABLE tablename1 [PARTITION (partcol1=val1, partcol2=val2 ...) [IF NOT EXISTS]] select_statement1 FROM from_statement;
+INSERT INTO TABLE tablename1 [PARTITION (partcol1=val1, partcol2=val2 ...)] select_statement1 FROM from_statement;
+ 
+Hive extension (multiple inserts):
+FROM from_statement
+INSERT OVERWRITE TABLE tablename1 [PARTITION (partcol1=val1, partcol2=val2 ...) [IF NOT EXISTS]] select_statement1
+[INSERT OVERWRITE TABLE tablename2 [PARTITION ... [IF NOT EXISTS]] select_statement2]
+[INSERT INTO TABLE tablename2 [PARTITION ...] select_statement2] ...;
+FROM from_statement
+INSERT INTO TABLE tablename1 [PARTITION (partcol1=val1, partcol2=val2 ...)] select_statement1
+[INSERT INTO TABLE tablename2 [PARTITION ...] select_statement2]
+[INSERT OVERWRITE TABLE tablename2 [PARTITION ... [IF NOT EXISTS]] select_statement2] ...;
+ 
+Hive extension (dynamic partition inserts):
+INSERT OVERWRITE TABLE tablename PARTITION (partcol1[=val1], partcol2[=val2] ...) select_statement FROM from_statement;
+INSERT INTO TABLE tablename PARTITION (partcol1[=val1], partcol2[=val2] ...) select_statement FROM from_statement;
+\end{lstlisting}
+
+\begin{lstlisting}[language=sql,basicstyle=\tiny,caption=Contoh DML Insert]
+INSERT OVERWRITE TABLE events SELECT a.* FROM profiles a;
+INSERT OVERWRITE TABLE events SELECT a.* FROM profiles a WHERE a.key < 100;
+INSERT OVERWRITE LOCAL DIRECTORY '/tmp/reg_3' SELECT a.* FROM events a;
+INSERT OVERWRITE DIRECTORY '/tmp/reg_4' select a.invites, a.pokes FROM profiles a;
+INSERT OVERWRITE DIRECTORY '/tmp/reg_5' SELECT COUNT(*) FROM invites a WHERE a.ds='2008-08-15';
+INSERT OVERWRITE DIRECTORY '/tmp/reg_5' SELECT a.foo, a.bar FROM invites a;
+INSERT OVERWRITE LOCAL DIRECTORY '/tmp/sum' SELECT SUM(a.pc) FROM pc1 a;
+FROM invites a INSERT OVERWRITE TABLE events SELECT a.bar, count(*) WHERE a.foo > 0 GROUP BY a.bar;
+FROM pokes t1 JOIN invites t2 ON (t1.bar = t2.bar) INSERT OVERWRITE TABLE events SELECT t1.bar, t1.foo, t2.foo;
+
+//Multitable insert
+FROM src
+INSERT OVERWRITE TABLE dest1 SELECT src.* WHERE src.key < 100
+INSERT OVERWRITE TABLE dest2 SELECT src.key, src.value WHERE src.key >= 100 and src.key < 200
+INSERT OVERWRITE TABLE dest3 PARTITION(ds='2008-04-08', hr='12') SELECT src.key WHERE src.key >= 200 and src.key < 300
+INSERT OVERWRITE LOCAL DIRECTORY '/tmp/dest4.out' SELECT src.value WHERE src.key >= 300;
+\end{lstlisting}
+
+
+%TODO: Penjelasan
+
+
+
+\textbf{Update}\\
+Perintah update berfungsi untuk melakukan perubahan data yang sudah ada pada tabel. Perintah update pada Hive cukup sederhana layaknya pada SQL syntax lainnya. 
+
+\begin{lstlisting}[language=sql,basicstyle=\tiny,caption=Syntax DML Update]
+UPDATE tablename SET column = value [, column = value ...] [WHERE expression]
+\end{lstlisting}
+
+\textbf{Penjelasan:}
+\begin{itemize}
+	\item \textit{Value} yang diberikan harus sebuah ekspresi yang dapat dilakukan oleh Hive. Sehingga operator aritmatika, cast, literal dll dapat digunakan. Tetapi nilai dari sub kueri tidak dapat digunakan dalam pemberian \textit{value}.
+	\item Kolom yang dipartisi tidak dapat diperbaharui dengan perintah update.
+\end{itemize}
+
+\textbf{Delete}\\
+Perintah delete berfungsi untuk melakukan penghapusan data yang sudah ada pada tabel. Perintah delete pada Hive cukup sederhana layaknya pada SQL syntax lainnya. 
+
+\begin{lstlisting}[language=sql,basicstyle=\tiny,caption=Syntax DML Delete]
+DELETE FROM tablename [WHERE expression]
+\end{lstlisting}
+
+\subsubsection{SQL Operation Hive}
+Operation SQL adalah operasi yang dapat digunakan untuk memperoleh data atau isi dari suatu tabel. Berikut adalah contoh-contoh dari syntax SQL operation pada Hive.
+
+\begin{lstlisting}[language=sql,basicstyle=\tiny,caption=Syntax DML SQL Operation]
+//Basic select dengan kriteria 
+SELECT page_views.*
+FROM page_views
+WHERE page_views.date >= '2008-03-01' AND page_views.date <= '2008-03-31'
+
+//Perintah select dengan sub kueri dan grouping
+SELECT col1 FROM (SELECT col1, SUM(col2) AS col2sum FROM t1 GROUP BY col1) t2 WHERE t2.col2sum > 10
+
+//Perintah select yang ditampilkan berurut menaik dengan limit 5 buah record
+SELECT * FROM sales SORT BY amount DESC LIMIT 5
+
+//Perintah select dengan regex dalam pemilihan kolom-kolomnya
+SELECT `(ds|hr)?+.+` FROM sales
+
+//Perintah select dengan join
+SELECT a.* FROM a JOIN b ON (a.id = b.id AND a.department = b.department)
+
+//Perintah select dengan union
+SELECT key FROM (SELECT key FROM src ORDER BY key LIMIT 10)subq1
+UNION
+SELECT key FROM (SELECT key FROM src1 ORDER BY key LIMIT 10)subq2
+\end{lstlisting}
+	
+\subsection{Sqoop}
+\label{sec:sqoop}
+Salah satu kekuatan Hadoop adalah kemampuannya untuk bekerja dengan berbagai bentuk data. Seluruh data-data yang tersimpan di dalam HDFS dapat langsung dimanfaatkan dan dijalankan oleh program MapReduce untuk mendapatkan informasi yang berharga. Namun untuk berinteraksi dengan tempat penyimpan data lainnya di luar HDFS, program MapReduce membutuhkan bantuan Application Program Interface (API) eksternal untuk mendapatkan datanya. Salah satu tempat penyimpanan data yang sering digunakan adalah basis data relasional (RDBMS).
+
+Apache Sqoop adalah salah satu \textit{tool open source} yang memungkinkan pengguna untuk mengekstrak data dari tempat penyimpanan data lainnya untuk kemudian disimpan di dalam HDFS. Data yang dapat diimpor oleh Sqoop adalah data yang sifatnya terstruktur seperti basis data relasional (RDBMS). Selain mengekstrak data dari luar HDFS, Sqoop juga dapat melakukan ekspor data dari dalam HDFS ke tempat penyimpanan data lainnya.
+
+\subsubsection{Konektor Sqoop}
+\label{sec:konektor_sqoop}
+Sqoop adalah sebuah ekstensi yang dapat digunakan untuk melakukan ekspor dan impor data dari dan ke HDFS. Sqoop membutuhkan konektor dalam melakukan proses ekspor maupun impor data. Sqoop pada dasarnya sudah dilengkapi dengan konektor-konektor untuk basis data relasional yang populer seperti MySQL, PostgreSQL, Oracle, SQL Server dan DB2. Selain itu Sqoop juga dilengkapi konektor Java Database Connectivity (JDBC), sehingga Sqoop dapat terkoneksi dengan basis data yang  mendukung protokol JDBC. Selain \textit{built-in} konektor pada Sqoop, terdapat juga banyak konektor pihak ke tiga yang dapat melakukan koneksi ke \textit{datawarehouse} \textit{enterprise} seperti Netezza, Teradata, Oracle ataupun ke basis data NoSQL seperti Couchbase. 
+
+\subsubsection{Impor Data Sqoop}
+\label{sec:impor_data_sqoop}
+Tool impor data Sqoop berfungsi untuk melakukan pemindahan data dari luar HDFS ke dalam HDFS. Tool ini akan berjalan pada sebuah MapReduce yang melakukan koneksi dan membaca basis data di luar HDFS. Pada dasarnya, operasi impor ini akan dilakukan menggunakan empat buah \textit{task} map secara parallel untuk mempercepat proses impor data. Setiap \textit{task}  akan menulis hasilnya ke dalam sebuah file berbeda namun masih di dalam sebuah direktori yang sama. Namun pada kebutuhan tertentu pengguna dapat mengatur jumlah \textit{task} map yang akan digunakan. Sqoop akan membuat file-file teks dengan pemisah koma antar kolomnya. Pemisah dapat dispesifikasikan apabila diperlukan pemisah dengan karakter lainnya. 
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.5]{Gambar/sqoop-import.png}
+	\caption[Proses Impor Sqoop]{Proses Impor Sqoop} 
+	\label{fig:sqoop_import}
+\end{figure}
+
+Gambar \ref{fig:sqoop_import} menggambarkan proses kerja impor pada Sqoop. Sqoop client akan membaca Metadata dari basisdata seperti \textit{field}, tipe data, dll melalui konektor JDBC. Kemudian Sqoop client secara otomatis akan membuat sebuah file java yang berisi kelas untuk melakukan proses impor menggunakan MapReduce. 
+
+Berikut adalah contoh-contoh perintah pada Sqoop.
+
+\begin{lstlisting}[caption=Perintah Impor Sqoop dari Basis Data MySQL ke HDFS]
+	sqoop import --connect jdbc:mysql://localhost/nama_database \
+	--username root  \
+	--password your_password  \
+	--table nama_tabel 
+\end{lstlisting}
+
+Pada kode di atas, Sqoop akan melakukan impor data dari basis data MySQL ke dalam HDFS.
+
+\begin{lstlisting}[caption=Perintah Impor Sqoop dari Basis Data MySQL ke Hive]
+	sqoop import --connect jdbc:mysql://localhost/nama_database \
+	--table nama_tabel \ 
+	--username root  \
+	--password your_password \
+	--hive-import \
+	--fields-terminated-by ','  \
+	--lines-terminated-by '\n'
+\end{lstlisting}
+
+Pada kode di atas, Sqoop akan melakukan impor data dari basis data MySQL ke dalam Hive dengan karakter koma sebagai pemisah antar \textit{field} dan baris baru sebagai pemisah antar \textit{record}.
+
+\subsubsection{Ekspor Data Sqoop}
+\label{sec:ekspor_data_sqoop}
+Tool ekspor data Sqoop berfungsi untuk melakukan pemindahan data dari dalam HDFS ke luar HDFS. Cara kerja dari proses ekspor ini sangatlah mirip dengan proses impor yang sudah dibahas sebelumnya. 
+
+(Lihat gambar \ref{fig:sqoop_ekspor}.) Sebelum melakukan ekspor, Sqoop client memulai dengan melakukan koneksi ke basis data menggunakan koneksi \textit{string} (kebanyakan sistem menggunakan JDBC). Kemudian Sqoop client akan membuat sebuah file kelas Java berdasarkan metadata pada tabel yang dituju. File yg dihasilkan dapat melakukan \textit{parsing} terhadap \textit{record-record} pada file teks di HDFS dan memasukan hasilnya ke dalam tabel. Setelah file kelas Java dibuat, maka sebuah MapReduce \textit{job} dimulai dan bertugas untuk membaca file di HDFS, \textit{parsing} data menggunakan kelas Java yang sudah dibuat, dan melakukan strategi expor data ke basisdata yang dituju.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.5]{Gambar/sqoop-export.png}
+	\caption[Proses Ekspor Sqoop]{Proses Ekspor Sqoop} 
+	\label{fig:sqoop_ekspor}
+\end{figure}
+
+\begin{lstlisting}[caption=Perintah Ekspor Sqoop dari HDFS ke Basis Data MySQL]
+	sqoop export --connect jdbc:mysql://localhost/nama_database \
+	--username root \
+	--password your_password \
+	--table nama_tabel  \
+	--export-dir /path/to/your/data
+\end{lstlisting}
+
+Pada kode di atas, Sqoop akan melakukan ekspor data dari HDFS ke dalam basis data MySQL.
+
+\begin{lstlisting}[caption=Perintah Ekspor Sqoop dari Hive ke Basis Data MySQL]
+	sqoop import --connect jdbc:mysql://localhost/nama_database \
+	--table nama_tabel \ 
+	--username root \
+	--password your_password \
+	--export-dir /path/to/your/data \
+	--fields-terminated-by ','  \
+	--lines-terminated-by '\n'
+\end{lstlisting}
+
+Pada kode di atas, Sqoop akan melakukan ekspor data dari Hive ke dalam basis data MySQL dengan karakter koma sebagai pemisah antar \textit{field} dan baris baru sebagai pemisah antar \textit{record}.
 
 \subsection{Apache Mahout}
 \label{sec:apache_mahout}
