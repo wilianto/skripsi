@@ -1,0 +1,17 @@
+\chapter{Kesimpulan dan Saran}
+
+\section{Kesimpulan}
+Banyak informasi yang tersimpan di dalam pesan-pesan sosial media. Salah satunya adalah informasi tentang tren lokasi wisata. Data tren ini dapat bermanfaat bagi para pemilik usaha di bidang pariwisata dalam pengambilan keputusan. Namun dalam memperoleh data tersebut diperlukan sebuah sistem yang dapat berjalan dengan cepat dan akurat, mengingat data dari sosial media yang ukurannya sangat besar dan pergerakannya sangat cepat. 
+
+Pada penelitian ini telah berhasil dibangun sistem terdistribusi Hadoop untuk mengolah data-data dari sosial media tersebut untuk keperluan informasi tren lokasi wisata. Sistem yang dibuat ini dapat berjalan dengan baik dan cepat. Hal ini dapat dilihat pada pengujian modul program yang berhasil memberikan keluaran yang tepat dan dapat berjalan dengan lebih cepat dibandingkan program \textit{standalone}. Masukan untuk modul program ini didapatkan dari modul-modul program pendukung lainnya yang membantu pengambilan data yang relevan dari sosial media Twitter dan Instagram.
+
+Selain dari sisi pengolahan data mentah, modul program kecerdasan bisnis yang dibangun dapat menganalisis keluaran-keluaran yang diekspor ke dalam basis data menggunakan Apache Sqoop. Basis data utama yang digunakan pada penelitian ini adalah Hive yang bekerja pada sistem terdistribusi Hadoop. Sedangkan untuk basis data pembanding digunakan MySQL. Hasil dari ekperimen membandingkan lama waktu eksekusi dapat disimpulkan bahwa Hive memiliki performa yang lebih baik untuk memproses data dengan ukuran besar.
+
+Secara keseluruhan sistem kecerdasan bisnis yang dibangun pada penelitian ini diawali dengan proses pengambilan data dari sosial media Twitter dan Instagram. Data yang sudah diambil kemudian dimasukan ke dalam HDFS untuk diolah secara berkala menggunakan modul program yang berjalan di sistem distribusi Hadoop. Hasil keluaran dari program berupa lokasi wisata, tanggal dan frekuensi kemunculan lokasi wisata. Keluaran tersebut diekspor ke Hive menggunakan kueri yang sudah tersedia di Hive dan diekspor ke basis data di luar Hadoop, yaitu MySQL menggunakan Apache Sqoop. Hasil-hasil dari keluaran tersebut diolah menggunakan modul program kecerdasan bisnis untuk memperoleh informasi-informasi yang dibutuhkan. Seluruh rangkaian proses yang dilakukan, mulai dari pemrosesan data di HDFS hingga hasilnya diekspor ke Hive dan MySQL dilakukan secara otomatis dan berkala menggunakan modul ETL yang dibangun menggunakan Pentaho Data Integration.
+
+\section{Saran Penelitian Lanjutan}
+Agar penelitian ini dapat terus berkembang, berikut saran-saran yang diusulkan:
+\begin{itemize}
+	\item Penelitian ini dikembangkan lagi dengan menambahkan jenis-jenis analisis lainnya dengan menggunakan teknik penambangan data, seperti misalnya analisis sentimen terhadap suatu lokasi wisata.
+	\item Penelitian ini dikembangkan lagi dengan memperluas cakupan data sosial media yang diambil, tidak terbatas hanya Twitter dan Instagram, tapi juga dapat diambil dari Facebook, Path atau sosial media lainnya.
+\end{itemize}

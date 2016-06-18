@@ -3,21 +3,21 @@
 
 \section{Latar Belakang}
 \label{sec:latar_belakang}
-Pada saat ini, sosial media telah menjadi alat komunikasi yang sangat populer di kalangan pengguna internet. Setiap harinya jutaan orang saling berinteraksi satu sama lain melalui sosial media. Para pengguna sosial media terkadang menulis pesan tentang kehidupan pribadi, opini tentang berbagai topik dan pembahasan isu-isu yang sedang terjadi. Salah satu sosial media yang banyak digunakan oleh masyarakat adalah Twitter. Twitter adalah sosial media yang hanya memungkinkan pengguna menulis sebanyak 140 karakter saja, hal ini yang menyebabkan para pengguna sering menggunakan singkatan kata dan ejaan kata yang salah.
+Pada saat ini, sosial media telah menjadi alat komunikasi yang sangat populer di kalangan pengguna internet. Setiap harinya jutaan orang saling berinteraksi satu sama lain melalui sosial media. Para pengguna sosial media sering menulis pesan tentang kehidupan pribadi, kegiatan yang sedang dilakukan, tempat yang sedang dikunjungi, berdiskusi tentang berbagai topik dan pembahasan isu-isu yang sedang terjadi. Dua sosial media yang cukup populer digunakan oleh masyarakat adalah Twitter dan Instagram. Twitter adalah sosial media yang berbasis teks dengan panjang 140 karakter dalam sebuah pesan. Sedangkan Instagram adalah sosial media berbasis gambar, namun terdapat juga \textit{caption} yang digunakan untuk mendeskripsikan gambar yang diunggah.
 
-Pesan yang dibuat oleh para pengguna sosial media tentu saja dapat sangat bermanfaat bagi pemilik usaha, salah satunya di bidang pariwisata. Para pemilik usaha di bidang pariwisata dapat mengetahui tren wisata yang sedang terjadi di suatu wilayah. Selain itu mereka  juga dapat mempelajari pendapat masyarakat tentang suatu daerah wisata melalui pesan yang dibuat secara personal di sosial media. Pendapat negatif maupun positif yang didapatkan tentunya akan sangat bermanfaat bagi perusahaan untuk menunjang pengambilan keputusan. Namun pesan yang diperoleh dari sosial media jumlahnya sangat banyak dan berkembang dengan sangat cepat. Oleh karena itu pemrosesan pesan dari sosial media secara manual akan menyulitkan pemilik usaha untuk mendapatkan pengetahuan berharga yang mereka butuhkan untuk keperluan bisnis.
+Pesan yang dibuat oleh para pengguna sosial media tentu saja sangat bermanfaat bagi pemilik usaha, salah satunya di bidang pariwisata. Para pemilik usaha di bidang pariwisata dapat mengetahui tren wisata yang sedang terjadi di suatu wilayah. Dengan adanya data tersebut maka pemilik usaha di bidang pariwisata dapat lebih mudah dalam mengambil keputusan bisnis. Namun kendalanya adalah pesan yang diperoleh dari sosial media jumlahnya sangat banyak dan berkembang dengan sangat cepat. Oleh karena itu pemrosesan pesan dari sosial media secara manual akan menyulitkan pemilik usaha untuk mendapatkan pengetahuan berharga yang mereka butuhkan untuk keperluan bisnis.
 
-Pada skripsi ini akan dilakukan penelitian untuk membuat sistem yang dapat menganalisis pesan yang tidak terstruktur dari sosial media Twitter. Setelah itu sistem akan memasukan hasil analisisnya ke dalam sistem kecerdasan bisnis. Data terstruktur yang tersimpan di sistem kecerdasan bisnis akan memudahkan pemilik usaha untuk mempelajari hasil analisis pesan dan dapat melihat data dari suatu dimensi tertentu sesuai kriteria yang diperlukan. 
+Pada skripsi ini akan dilakukan penelitian untuk membuat sistem yang dapat mencari tren lokasi wisata dari pesan teks sosial media Twitter dan Instagram yang tidak terstruktur. Setelah itu sistem akan memasukan hasil analisisnya ke dalam sistem kecerdasan bisnis. Data terstruktur yang tersimpan di sistem kecerdasan bisnis akan memudahkan pemilik usaha untuk mempelajari hasil analisis dan dapat melihat data dari suatu dimensi tertentu sesuai kriteria yang diperlukan. 
 
-Sistem ini akan dibuat pada sistem terdistribusi Hadoop, karena besarnya jumlah dan ukuran pesan (\textit{big data}) yang diperoleh dari sosial media Twitter. Di dalam Hadoop terdapat dua bagian utama, yaitu MapReduce dan Hadoop Distributed File System (HDFS). MapReduce adalah model pemrograman rilisan Google yang ditujukan untuk memproses data berukuran raksasa secara terdistribusi dan paralel dalam \textit{cluster} yang terdiri atas ribuan komputer. HDFS adalah sebuah file sistem terdistribusi yang dirancang untuk berjalan di beberapa perangkat keras.
+Sistem ini akan dibuat pada sistem terdistribusi Hadoop, karena besarnya jumlah dan ukuran pesan (\textit{big data}) yang diperoleh dari sosial media. Di dalam Hadoop terdapat dua bagian utama, yaitu MapReduce dan Hadoop Distributed File System (HDFS). MapReduce adalah model pemrograman rilisan Google yang ditujukan untuk memproses data berukuran raksasa secara terdistribusi dan paralel dalam \textit{cluster} yang terdiri atas ribuan komputer. HDFS adalah sebuah file sistem terdistribusi yang dirancang untuk berjalan di beberapa perangkat keras.
 
 \section{Rumusan Masalah}
 \label{sec:rumusan_masalah}
 Berdasarkan latar belakang di atas, maka permasalahan yang muncul dapat dirumuskan ke dalam poin-poin berikut ini.
 \begin{enumerate}
-	\item Bagaimana pemanfaatan analisis data media sosial Twitter untuk menunjang pengambilan keputusan di bidang usaha pariwisata?
+	\item Bagaimana pemanfaatan analisis data media sosial Twitter dan Instagram untuk menunjang pengambilan keputusan di bidang usaha pariwisata?
 	\item Bagaimana mengembangkan teknik-teknik analisis \textit{big data} media sosial di dalam sistem terdistribusi Hadoop?
-	\item Bagaimana membuat sistem kecerdasan bisnis yang dapat menunjang pengambilan keputusan di bidang usaha pariwisata?
+	\item Bagaimana mengembangkan sistem kecerdasan bisnis yang dapat menunjang pengambilan keputusan di bidang usaha pariwisata?
 	\item Bagaimana melakukan eksperimen untuk menguji performa sistem yang dibuat?
 \end{enumerate}
 
@@ -25,8 +25,10 @@ Berdasarkan latar belakang di atas, maka permasalahan yang muncul dapat dirumusk
 \label{sec:tujuan}
 Berdasarkan rumusan masalah di atas, maka tujuan dari topik skripsi ini adalah 
 \begin{enumerate}
-	\item membangun sistem untuk menganalisis pesan teks dari sosial media Twitter dengan memanfaatkan MapReduce di lingkungan sistem terdistribusi Hadoop
-	\item membangun sistem kecerdasan bisnis yang dapat mengolah data hasil analisis menjadi data yang berguna dalam pengambilan keuputusan
+	\item Mencarai manfaat analisis data media sosial Twitter dan Instagram untuk menunjang pengambilan keputusan di bidang usaha pariwisata
+	\item Membangun sistem untuk mencari tren lokasi wisata dari sosial media Twitter dan Instagram dengan memanfaatkan MapReduce di lingkungan sistem terdistribusi Hadoop.
+	\item Membangun sistem kecerdasan bisnis yang dapat mengolah data hasil analisis menjadi data yang berguna dalam pengambilan keputusan.
+	\item Melakukan eksperimen untuk menguji performa sistem yang dibuat.
 \end{enumerate}
 
 \section{Batasan Masalah}
@@ -34,17 +36,17 @@ Berdasarkan rumusan masalah di atas, maka tujuan dari topik skripsi ini adalah
 Agar penelitian skripsi ini tidak keluar dari pokok permasalahan yang dirumuskan, maka ruang lingkup pembahasan dibatasi pada:
 \begin{enumerate}
 	\item Teks yang dianalisis hanya teks yang berbahasa Indonesia saja. 
-	\item Teks yang dianalisis diambil dari Twitter pada jangka waktu dan kata kunci tertentu.
+	\item Teks yang dianalisis diambil dari Twitter dan Instagram pada jangka waktu dan kata kunci tertentu.
 \end{enumerate}
 
 \section{Metodologi Penelitian}
 \label{sec:metodologi_penelitian}
 Dalam penelitian ini, dilakukan beberapa metode untuk memperoleh data atau informasi dalam menyelesaikan permasalahan yang muncul. Metode yang dilakukan tersebut antara lain:
 \begin{enumerate}
-	\item Studi pustaka yang dilakukan dengan cara mempelajari literatur-literatur baik buku, jurnal, artikel ilmiah, maupun artikel di website yang berkaitan dengan  \textit{text mining} dan Hadoop.
+	\item Studi pustaka yang dilakukan dengan cara mempelajari literatur-literatur baik buku, jurnal, artikel ilmiah, maupun artikel di website yang berkaitan dengan  \textit{big data}, Twitter API, Instagram API dan Hadoop.
 	\item Menganalisis pemanfaatan data sosial media yang berguna untuk menunjang pengambilan keputusan di bidang usaha pariwisata.
-	\item Melakukan teknik-tenik pra pengolahan data.
-	\item Merancang sistem untuk menganalisis data sosial media Twitter di dalam sistem terdistribusi Hadoop.
+	\item Melakukan teknik-tenik pra pengolahan data untuk kasus pencarian tren lokasi wisata.
+	\item Merancang sistem untuk mencari tren lokasi di dalam sistem terdistribusi Hadoop.
 	\item Merancang sistem kecerdasan bisnis untuk menyimpan data hasil analisis.
 	\item Melakukan eksperimen untuk menguji performa sistem yang dibuat.
 	\item Menarik kesimpulan dan memberikan saran sesuai dengan penelitian yang telah dilakukan. 
@@ -52,17 +54,21 @@ Dalam penelitian ini, dilakukan beberapa metode untuk memperoleh data atau infor
 
 \section{Sistematika Pembahasan}
 \label{sec:sistematika_pembahasan}
-Sistematika penulisan skripsi ini dibagi menjadi x bab yaitu :\\
+Sistematika penulisan skripsi ini dibagi menjadi 6 bab yaitu :\\
  \\
 Bab 1 Pendahuluan\\ 
 Bab1 berisi latar belakang, rumusan masalah, tujuan, batasan masalah, metodologi penelitian, dan sistematika pembahasan.
 \\\\
 Bab 2 Dasar Teori\\
-Bab 2 berisi teori-teori yang akan mendukung pembahasan pada bab selanjutnya, seperti sosial media twitter, data mining, text mining, kecerdasan bisnis, sistem terdistribusi Hadoop dan Hive. 
+Bab 2 berisi teori-teori yang akan mendukung pembahasan pada bab selanjutnya, seperti sosial media Twitter, sosial media Instagram, sistem kecerdasan bisnis, sistem terdistribusi Hadoop, Hive dan Sqoop. Selain itu pada bab ini juga akan dibahas tentang \textit{tools-tools} yang akan digunakan dalam penelitian ini.
 \\\\
-Bab 3 Analsis dan Eksperimen\\
-Bab 3 berisi analisis domain masalah, analisis basis data, analisis review, analisis struktur data dan algoritma, dan pemodelan diagram use case.
+Bab 3 Eksplorasi Streaming pesan Twitter, sistem Hadoop, Hive dan Sqoop\\
+Bab 3 berisi ekplorasi-eksplorasi yang dilakukan untuk lebih memahami tentang streaming pesan Twitter, sistem Hadoop, Hive dan Sqoop.
 \\\\
-Bab 4 Perancangan\\
+Bab 4 Analisis dan Perancangan\\
+Bab 4 berisi tentang analisis masalah dan data yang dimiliki. Serta rancangan-rancangan program dan antarmuka yang akan dibuat.
+\\\\
 Bab 5 Implementasi dan Pengujian\\
+Bab 5 berisi tentang hasil implementasi kode program dan antarmuka yang dibuat berdasarkan rancangan pada Bab 4. Pada bab ini juga terdapat hasil pengujian dan eksperimen modul program.
+\\\\
 Bab 6 Kesimpulan dan Saran berisi kesimpulan dari keseluruhan bab serta saran.\\

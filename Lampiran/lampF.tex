@@ -1,0 +1,555 @@
+\chapter{Kode Sumber Implementasi Pembersihan Data dan Penghitung Frekuensi}
+\label{app:F}
+
+\singlespacing 
+\begin{lstlisting}[language=Java,basicstyle=\tiny,caption=TrieNode.java]
+public class TrieNode {
+    private boolean word;
+    private TrieNode[] children;
+    
+    /**
+     * Constructor
+     */
+    public TrieNode(){
+        this.children = new TrieNode[38]; //26char, 10number, 1 space, 1 stripe
+    }
+
+    /**
+     * Check is this node end of a word
+     * 
+     * @return boolean
+     */
+    public boolean isWord() {
+        return word;
+    }
+
+    /**
+     * Set node as an end of word
+     * @param word 
+     */
+    public void setWord(boolean word) {
+        this.word = word;
+    }
+
+    /**
+     * Get node children
+     * @return 
+     */
+    public TrieNode[] getChildren() {
+        return children;
+    }
+    
+    /**
+     * Add new node for a character
+     * @param c 
+     */
+    public void addNode(char c){
+        int i = -1;
+        if((int) c >= 48 && (int) c <= 57){
+            //0-9
+            i = (int) c - 48;
+        }else if((int) c == 32){
+            //space
+            i = 10;
+        }else if((int) c >= 97 && (int) c <= 122){
+            //a-z
+            i = (int) c - 97 + 11;
+        }else if((int) c == (int) '-'){
+            //strip
+            i = 37;
+        }
+        if(i >= 0 && this.children[i] == null){
+            this.children[i] = new TrieNode();
+        }
+    }
+    
+    /**
+     * Get node at character
+     * @param c
+     * @return 
+     */
+    public TrieNode getNode(char c){
+        int i = -1;
+        if((int) c >= 48 && (int) c <= 57){
+            //0-9
+            i = (int) c - 48;
+        }else if((int) c == 32){
+            //space
+            i = 10;
+        }else if((int) c >= 97 && (int) c <= 122){
+            //a-z
+            i = (int) c - 97 + 11;
+        }else if((int) c == (int) '-'){
+            //strip
+            i = 37;
+        }
+        return (i >= 0) ? this.children[i] : null;
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java,basicstyle=\tiny,caption=Trie.java]
+public class Trie {
+    private TrieNode root;
+    
+    /**
+     * Constructor
+     */
+    public Trie(){
+        this.root = new TrieNode();
+    }
+    
+    /**
+     * Get root
+     * @return 
+     */
+    public TrieNode getRoot(){
+        return this.root;
+    }
+    
+    /**
+     * Add word to tree
+     * 
+     * @param word 
+     */
+    public void addWord(String word){
+        char[] cs = word.toCharArray();
+        TrieNode node = this.root;
+        for (int i = 0; i < cs.length; i++) {
+            node.addNode(cs[i]);
+            node = node.getNode(cs[i]);
+        }
+        node.setWord(true);
+    }
+    
+    /**
+     * Find word in tree
+     * 
+     * @param word
+     * @return string, null or % for a phrase word
+     */
+    public String findWord(String word){
+        String s = "";
+        char[] cs = word.toCharArray();
+        TrieNode node = this.root;
+        for (int i = 0; i < cs.length; i++) {
+            if(node.getNode(cs[i]) != null){
+                s += cs[i];
+                node = node.getNode(cs[i]);
+            }else{
+                return null;
+            }
+        }
+        return node.isWord() ? s : (node.getNode(' ') != null ? "%" : null);
+    }
+    
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java,basicstyle=\tiny,caption=Cleaner.java]
+import java.util.Map;
+
+public class Cleaner {
+    private Map<String, String> replaceMap;
+    
+    public Cleaner(Map<String, String> replaceMap){
+        this.replaceMap = replaceMap;
+    }
+    
+    public String clean(String line){
+        line = replaceMap(line);
+        line = removeStopword(line);
+        return line;
+    }
+    
+    private String replaceMap(String line){
+        String[] words = line.split(" ");
+        String newLine = "";
+        
+        for(String word : words){
+            newLine += (replaceMap.containsKey(word) ? replaceMap.get(word).toLowerCase() : word) + " ";
+        }
+        
+        return newLine;
+    }
+    
+    private String removeStopword(String line){
+        //replace user tag
+        line = line.replaceAll("(@|#)(\\w+)", "");
+        //replace http URL
+        line = line.replaceAll("(https|http)://[\\w\\d\\.\\/\\?\\-\\+%=&#]+", "");
+        //replace selain alfabet, numberik atau spasi
+        line = line.replaceAll("[^A-Za-z0-9 ]", "");
+        //trim first and last space character
+        line = line.trim();
+        //remote multiple spaces in sentence
+        line = line.replaceAll(" +", " ");
+        return line;
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java,basicstyle=\tiny,caption=Counter.java]
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+public class Counter {
+    private Trie trie;
+    private FileReader fr;
+    private BufferedReader br;
+    private Map<String, Integer> resultMap;
+    private Map<String, String> replaceMap;
+    private String inputFolder, outputFile, tempatWisataPath, kataUlangPath, tempatWisataAliasPath;
+    private Cleaner cleaner;
+    
+    /**
+     * 
+     * @param inputFolder
+     * @param outputFile
+     * @param tempatWisataPath
+     * @param kataUlangPath
+     * @param tempatWisataAliasPath 
+     */
+    public Counter(String inputFolder, String outputFile, String tempatWisataPath, String kataUlangPath, String tempatWisataAliasPath){
+        this.trie = new Trie();
+        this.replaceMap = new HashMap<String, String>();
+        this.resultMap = new HashMap<String, Integer>();
+        
+        this.tempatWisataPath = tempatWisataPath;
+        this.kataUlangPath = kataUlangPath;
+        this.tempatWisataAliasPath = tempatWisataAliasPath;
+        this.inputFolder = inputFolder;
+        this.outputFile = outputFile;
+        
+        this.init();
+    }
+    
+    private void init() {
+        try{
+            this.initTempatWisata();
+            this.initKataUlang();
+            this.initTempatWisataAlias();
+            
+            this.cleaner = new Cleaner(replaceMap);
+        }catch(IOException ex){
+            System.out.println(ex.toString());
+        }
+    }
+    
+    private void initTempatWisata() throws IOException{
+        //read tempate Wisata
+        fr = new FileReader(this.tempatWisataPath);
+        br = new BufferedReader(fr);
+        String dst;
+        while((dst = br.readLine()) != null){
+            trie.addWord(dst.toLowerCase().trim());
+        }
+        br.close();
+        fr.close();
+    }
+    
+    private void initKataUlang() throws IOException{
+        fr = new FileReader(this.kataUlangPath);
+        br = new BufferedReader(fr);
+        String kataUlang;
+        String[] words;
+        while((kataUlang = br.readLine()) != null){
+            words = kataUlang.split(",");
+            replaceMap.put(words[0], words[1]);
+        }
+        br.close();
+        fr.close();
+    }
+    
+    private void initTempatWisataAlias() throws IOException{
+        fr = new FileReader(this.tempatWisataAliasPath);
+        br = new BufferedReader(fr);
+        String alias;
+        String[] words;
+        while((alias = br.readLine()) != null){
+            words = alias.split(",");
+            replaceMap.put(words[0], words[1]);
+        }
+        br.close();
+        fr.close();
+    }
+    
+    public void count() throws IOException{
+        //read all file at input folder
+        File folder = new File(inputFolder);
+        File[] files = folder.listFiles();
+        String line, result, term, msg, date, key;
+        String[] parse, sentences;
+        SimpleDateFormat df = new SimpleDateFormat("YYYY-MM-dd");
+        
+        for(File file : files){
+            System.out.println("Reading file " + file.getName());
+            fr = new FileReader(file);
+            br = new BufferedReader(fr);
+            
+            while((line = br.readLine()) != null){
+                parse = line.split("\t");
+                if(parse.length >= 5){
+                    term = "";
+                    msg = this.cleaner.clean(parse[1].toLowerCase());
+                    sentences = msg.split(" ");
+                    for(String word : sentences){
+                        if(term.isEmpty()){
+                            result = trie.findWord(word);
+                            if(result != null){
+                                if(result.equals("%")){
+                                    term = word + " ";
+                                }else{
+                                    try{
+                                        date = df.format(new Date(Long.parseLong(parse[parse.length - 1])));
+                                        key = result + "\t" + date;
+                                        if(resultMap.containsKey(key)){
+                                            resultMap.put(key, resultMap.get(key) + 1);
+                                        }else{
+                                            resultMap.put(key, 1);
+                                        }
+                                        
+                                    }catch(NumberFormatException ex){
+                                        System.out.println(line + " => " + ex.toString());
+                                    }
+                                }
+                            }
+                        }else{
+                            result = trie.findWord(term + word);
+                            if(result != null){
+                                if(result.equals("%")){
+                                    term += word + " ";
+                                }else{
+                                    try{
+                                        date = df.format(new Date(Long.parseLong(parse[parse.length - 1])));
+                                        key = term + word + "\t" + date;
+                                        if(resultMap.containsKey(key)){
+                                            resultMap.put(key, resultMap.get(key) + 1);
+                                        }else{
+                                            resultMap.put(key, 1);
+                                        }
+                                    }catch(NumberFormatException ex){
+                                        System.out.println(line + " => " + ex.toString());
+                                    }
+                                }
+                            }else{
+                                //reset term
+                                term = "";
+                            }
+                        }
+                    }
+                }
+            }
+            
+            fr.close();
+            br.close();
+        }
+        
+        this.writeToFile();
+    }
+    
+    private void writeToFile() throws IOException{
+        FileWriter fw = new FileWriter(outputFile);
+        
+        Set<String> keys = resultMap.keySet();
+        for(String key : keys){
+            System.out.println(key + "\t" + resultMap.get(key));
+            fw.append(key + "\t" + resultMap.get(key) + "\n");
+        }
+        
+        fw.close();
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java,basicstyle=\tiny,caption=Main.java (Tanpa MapReduce)]
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        long start = System.currentTimeMillis();
+        String inputPath = args[0];
+        String outputFile = args[1];
+        String tempatWisata = args[2]; 
+        String kataUlang = args[3]; 
+        String tempatWisataAlias = args[4]; 
+        
+        Counter counter = new Counter(inputPath, outputFile, tempatWisata, kataUlang, tempatWisataAlias);
+        counter.count();
+        
+        long end = System.currentTimeMillis();
+        long duration = end - start;
+        long seconds = duration / 1000 % 60;
+        long minutes = duration / 1000 / 60;
+        System.out.println("Duration : " + minutes + "m " + seconds + "s ");
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java,basicstyle=\tiny,caption=Counter.java (MapReduce)]
+package com.wilianto.wisatacounter;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URI;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+
+public class Counter {
+    //counter.jar input-path output-path destination-list kataulang-list destination-alias-list
+    public static void main(String[] args) 
+            throws IOException, InterruptedException, ClassNotFoundException {
+        Configuration conf = new Configuration();
+        Job job = Job.getInstance(conf, "wisata counter");
+        job.setJarByClass(Counter.class);
+        job.setMapperClass(WordMapper.class);
+        job.setReducerClass(DateReducer.class);
+        job.setOutputKeyClass(Text.class);
+        job.setOutputValueClass(IntWritable.class);
+        job.addCacheFile((new Path(args[2])).toUri()); //destination list
+        job.addCacheFile((new Path(args[3])).toUri()); //kata ulang list
+        job.addCacheFile((new Path(args[4])).toUri()); //kata destinasi alias list
+        FileInputFormat.addInputPath(job, new Path(args[0]));
+        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+        System.exit(job.waitForCompletion(true) ? 0 : 1);
+    }
+    
+    public static class WordMapper extends Mapper<Object, Text, Text, IntWritable>{
+        private Text destination = new Text();
+        
+        //read file wisata
+        private BufferedReader br;
+        private Map<String, String> replaceMap = new HashMap<String, String>();
+        private Cleaner cleaner;
+        private Trie destinationTrie = new Trie();
+        
+        private void parseDestinationFile(String fileName) throws IOException{
+            br = new BufferedReader(new FileReader(fileName));
+            String destination = null;
+            while((destination = br.readLine()) != null){
+                destinationTrie.addWord(destination);
+            }
+        }
+        
+        private void parseKataUlangFile(String fileName) throws IOException{
+            br = new BufferedReader(new FileReader(fileName));
+            String kataUlang = null;
+            String[] words;
+            while((kataUlang = br.readLine()) != null){
+                words = kataUlang.split(",");
+                replaceMap.put(words[0], words[1]);
+            }
+        }
+        
+        private void parseDestinationAliasFile(String fileName) throws IOException{
+            br = new BufferedReader(new FileReader(fileName));
+            String destinationAlias = null;
+            String[] words;
+            while((destinationAlias = br.readLine()) != null){
+                words = destinationAlias.split(",");
+                replaceMap.put(words[0], words[1]);
+            }
+        }
+        
+        @Override
+        public void setup(Context context) throws IOException{
+            URI[] destinationFiles = Job.getInstance(context.getConfiguration()).getCacheFiles();
+            
+            //parsing destination file
+            Path destinationPath = new Path(destinationFiles[0].getPath());
+            parseDestinationFile(destinationPath.getName());
+            
+            //parsing kata ulang file
+            Path kataUlangPath = new Path(destinationFiles[1].getPath());
+            parseKataUlangFile(kataUlangPath.getName());            
+            
+            //parsing kata destination alias file
+            Path destinationAliasPath = new Path(destinationFiles[2].getPath());
+            parseDestinationAliasFile(destinationAliasPath.getName());
+            
+            //create object
+            cleaner = new Cleaner(replaceMap);
+        }
+        
+        @Override
+        public void map(Object obj, Text text, Context context) 
+                throws IOException, InterruptedException{
+            String line = text.toString().toLowerCase();
+            String[] parse = line.split("\t");
+            String value = "";
+            
+            if(parse.length >= 2){
+                value = cleaner.clean(parse[1]); 
+            }
+            
+            SimpleDateFormat df = new SimpleDateFormat("YYYY-MM-dd");
+            String term = "";
+            String result;
+            String[] sentences = value.split(" ");
+            for(String sentence : sentences){
+                if(term.isEmpty()){
+                    result = destinationTrie.findWord(sentence);
+                    if(parse.length >= 5){
+                        if(result != null){
+                            if(result.equals("%")){
+                                term = sentence + " ";
+                            }else{
+                                context.write(new Text(result + "\t" + df.format(new Date(Long.parseLong(parse[parse.length - 1])))), new IntWritable(1));
+                            }
+                        }
+                    }
+                }else{
+                    result = destinationTrie.findWord(term + sentence);
+                    if(parse.length >= 5){
+                        if(result != null){
+                            if(result.equals("%")){
+                                term += sentence + " ";
+                            }else{
+                                context.write(new Text(result + "\t" + df.format(new Date(Long.parseLong(parse[parse.length - 1])))), new IntWritable(1));
+                            }
+                        } else{
+                            //reset term
+                            term = "";
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    public static class DateReducer extends Reducer<Text, IntWritable, Text, IntWritable>{        
+        @Override
+        public void reduce(Text key, Iterable<IntWritable> values, Context context) 
+                throws IOException, InterruptedException{
+            int i = 0;
+            for(IntWritable value : values){
+                i += value.get();
+            }            
+            context.write(key, new IntWritable(i));
+        }
+    }
+}
+\end{lstlisting}

@@ -1,10 +1,10 @@
 \chapter{Eksplorasi Streaming Pesan Twitter, Sistem Hadoop, Hive dan Sqoop}
 
 \section{Eksperimen}
-Pada bagian ini, penulis melakukan uji coba beberapa kasus sederhana yang masih berhubungan dengan proses analisis text pada sosial media Twitter. Eksperimen yang dilakukan seperti membuat program Java untuk melakukan streaming data melalui Streaming API Twitter dan menyimpan hasilnya ke dalam file text. Selain itu penulis juga melakukan eksperimen untuk melakukan text preprocessing sederhana pada data tweet di lingkungan Hadoop.
+Pada bagian ini, dilakukan uji coba beberapa kasus sederhana yang masih berhubungan dengan proses analisis teks pada sosial media Twitter. Eksperimen yang dilakukan seperti membuat program Java untuk melakukan \textit{streaming} data melalui Streaming API Twitter dan menyimpan hasilnya ke dalam file teks. Selain itu dilakukan juga eksperimen untuk melakukan pra pengolahan teks sederhana pada data tweet di lingkungan Hadoop.
 
 \subsection{Streaming Tweet}
-Dalam penelitian ini dibutuhkan tweet-tweet yang berhubungan dengan kegiatan pariwisata. Oleh karena itu penulis mencoba membuat sebuah program sederhana berbasis Java untuk melakukan streaming tweet. Kode sumber untuk eksperimen ini dapat dilihat pada Lampiran \ref{app:B}. Pada proses streaming tweet penulis menggunakan kata kunci  libur, liburan, travel, travelling, wisata, tour, pariwisata, destinasi, hotel, pesawat. Data tweet yang diambil juga dibatasi berdasarkan bahasa yang digunakan, hanya yang dalam bahasa Indonesia saja yang diambil. Berikut adalah salah satu contoh hasil tweet yang dihasilkan.
+Dalam penelitian ini dibutuhkan tweet-tweet yang berhubungan dengan kegiatan pariwisata. Oleh karena itu dibuatlah sebuah program sederhana berbasis Java untuk melakukan streaming tweet. Kode sumber untuk eksperimen ini dapat dilihat pada Lampiran \ref{app:B}. Pada proses streaming tweet penulis menggunakan kata kunci libur, liburan, travel, travelling, wisata, tour, pariwisata, dan destinasi. Data tweet yang diambil juga dibatasi berdasarkan bahasa yang digunakan, hanya yang dalam bahasa Indonesia saja yang diambil. Berikut adalah salah satu contoh hasil tweet yang dihasilkan.
 
 \begin{lstlisting}[language=Java,basicstyle=\tiny,caption=Hasil Streaming]
 {
@@ -119,8 +119,8 @@ Dari hasil eksperimen ini ada beberapa hal yang perlu dievaluasi dan dikembangka
 \end{itemize}
 
 
-\subsection{Text Preprocessing Tweet Sederhana di Lingkungan Hadoop}
-Untuk melakukan text mining pada tweet perlu diawali dengan text preprocessing terlebih dahulu. Oleh karena itu penulis melakukan eksperimen untuk melakukan text preprocessing sederhana pada data tweet di lingkungan sistem terdistribusi Hadoop. Kode sumber untuk eksperimen ini dapat dilihat pada Lampiran \ref{app:C}. Berikut adalah proses yang penulis lakukan pada eksperimen ini.
+\subsection{\textit{Text Preprocessing} Tweet Sederhana di Lingkungan Hadoop}
+Untuk melakukan pengolahan pada tweet perlu diawali dengan \textit{text preprocessing} terlebih dahulu. Oleh karena itu perlu dilakukan eksperimen untuk melakukan text preprocessing sederhana pada data tweet di lingkungan sistem terdistribusi Hadoop. Kode sumber untuk eksperimen ini dapat dilihat pada Lampiran \ref{app:C}. Berikut adalah proses yang dilakukan pada eksperimen ini.
 
 \begin{enumerate}
 	\item Mengubah text ke dalam huruf kecil.
@@ -131,7 +131,7 @@ Untuk melakukan text mining pada tweet perlu diawali dengan text preprocessing t
 	\item Membuan spasi di awal dan akhir tweet serta menghilangkan multiple spasi.
 \end{enumerate}
  
-Untuk mendukung proses tersebut di atas dibutuhkan library pendukung lainnya yaitu org.apache.hadoop versi 2.7.1. Berikut adalah beberapa contoh masukan dan keluaran dari program sederhana ini.\\
+Untuk mendukung proses tersebut di atas dibutuhkan \textit{library} pendukung lainnya yaitu org.apache.hadoop versi 2.7.1. Berikut adalah beberapa contoh masukan dan keluaran dari program sederhana ini.\\
  
      
 \textbf{Masukan:}
@@ -159,3 +159,123 @@ Dari hasil eksperimen ini ada beberapa hal yang perlu dievaluasi dan dikembangka
 	\item Menambahkan daftar kata stopwords.
 	\item Mengatasi penggunaan bahasa slang dan singkatan kata.
 \end{itemize}
+
+\subsection{Eksperimen dengan Hive}
+\label{sec:eksperimen-hive}
+Pada eksperimen kali ini akan dibuat beberapa kode program sederhana untuk melakukan percobaan membuat tabel, mengimpor data ke dalam tabel, dan membaca isi dari tabel. Eksperimen ini menggunakan driver JDBC (org.apache.hive.jdbc.HiveDriver) untuk melakukan koneksi dari program java ke Hive. 
+
+Berikut adalah salah satu kueri yang dijalankan pada Hive untuk membuat sebuah tabel baru bernama tweets. Tabel tweets memiliki atribut source\_id, text, geo, dan place yang bertipe String dan timestamp\_ms dengan tipe data Big Integer. Setiap \textit{record} pada tabel tweets dipisahkan dengan baris baru dan nilai dari setiap kolom-kolomnya akan dipisahkan dengan tab.
+
+\begin{lstlisting}[language=sql,basicstyle=\small,caption=Kueri Hive untuk Membuat Tabel tweets]
+CREATE TABLE tweets (
+    source_id STRING
+    text STRING
+    geo STRING
+    place STRING
+    timestamp_ms BIGINT
+) 
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY '\t'
+\end{lstlisting}
+
+Kueri di atas akan dijalankan bersama beberapa kueri lainnya di dalam sebuah program java (PrepareHiveTable.java). Sumber kode lengkapnya dapat dilihat pada Lampiran \ref{app:D}. Ketika program dijalankan maka akan mengeluarkan output seperti pada Gambar \ref{fig:output-preparetable-hive} yang artinya tabel baru berhasil dibuat di dalam Hive. 
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.5]{Gambar/output-preparetable-hive.png}
+	\caption[Keluaran dari program PrepareHiveTable.java]{Keluaran dari program PrepareHiveTable.java}
+	\label{fig:output-preparetable-hive}
+\end{figure}
+
+Untuk memastikan tabel yang dibuat sudah benar sesuai dengan kueri yang dibuat di dalam program maka dilakukan pengecekan langsung ke dalam \textit{Command Line Interface} (CLI) dari Hive. Pertama-tama dilakukan pengecekan tabel-tabel yang dibuat menggunakan kueri SHOW TABLES. Keluaran dari kueri ini seperti pada Gambar \ref{fig:show-tables-hive} yang artinya terdapat tiga buah tabel di dalam Hive bernama stopwords, tweets, dan tweets\_clean.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=1]{Gambar/show-tables-hive.png}
+	\caption[Keluaran Tabel-tabel Hive]{Keluaran Tabel-tabel Hive}
+	\label{fig:show-tables-hive}
+\end{figure}
+
+Selanjunya dilakukan pengecekan kolom dan tipe data pada tabel-tabel yang sudah berhasil dibuat. Kueri yang digunakan untuk melakukan pengecekan ini adalah DESC nama\_tabel. Keluaran dari kueri ini dapat dilihat pada Gambar \ref{fig:desc-tables-hive}. Jika dibandingkan keluaran yang dihasilkan memiliki nama kolom dan tipe data yang sesuai dengan kueri pada program PrepareHiveTable.java. Maka dapat disimpulkan program PrepareHiveTable.java berjalan dengan baik dan berhasil membuat tabel Hive.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=1]{Gambar/desc-tables-hive.png}
+	\caption[Keluaran Kolom-kolom pada Tabel Hive]{Keluaran Kolom-kolom pada Tabel Hive}
+	\label{fig:desc-tables-hive}
+\end{figure}
+
+Setelah tabel berhasil dibuat ekperimen berikutnya adalah memasukan data ke dalam Hive. Dalam ekperimen ini akan ada dua buah tabel yang diisi, yaitu tabel tweets dan stopwords. Skenario yang digunakan pada ekperimen kali ini adalah memasukan data-data dengan format tertentu dari file tweets.txt dan stopwords.txt menggunakan kueri LOAD dari Hive. Sumber kode penuh dan file-file yang diperlukan untuk proses impor data ke dalam Hive ini dapat dilihat pada Lampiran \ref{app:D}. 
+
+\begin{lstlisting}[language=sql,basicstyle=\tiny,caption=Kueri Hive untuk Import Data dari File]
+LOAD DATA LOCAL INPATH '/Users/wilianto/Documents/MyDocuments/software/mac/trial-data/stopwords.txt'
+OVERWRITE INTO TABLE stopwords
+\end{lstlisting}
+
+Keluaran dari program ImportTweets.java dan ImportStopWords.java digambarkan pada Gambar \ref{fig:hasil-impor-tweets} dan \ref{fig:hasil-impor-stopwords}. Setelah program berhasil dijalankan maka dilakukan pengecekan langsung ke Hive CLI untuk melihat data-data yang berhasil dimasukan. Keluaran dari kueri yang dilakukan untuk menampilkan seluruh isi data dari kedua tabel dapat dilihat pada Gambar \ref{fig:cek-hasil-impor-hive}.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.5]{Gambar/hasil-impor-tweets.png}
+	\caption[Keluaran Impor Data Tweets]{Keluaran Impor Data Tweets}
+	\label{fig:hasil-impor-tweets}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.5]{Gambar/hasil-impor-stopwords.png}
+	\caption[Keluaran Impor Data Stopwords]{Keluaran Impor Data Stopwords}
+	\label{fig:hasil-impor-stopwords}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.5]{Gambar/cek-hasil-impor-hive.png}
+	\caption[Keluaran dari Kueri Select untuk Tabel tweets dan stopwords pada Hive]{Keluaran dari Kueri Select untuk Tabel tweets dan stopwords pada Hive}
+	\label{fig:cek-hasil-impor-hive}
+\end{figure}
+
+
+\subsection{Eksperimen dengan Sqoop}
+\label{sec:eksperimen-sqoop}
+Ekperimen Sqoop dilakukan untuk mencoba proses impor dan ekpor data ke dalam HDFS khususnya menggunakan Hive. Berikut adalah perintah-perintah yang digunakan untuk melakukan proses impor dan ekspor. Parameter --connect digunakan untuk melakukan koneksi ke basis data lain menggunakan konektor Sqoop dan JDBC. --username, --password adalah data-data yang diperlukan untuk melakukan akses ke dalam basisdata. --table adalah tabel asal yang akan diimpor datanya. --hive-import digunakan untuk menandakan bahwa data yang diimpor akan disimpan dalam bentuk tabel hive, apabila parameter ini tidak digunakan maka data akan disimpan sebagai file teks biasa di HDFS. --bindir adalah lokasi direktori tempat file java otomatis dibuat oleh Sqoop. --fields-terminated-by dan --lines-terminated-by digunakan untuk pemisah antar nilai \textit{field} dan pemisah antar \textit{record}. Hasil dari proses impor berhasil dibuktikan pada Gambar \ref{fig:cek-hasil-impor-sqoop}, terdapat 28.526 data yang berhasil diimpor.
+
+\begin{lstlisting}[basicstyle=\tiny,caption=Perintah Sqoop untuk Melakukan Impor]
+bin/sqoop import \
+--connect jdbc:mysql://127.0.0.1:3306/skripsi_data \
+--username root \
+--password admin123 \
+--table tb_katadasar \
+--hive-import \
+--bindir /Users/wilianto/Documents/MyDocuments/software/mac/sqoop-1.4.6.bin__hadoop-2.0.4-alpha \
+--fields-terminated-by ',' \
+--lines-terminated-by '\n'
+\end{lstlisting}
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.5]{Gambar/cek-hasil-impor-sqoop.png}
+	\caption[Mencari Jumlah Data yang Berhasil Diimpor oleh Sqoop]{Mencari Jumlah Data yang Berhasil Diimpor oleh Sqoop}
+	\label{fig:cek-hasil-impor-sqoop}
+\end{figure}
+
+Parameter yang digunakan untuk proses ekspor hampir sama dengan yang digunakan untuk proses impor. Yang menjadi pembeda hanya pada parameter --hive-import yang tidak perlu lagi dituliskan, parameter --table di sini berfungsi untuk menunjuk tabel di basis data relasional yang akan dituju dan ada penambahan parameter --export-dir yang berguna untuk menunjuk direktori data yang akan diekspor di dalam HDFS. Hasil dari proses ekspor berhasil dibuktikan pada Gambar \ref{fig:cek-hasil-ekspor-sqoop}, terdapat 28.526 data yang berhasil diekspor.
+
+\begin{lstlisting}[basicstyle=\tiny,caption=Perintah Sqoop untuk Melakukan Ekspor]
+bin/sqoop export \
+--connect jdbc:mysql://127.0.0.1:3306/skripsi_data \
+--username root \
+--password admin123 \
+--table tb_katadasar_from_hive \
+--export-dir /user/hive/warehouse/tb_katadasar \
+--bindir /Users/wilianto/Documents/MyDocuments/software/mac/sqoop-1.4.6.bin__hadoop-2.0.4-alpha \
+--fields-terminated-by ',' \
+--lines-terminated-by '\n'
+\end{lstlisting}
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.5]{Gambar/cek-hasil-ekspor-sqoop.png}
+	\caption[Mencari Jumlah Data yang Berhasil Diekspor oleh Sqoop]{Mencari Jumlah Data yang Berhasil Diekspor oleh Sqoop}
+	\label{fig:cek-hasil-ekspor-sqoop}
+\end{figure}

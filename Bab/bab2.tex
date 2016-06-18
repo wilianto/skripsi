@@ -7,12 +7,10 @@ Kecerdasan bisnis dapat diartikan sebagai suatu kumpulan metode, proses, teori, 
 
 Sistem kecerdasan bisnis dapat menyediakan data di masa lalu dan saat ini. Data yang ditampilkan dapat berupa laporan, statistik, dll. Selain itu data data yang ditampilkan dapat dilihat berdasarkan suatu dimensi tertentu, misal berdasarkan dimensi waktu, pelanggan, dll. Kecerdasan bisnis menghasilkan suatu pengetahuan yang berisi tentang kebutuhan pelanggan, keputusan konsumen dalam melakukan proses bisnis, kondisi di perusahaan, dan tren ekonomi, teknologi serta tren budaya yang terjadi saat ini. Oleh karena itu, pengetahuan yang dihasilkan ini akan menjadi bagian penting dari perencanaan organisasi dan pengambilan keputusan untuk memahami keadaan konsumen atau persaingan yang terjadi saat ini.
 
-%harus ada tambahan sentimen analisisnya
-
 \subsection{Arsitektur Kecerdasan Bisnis}
 \label{sec:arsitektur_kecerdasan_bisnis}
 
-Dalam membangun sebuah sistem kecerdasan bisnis diperlukan masukan dari berbagai sumber data. Data-data yang terkumpul dari berbagai sumber tentunya memiliki format dan bentuk yang berbeda, sehingga diperlukan proses-proses pembersihan data untuk menghasilkan data yang baik dan siap diolah lebih lanjut. Data yang sudah dibersihkan kemudian akan dikumpulkan dalam sebuah \textit{data warehouse}. Di dalam data warehouse data-data yang terkumpul dapat dipecah kembali menjadi beberapa OLAP Cubes yang dapat ditampilkan secara visual kepada pengguna ataupun berupa laporan berharga yang dapat diolah lebih lanjut.
+Dalam membangun sebuah sistem kecerdasan bisnis diperlukan masukan dari berbagai sumber data. Data-data yang terkumpul dari berbagai sumber tentunya memiliki format dan bentuk yang berbeda, sehingga diperlukan proses-proses pembersihan data untuk menghasilkan data yang baik dan siap diolah lebih lanjut. Data yang sudah dibersihkan kemudian akan dikumpulkan dalam sebuah \textit{data warehouse}. Di dalam \textit{data warehouse} data-data yang terkumpul dapat dipecah kembali menjadi beberapa \textit{OLAP Cubes} yang dapat ditampilkan secara visual kepada pengguna ataupun berupa laporan berharga yang dapat diolah lebih lanjut.
 
 \begin{figure}
 	\centering
@@ -21,7 +19,7 @@ Dalam membangun sebuah sistem kecerdasan bisnis diperlukan masukan dari berbagai
 	\label{fig:arsitektur_kecerdasan_bisnis_fig}
 \end{figure}
 
-Berdasarkan Gambar \ref{fig:arsitektur_kecerdasan_bisnis_fig} sistem kecerdasan bisnis terdiri dari empat tahap, yaitu:
+Berdasarkan Gambar \ref{fig:arsitektur_kecerdasan_bisnis_fig} sistem kecerdasan bisnis terdiri dari lima tahap, yaitu:
 
 \begin{enumerate}
 	\item \textbf{Source Systems}\\
@@ -36,31 +34,37 @@ Berdasarkan Gambar \ref{fig:arsitektur_kecerdasan_bisnis_fig} sistem kecerdasan 
 			\item \textit{Load} adalah proses mengirimkan data-data hasil pembersihan ke dalam \textit{data warehouse}.
 		\end{itemize}
 	
-	\item \textbf{Data Warehouse}
-		
+	\item \textbf{\textit{Data Warehouse}}\\
+	\textit{Data warehouse} merupakan basis data yang dirancang untuk kueri dan analisis yang lebih baik dan cepat. \textit{Data warehouse} biasanya mengandung sejarah data transaksi dan mungkin juga data dari sumber lain. Data warehouse memisahkan beban kerja analisis dari beban kerja transaksi dan memungkinkan organisasi untuk menggabungkan / konsolidasi data dari berbagai sumber.
 	
-	\item \textbf{User Interface}
+	\item \textbf{Analysis \& Reporting}\\
+	Sistem kecerdasan bisnis dilengkapi dengan \textit{tools-tools} yang mendukung pembuatan laporan dan analisa data.
+	
+	\item \textbf{\textit{User Interface}}\\
+	\textit{User interface} merupakan tampilan yang digunakan pengguna untuk berinteraksi dengan sistem kecerdasan bisnis. Pengguna dapat melakukan analisis sesuai dengan kebutuhannya dan menghasilkan laporan-laporan yang dibutuhkannya dalam berbagai bentuk seperti diagram atau tabel.
 \end{enumerate} 
 
+\section{Pentaho Data Integration}
+Pentaho Data Integration (PDI) adalah sebuah program dari Pentaho yang memiliki fungsi utama sebagai \textit{Extraction, Transformation dan Loading} (ETL) program. Pada sebuah sistem kecerdasan bisnis PDI dapat digunakan untuk migrasi data, membersihkan data, \textit{loading} dari file ke database atau sebaliknya dalam volume besar. Selain itu PDI juga mendukung proses ETL dari dan ke sistem terdistribusi Hadoop. 
 
-\subsection{Sentimen Analisis dalam Sistem Kecerdasan Bisnis}
-\label{sec:sentimen_analisis}
-Sentimen analisis mengacu pada bidang yang luas dari pengolahan bahasa alami, komputasi linguistik dan text mining yang bertujuan menganalisis pendapat, sentimen, evaluasi, sikap, penilaian dan emosi seseorang apakah pembicara atau penulis berkenaan dengan suatu topik, produk, layanan, organisasi, individu, ataupun kegiatan tertentu. \cite{liu2012sentiment} Hasil dari sentimen analisis berupa kelompok teks dengan nilai sentimen positif, netral atau negatif pada suatu objek tertentu.
+Elemen utama dari PDI adalah Transformation dan Job. Transformation adalah sekumpulan instruksi untuk merubah input menjadi output yang diinginkan. Sedangkan Job adalah kumpulan instruksi untuk menjalankan transformasi. Komponen-komponen yang ada di PDI seperti Spoon, Pan dan Kitchen. Spoon adalah \textit{user interface} untuk membuat Job dan Transformation. Pan adalah \textit{tools} yang berfungsi membaca, merubah dan menulis data. Sedangkan Kitchen adalah program yang mengeksekusi job. 
+
+Dari sisi tampilan PDI sangat \textit{user-friendly} dan mudah untuk digunakan. PDI menyediakan \textit{graphical user interface} dan \textit{drag-drop} komponen yang memudahkan pengguna dalam menggunakan program.
 
 \section{Sosial Media Twitter}
 \label{sec:twitter}
 Twitter adalah sebuah situs web yang dimiliki dan dioperasikan oleh Twitter Inc.. Twitter menawarkan jaringan sosial mikroblog dengan panjang pesan maksimal hingga 140 karakter, yang biasanya disebut Tweet. Melalui mikroblog Twitter, pengguna dapat memperbarui status terbaru tentang hal yang sedang mereka pikirkan ataupun berpendapat tentang suatu objek atau fenomena tertentu. Pesan yang dibuat pengguna akan tampil secara langsung dan dapat dilihat seluruh dunia melalui website Twitter atau berbagai aplikasi eksternal lainnya. Untuk menghemat karakter pada sebuah tweet biasanya pengguna menuliskan singkatan, bahasa slang atau emoticon dalam mengkomunikasikan pesannya. 
 
-Pengguna Twitter dapat mengelompokan tweetnya dengan menggunakan hastags - kata atau frasa yang diawali dengan tanda "\#". Selain itu pengguna juga dapat menunjuk pengguna lainnya dengan menuliskan username mereka diawali dengan tanda "@". Setiap tweet yang dibuat dapat dibalas ataupun di tweet ulang (re-tweet) oleh pengguna lainnya.
+Pengguna Twitter dapat mengelompokan tweetnya dengan menggunakan \textit{hastags} - kata atau frasa yang diawali dengan tanda "\#". Selain itu pengguna juga dapat menunjuk pengguna lainnya dengan menuliskan \textit{username} mereka diawali dengan tanda "@". Setiap tweet yang dibuat dapat dibalas ataupun di tweet ulang (re-tweet) oleh pengguna lainnya.
 
 \subsection{Twitter Streaming API}
 \label{sec:twitter_streaming_api}
-Twitter menyediakan Streaming API yang memudahkan pengembang aplikasi untuk mendapatkan tweet-tweet yang dibuat pengguna Twitter secara realtime. Streaming API yang tersedia memiliki beberapa jenis sesuai dengan kegunaannya, yaitu:
+Twitter menyediakan Streaming API yang memudahkan pengembang aplikasi untuk mendapatkan tweet-tweet yang dibuat pengguna Twitter secara \textit{realtime}. Streaming API yang tersedia memiliki beberapa jenis sesuai dengan kegunaannya, yaitu:
 
 \begin{enumerate}
-	\item \textbf{Public Streams}: Untuk melakukan streaming pada data publik secara realtime. Cocok untuk digunakan pada pencarian tweet berdasarkan user atau topik tertentu dan data mining.
-	\item \textbf{User Streams}: Untuk melakukan streaming pada single-user, hasil streaming terdiri dari data-data yang berkaitan dengan kegiatan single-user.
-	\item	\textbf{Site Streams}: Merupakan versi multi-user dari User Streams. Site Streams dimaksudkan untuk server yang harus terhubung ke Twitter atas nama banyak pengguna.
+	\item \textbf{Public Streams}: Untuk melakukan streaming pada data publik secara \textit{realtime}. Cocok untuk digunakan pada pencarian tweet berdasarkan \textit{user} atau topik tertentu dan \textit{data mining}.
+	\item \textbf{User Streams}: Untuk melakukan \textit{streaming} pada \textit{single-user}, hasil streaming terdiri dari data-data yang berkaitan dengan kegiatan \textit{single-user}.
+	\item	\textbf{Site Streams}: Merupakan versi \textit{multi-user} dari User Streams. Site Streams dimaksudkan untuk server yang harus terhubung ke Twitter atas nama banyak pengguna.
 \end{enumerate}
 
 \begin{figure}
@@ -69,73 +73,40 @@ Twitter menyediakan Streaming API yang memudahkan pengembang aplikasi untuk mend
 \caption[Proses Twitter Streaming API]{Proses Twitter Streaming API \cite{TwitterApi:2015}} 
 \end{figure}
 
-\section{Data Mining}
-\label{sec:data_mining}
-\subsection{Pengertian Data Mining}
-Saat ini pertumbuhan informasi berkembang sangat cepat setiap harinya. Jutaan bahkan milyaran data dari proses bisnis, sosial, sains, dan hampir setiap aspek kehidupan kita dituangkan ke dalam berbagai perangkat penyimpanan data. Pertumbuhan data yang pesat dan penyimpanan dalam basis data yang besar dan banyak telah melampaui kemampuan manusia dalam memahami isi dari data tertsebut. Oleh karena itu data mining sangat diperlukan dalam menggali informasi atau pola yang terdapat di dalam tumpukan data yang sangat besar. Data-data yang akan ditambang dapat berasal dari basis data relasional, data warehouse, transactional database, advanced database system, flat file, data stream, text or multimedia. \cite{han2011data} 
+Twitter Streaming API menggunakan protokol HTTP untuk melakukan \textit{request}. Setiap kali \textit{request} dilakukan sama artinya dengan melakukan koneksi HTTP yang sangat panjang dan melakukan \textit{parsing} terhadap \textit{response} secara bertahap. Koneksi seperti ini dapat dianggap seperti mengunduh file panjang tak terhingga melalui HTTP. Oleh karena itu perlu diperhatikan juga dalam pemilihan \textit{library} yang sesuai, karena banyak \textit{library} yang hanya akan memproses data ketika koneksinya sudah selesai dan hal itu tidak sesuai dengan kondisi di Twitter Streaming API \cite{TwitterApi:2015}.
 
-\subsection{Proses \textit{Knowledge Discovery}}
-Proses \textit{Knowledge Discovery} adalah proses pencarian pengetahuan pada data dapat berupa informasi atau pola. Dalam proses \textit{Knowledge Discovery} perlu dilakukan langkah-langkah seperti berikut.
+\section{Sosial Media Instagram}
+Instagram adalah sebuah aplikasi berbagi foto yang dapat digunakan oleh pengguna untuk mengambil foto, menerapkan filter digital, dan membagikannya ke teman-teman di yang mengikuti akun instagram. Instagram dapat digunakan dengan mudah oleh para pengguna \textit{smartphone}, oleh karena itu Instagram menjadi salah satu sosial media yang populer saat ini. 
 
-\begin{enumerate}
-	\item Data cleaning \\Proses pembersihan data yang kotor dan tidak konsisten.
-	\item Data integration \\Proses untuk menyatukan data-data dari berbagai sumber lainnya.
-	\item Data selection \\Proses pemilihan data yang relevan dengan analisis yang diambil dari basis data.
-	\item Data transformation \\Proses perubahan data ke dalam bentuk yang sesuai untuk proses penambangan dengan melakukan ringkasan atau agregasi operasi.
-	\item Data mining \\Proses dimana metode-metode diterapkan untuk mendapatkan informasi atau pola yang berguna.
-	\item Pattern evaluation \\Proses melakukan evaluasi pada pola atau informasi yang diperoleh.
-	\item Knowledge presentation \\Proses memvisualisasi pola atau informasi yang digunakan untuk menyajikan hasil penambangan kepada pengguna.
-\end{enumerate}
+Dalam proses mengunggah foto, pengguna juga dapat memasukan informasi pendukung lainnya seperti lokasi dan keterangan (biasa disebut \textit{caption}). Pada bagian \textit{caption} pengguna dapat menambahkan tag yang diawal dengan tanda \# atau menunjuk pengguna lain yang diawali dengan tanda @. Tag berfungsi sebagai penghubung gambar dengan suatu topik tertentu. 
 
+\subsection{Instagram API}
+Instagram menyediakan API untuk digunakan secara umum. Untuk menggunakannya pengembang harus mendaftarkan aplikasinya terlebih dahulu di https://www.instagram.com/developer/. Setelah pengembang mendaftar maka Instagram akan memberikan data-data yang diperlukan untuk melakukan \textit{request} ke API, seperti \textit{client ID, client secret}, website URL, \textit{redirect URL} dan juga \textit{support} email dari aplikasi.
+
+Dengan menggunakan Instagram API, pengembang dapat dengan mudah melakukan autentikasi, mendapatkan data-data pengguna, media, tag, \textit{likes} dan lokasi. \cite{InstagramApi:2016}
+
+\section{AMChart}
+AMChart adalah sebuah javascript \textit{library} yang berjalan di sisi \textit{client}. AMChart berfungsi untuk menampilkan grafik-grafik seperti diagram batang, diagram garis, diagram pie ataupun peta interaktif daerah-daerah di seluruh dunia. Contoh-contoh diagram yang dapat dihasilkan oleh AMChart seperti pada Gambar \ref{fig:contoh_amchart}. Penulisan kode program untuk membuat diagram dilakukan menggunakan bahasa Javascript (Listing \ref{lst:contoh_kode_amchart}). 
 
 \begin{figure}
-\centering
-\includegraphics[scale=0.5]{Gambar/data-mini-process.png}
-\caption[Step dalam melakukan Proses \textit{Knowledge Discovery}]{Step dalam melakukan Proses \textit{Knowledge Discovery} \cite{han2011data}} 
+	\centering
+	\includegraphics[scale=0.3]{Gambar/contoh-amchart.png}
+	\caption[Contoh-contoh diagram AMChart]{Contoh-contoh diagram AMChart\cite{AmCharts:2016}} 
+	\label{fig:contoh_amchart}
 \end{figure}
 
-
-\subsection{Teknik-Teknik Data Mining}
-\begin{enumerate}
-	\item \textit{Classification} (Pengklasifikasian)
-	\textit{Classification} adalah proses menemukan fitur-fitur yang sama pada sebuah himpunan data di dalam basis data dan mengklasifikasikannya ke dalam kelas-kelas sesuai model klasifikasi yang ditetapkan. Proses \textit{Classification} terdiri dari dua langkah yaitu langkah pembelajaran (model klasifikasi dibangun) dan langkah klasifikasi (model digunakan untuk memprediksi kelas untuk data yang diberikan). Classification dikenal pula sebagai supervised learning di mana kelas-kelas telah didefinisikan sebelumnya.
-	\item \textit{Clustering} (Pengelompokan)
-	\textit{Clustering} adalah proses pengelompokan satu set benda-benda ke dalam kelas objek yang sama. Sebuah \textit{Cluster} adalah kumpulan objek data yang mirip satu sama lain dalam Cluster yang sama dan berbeda dengan benda-benda di cluster lain. Clustering dikenal juga sebagai unsupervised learning dimana kelas-kelas tidak diketahui sebelumnya. Clustering juga disebut segmentasi data dalam beberapa aplikasi karena mengelompokkan data set yang besar menjadi kelompok-kelompok yang memiliki kesamaan. 
-	\item \textit{Regression} (Regresi)
-	Regression hampir mirip dengan pengklasifikasian. Akan tetapi, Regression menggunakan nilai yang ada untuk memperkirakan nilai yang akan muncul kemudian. Cara untuk mengetahui ketepatan dari pengklasifikasian adalah dengan menggunakan \textit{wait} and \textit{see}.
-\end{enumerate}
-
-\section{Text Mining}
-\label{sec:text_mining}
-
-\subsection{Pengertian Text Mining}
-Text mining adalah salah satu bidang khusus dari data mining. Text mining dapat didefinisikan sebagai suatu proses menggali informasi dimana seorang user berinteraksi dengan sekumpulan text menggunakan tools analisis yang merupakan komponen-komponen dalam data mining yang salah satunya adalah kategorisasi. \cite{feldman2006j} Tujuan dari text mining adalah untuk mendapatkan informasi yang berguna dari sekumpulan text. Sumber data yang digunakan pada text mining adalah kumpulan text yang memiliki format yang tidak terstruktur atau minimal semi terstruktur. Adapun tugas khusus dari text mining antara lain yaitu pengkategorisasian text (\textit{text categorization}) dan pengelompokan text (\textit{text clustering}).
-
-Permasalahan yang dihadapi pada text mining sama dengan permasalahan yang terdapat pada data mining, yaitu jumlah data yang besar, dimensi yang tinggi, data dan struktur yang terus berubah, dan data \textit{noise}. Perbedaan di antara keduanya adalah pada data yang digunakan. Pada data mining, data yang digunakan adalah data terstruktur, sedangkan pada text mining, data yang digunakan pada umumnya adalah data tidak terstruktur atau minimal semiterstruktur. Hal ini menyebabkan adanya tantangan tambahan pada text mining yaitu struktur text yang kompleks dan tidak lengkap, arti yang tidak jelas serta tidak umum, dan bahasa yang berbeda-beda.
-
-\subsection{Proses Text Mining}
-\begin{figure}
-\centering
-\includegraphics[scale=0.5]{Gambar/proses-text-mining.png}
-\caption[Proses Text Mining]{Proses Text Mining.\\Sumber: http://lecturer.ukdw.ac.id/budsus/pdf/textwebmining/TextMining\_Kuliah.pdf} 
-\end{figure}
-
-Proses-proses yang umumnya dilakukan dalam melakukan Text Mining adalah
-
-\begin{enumerate}
-	\item Text Preprocessing\\
-	Tahap text preprocessing adalah tahap awal dari text mining. Tahap ini mencakup semua rutinitas, dan proses untuk mempersiapkan data yang akan digunakan pada operasi \textit{knowledge discovery} sistem text mining. \cite{feldman2007text}. Biasanya pada proses ini text akan diubah ke dalam huruf kecil lalu terjadi pembuangan delimiter-delimiter seperti tanda baca.
-	
-	\item Text Transformation\\
-	Pada tahap ini teks akan diubah bentuknya sesuai dengan kebutuhan proses penambangan.
-	
-	\item Feature Selection\\
-	Tahap seleksi fitur (feature selection) bertujuan untuk mengurangi dimensi dari suatu kumpulan teks, atau dengan kata lain menghapus kata-kata yang dianggap tidak penting atau tidak menggambarkan isi dokumen sehingga proses pengklasifikasian lebih efektif dan akurat. \cite{manalu2014analisis}. Pada tahap ini tindakan yang dilakukan adalah menghilangkan \textit{stopword} (\textit{stopword removal}) dan \textit{stemming} terhadap kata yang berimbuhan.\cite{berry2010text}
-	
-	\textit{Stopword} adalah kosakata yang bukan merupakan ciri dari suatu teks. Misalnya "di", "oleh", "pada", "selama", "sebab" dan lain sebagainya. Sebelum proses \textit{stopword removal} dilakukan, harus dibuat daftar stopword (stoplist). Jika termasuk di dalam stoplist maka kata-kata tersebut akan dihapus dari deskripsi sehingga kata-kata yang tersisa di dalam deskripsi dianggap sebagai kata-kata yang mencirikan isi dari suatu dokumen atau keywords. Daftar kata stopword di penelitian ini bersumber dari Tala (2003) \cite{tala2003study}.
-	
-	Setelah melalui proses \textit{stopword removal} langkah berikutnya adalah proses \textit{stemming}. \textit{Stemming} adalah proses pemetaan dan penguraian berbagai bentuk (variants) dari suatu kata menjadi bentuk kata dasarnya (stem) \cite{tala2003study}. Tujuan dari proses ini adalah untuk menghilangkan imbuhan-imbuhan baik itu berupa prefiks, sufiks, maupun konfiks yang ada pada setiap kata. \cite{manalu2014analisis} Dengan adanya proses stemming ini maka dimensi data akan berkurang sehingga data dapat diproses dengan lebih cepat dan akurat.
-\end{enumerate}
+\begin{lstlisting}[basicstyle=\tiny,caption=Contoh Kode Diagram Pie di AMChart,label={lst:contoh_kode_amchart}]
+var pie_chart = new AmCharts.AmPieChart();
+pie_chart.dataProvider = chartData;
+pie_chart.titles = [{"text" : "Trend Tipe Lokasi Wisata"}]
+pie_chart.titleField = "type";
+pie_chart.valueField = "frequencies";
+pie_chart.outlineColor = "#FFFFFF";
+pie_chart.outlineAlpha = 0.8;
+pie_chart.outlineThickness = 2;
+pie_chart.creditsPosition = "bottom-right";
+pie_chart.write("type");
+\end{lstlisting}
 
 \section{Hadoop}
 \label{sec:hadoop}
@@ -144,7 +115,7 @@ Proses-proses yang umumnya dilakukan dalam melakukan Text Mining adalah
 \label{sec:pengertian_hadoop}
 Apache Hadoop adalah sebuah \textit{framework opensource} yang memungkinkan untuk memproses set data yang besar secara terdistribusi di \textit{cluster} komputer menggunakan model pemrograman yang sederhana. Hadoop dirancang untuk mendeteksi dan menangani kegagalan pada lapisan aplikasi, sehingga memberikan layanan yang \textit{highly-available} pada sekelompok komputer yang masing-masingnya mungkin rentan terhadap kegagalan. Hal tersebut lebih baik dibanding hanya mengandalkan perangkat keras untuk memberikan \textit{high-availability}.
 
-Hadoop bekerja dengan menggunakan penyimpanan terdistribusi dan mentransfer kode program bukan datanya. Hadoop menghindari langkah transmisi yang mahal ketika bekerja dengan kumpulan data besar. Selain itu, redundansi data pada Hadoop memungkinkan Hadoop untuk memulihkan \textit{single node} yang gagal. Anda akan mendapatkan kemudahan membuat program dengan Hadoop menggunakan MapReduce \textit{framework}. Yang juga tak kalah penting adalah Anda tidak perlu khawatir tentang cara melakukan partisi data, menentukan node yang akan melakukan tugas, atau menangani komunikasi antar node. Hadoop menangani ini untuk Anda, sehingga Anda dapat fokus pada apa yang paling penting bagi data Anda dan apa yang ingin Anda lakukan dengan itu.
+Hadoop bekerja dengan menggunakan penyimpanan terdistribusi dan mentransfer kode program bukan datanya. Hadoop menghindari langkah transmisi yang mahal ketika bekerja dengan kumpulan data besar. Selain itu, redundansi data pada Hadoop memungkinkan Hadoop untuk memulihkan \textit{single node} yang gagal. Membuat program dengan Hadoop akan dimudahkan dengan menggunakan MapReduce \textit{framework}. Yang juga tak kalah penting adalah pengembang tidak perlu khawatir tentang cara melakukan partisi data, menentukan node yang akan melakukan tugas, atau menangani komunikasi antar node. Hadoop sudah menangani ini, sehingga pengembang dapat fokus pada kasusnya.
 
 \subsection{Komponen Utama Hadoop}
 \label{sec:komponen_utama_hadoop}
@@ -158,13 +129,17 @@ Hadoop bekerja dengan menggunakan penyimpanan terdistribusi dan mentransfer kode
 Gambar \ref{fig:komponen_utama_hadoop} menjelas tentang arsitektur Hadoop. Terdapat HDFS, YARN dan MapReduce yang menjadi komponen dasar pembentuk Hadoop. Di bagian atasnya terdapat ekosistem lainnya yang dapat berjalan di atas Hadoop.
 
 \subsubsection{Hadoop Distributed File System (HDFS)}
-HDFS adalah sebuah file sistem yang didesain untuk memproses data distribusi skala besar di dalam framwork seperti MapReduce. HDFS dapat menyimpan sebuat data set sebesar 100TB sebagai sebuah single file.\cite{Lam:2010:HA:1965594} HDFS bisa bersifat single node atau multiple node. HDFS bukan native File System seperti layaknya EXT3, EXT4, FAT atau NTFS. HDFS ada pada layer di atasnya.
+HDFS adalah sebuah file sistem yang didesain untuk memproses data distribusi skala besar di dalam framework seperti MapReduce. HDFS dapat menyimpan sebuat dataset sebesar 100TB sebagai sebuah \textit{single} file.\cite{Lam:2010:HA:1965594} HDFS bisa bersifat \textit{single} node atau \textit{multiple} node. HDFS bukan \textit{native} File System seperti layaknya EXT3, EXT4, FAT atau NTFS. HDFS ada pada layer di atasnya.
 
-HDFS menyimpan suatu data dengan cara membelahnya menjadi potongan-potongan data yang berukuran 64 MB, dan potongan-potongan data ini kemudian disimpan tersebar dalam komputer-komputer yang membentuk clusternya. Potongan-potongan data tersebut dalam HDFS disebut block, dan ukurannya tidak terpaku harus 64 MB. Ukuran block dapat diatur sesuai kebutuhan 128MB, 256MB ataupun 1GB.
+HDFS menyimpan suatu data dengan cara membelahnya menjadi potongan-potongan data dengan ukuran tertentu, dan potongan-potongan data ini kemudian disimpan tersebar dalam komputer-komputer yang membentuk \textit{cluster}-nya. Potongan-potongan data tersebut dalam HDFS disebut blok. Ukuran block dapat diatur sesuai kebutuhan 128MB, 256MB ataupun 1GB.
 
 Walaupun data disimpan secara tersebar, dari kacamata pengguna, data tetap terlihat seperti halnya kita mengakses file pada satu komputer. File yang secara fisik disimpan tersebar dalam banyak komputer itu pun dapat diperlakukan layaknya memperlakukan file dalam satu komputer.
 
-Sebagai distributed file system, HDFS memiliki komponen-komponen utama berupa NameNode dan DataNode seperti yang digambarkan pada Gambar \ref{fig:fig:hadoop-cluster}. NameNode adalah sebuah komputer yang bertindak sebagai master, sedangkan DataNode adalah komputer-komputer dalam Hadoop Cluster yang bertugas sebagai slaves. NameNode bertanggungjawab menyimpan informasi tentang penempatan block-block data dalam Hadoop Cluster. Ia memiliki JobTracker yang bertanggungjawab mengorganisir dan mengontrol block-block data yang disimpan tersebar dalam komputer-komputer yang menyusun Hadoop Cluster. Sedangkan DataNode dilengkapi dengan TaskTracker bertugas menyimpan block-block data yang dialamatkan kepadanya, dan secara berkala melaporkan kondisinya kepada NameNode. Laporan berkala DataNode kepada NameNode ini disebut Heartbeat. Berdasarkan Heartbeat ini NameNode dapat mengetahui dan menguasai kondisi cluster secara keseluruhan. Sebagai balasan atas Heartbeat dari DataNode, NameNode akan mengirimkan perintah kepada DataNode. Apabila terjadi kerusakan pada NameNode, maka Secondary NameNode akan langsung aktif dan bertugas sebagai pengganti NameNode.
+Sebagai \textit{distributed file system}, HDFS memiliki komponen-komponen utama berupa NameNode dan DataNode seperti yang digambarkan pada Gambar \ref{fig:hadoop-cluster}. NameNode adalah sebuah komputer yang bertindak sebagai \textit{master}, sedangkan DataNode adalah komputer-komputer dalam Hadoop Cluster yang bertugas sebagai \textit{slaves}. 
+
+NameNode bertanggungjawab menyimpan informasi tentang penempatan blok-blok data dalam Hadoop Cluster. Ia memiliki JobTracker yang bertanggung jawab mengorganisir dan mengontrol blok-blok data yang disimpan tersebar dalam komputer-komputer yang menyusun Hadoop Cluster. Sedangkan DataNode dilengkapi dengan TaskTracker bertugas menyimpan blok-blok data yang dialamatkan kepadanya, dan secara berkala melaporkan kondisinya kepada NameNode. Laporan berkala DataNode kepada NameNode ini disebut Heartbeat. Berdasarkan Heartbeat ini NameNode dapat mengetahui dan menguasai kondisi cluster secara keseluruhan. Sebagai balasan atas Heartbeat dari DataNode, NameNode akan mengirimkan perintah kepada DataNode. 
+
+Secondary NameNode bertugas untuk menyimpan informasi penyimpanan data dan pengolahan data yang ada di NameNode. Fungsinya adalah jika NameNode mati dan diganti dengan NameNode baru maka NameNode baru bisa langsung bekerja dengan mengambil data dari Secondary NameNode. Perlu diingat bahwa Secondary NameNode bukan \textit{backup} jika NameNode mati maka Secondary NameNode otomatis menggantikan.
 
 Jadi, dalam HDFS, NameNode adalah bos yang mengatur dan mengendalikan Hadoop Cluster. Sedangkan, DataNode adalah pekerja yang bertugas menyimpan data dan melaksanakan perintah dari NameNode.
 
@@ -177,22 +152,23 @@ Jadi, dalam HDFS, NameNode adalah bos yang mengatur dan mengendalikan Hadoop Clu
 	
 \subsubsection{Hadoop MapReduce}
 \label{sec:hadoop_mapreduce}
-MapReduce adalah sebuah model pemrosesan data\cite{Lam:2010:HA:1965594}. MapReduce ditujukan untuk memproses data berukuran raksasa secara terdistribusi dan paralel dalam cluster yang terdiri atas banyak komputer. Dalam memproses data, secara garis besar MapReduce dapat dibagi dalam dua proses yaitu proses \textit{Map} dan proses \textit{Reduce}. Kedua jenis proses ini didistribusikan ke setiap komputer nodes dalam suatu cluster (kelompok komputer yang saling terhubung) dan berjalan secara paralel tanpa saling bergantung satu dengan yang lainnya. Proses \textit{Map} bertugas untuk mengumpulkan informasi dari potongan-potongan data yang terdistribusi dalam tiap komputer dalam \textit{cluster}. Hasilnya diserahkan kepada proses \textit{Reduce} untuk diproses lebih lanjut. Hasil proses Reduce merupakan hasil akhir yang dikirim ke pengguna. \cite{Dean:2008:MSD:1327452.1327492}
+MapReduce adalah sebuah model pemrosesan data\cite{Lam:2010:HA:1965594}. MapReduce ditujukan untuk memproses data berukuran raksasa secara terdistribusi dan paralel dalam \textit{cluster} yang terdiri atas banyak komputer. Dalam memproses data, secara garis besar MapReduce dapat dibagi dalam dua proses yaitu proses \textit{Map} dan proses \textit{Reduce}. Kedua jenis proses ini didistribusikan ke setiap komputer node dalam suatu \textit{cluster} (kelompok komputer yang saling terhubung) dan berjalan secara paralel tanpa saling bergantung satu dengan yang lainnya. Proses \textit{Map} bertugas untuk mengumpulkan informasi dari potongan-potongan data yang terdistribusi dalam tiap komputer dalam \textit{cluster}. Hasilnya diserahkan kepada proses \textit{Reduce} untuk diproses lebih lanjut. Hasil proses Reduce merupakan hasil akhir yang dikirim ke pengguna. \cite{Dean:2008:MSD:1327452.1327492}
 
-MapReduce menggunakan tipe data \textit{list} dan \textit{(key/value) pairs} sebagai data primitif utamanya. \textit{Keys} dan \textit{values} biasanya berupa integer atau string tapi bisa juga menggunakan \textit{dummy value} atau objek data lainnya. Oleh karena itu fungsi \textit{map} dan \textit{reduce} harus bisa menangani berbagai data tersebut.
+MapReduce menggunakan tipe data \textit{list} dan \textit{(key/value) pairs} sebagai data primitif utamanya. \textit{Keys} dan \textit{values} biasanya berupa \textit{integer} atau \textit{string} tapi bisa juga menggunakan \textit{dummy value} atau objek data lainnya. Oleh karena itu fungsi \textit{map} dan \textit{reduce} harus bisa menangani berbagai data tersebut.
 
 Di dalam \textit{framework} MapReduce, aplikasi ditulis dengan memspesifikasikan \textit{mapper} dan \textit{reducer}. Berikut adalah contoh lengkap aliran data yang terjadi pada MapReduce.
 
-\begin{table}
+\begin{table}[H]
 	\centering
-	\begin{tabular}{l | c | c}
+	\begin{tabular}{| l | c | c |}
+		\hline
 		 & Input & Output \\
 	 	\hline
 		map & <k1, v1> & list(<k2, v2>) \\
 		reduce & <k3, list(v2)> & list(<k3, v3>) \\ 
-		\label{tab:mapreduce_process}
+		\hline
 	\end{tabular}	
-	\caption{Input dan Output pada MapReduce}
+	\caption{Input dan Output pada MapReduce} \label{tab:mapreduce_process}
 \end{table}	
 
 \begin{enumerate}
@@ -235,25 +211,32 @@ Hadoop Yet Another Resource Negotiator atau YARN adalah teknologi untuk mengatur
 
 \subsection{Hive}
 \label{sec:hive}
-Apache Hive adalah perangkat lunak \textit{data warehouse} yang memfasilitasi kueri dan mengelola dataset besar yang berada dalam penyimpanan terdistribusikan. Apache Hive dibangun dan berjalan di atas Apache Hadoop. Pada awalnya Hive dibuat oleh Facebook untuk memproses data user dan log yang sangat besar. Saat ini Hive sudah menjadi proyek \textit{open source} dengan banyak kontributor dan merupakan subproyek dari Hadoop.  
+Apache Hive adalah perangkat lunak \textit{data warehouse} yang memfasilitasi kueri dan mengelola dataset besar yang berada dalam penyimpanan terdistribusikan. Apache Hive dibangun dan berjalan di atas Apache Hadoop. Pada awalnya Hive dibuat oleh Facebook untuk memproses data \textit{user} dan log yang sangat besar. Saat ini Hive sudah menjadi proyek \textit{open source} dengan banyak kontributor dan merupakan subproyek dari Hadoop.  
 
 Target dari pengguna Hive adalah para data analis yang terbiasa menggunakan SQL dalam pekerjaannya. Hive mendefinisikan sebuah SQL sederhana seperti bahasa kueri yang disebut HiveQL. HiveQL memungkingkan pengguna yang terbiasa dengan SQL untuk melakukan kueri pada data. Dengan menggunakan Hive para pengguna dapat melakukan kueri-kueri untuk \textit{summarization} dan data analisis pada lingkungan data Hadoop. 
 
-HiveQL terinspirasi untuk memisahkan bahasa yang digunakan pengguna dengan kompleksitas MapReduce. HiveQL menggunakan kembali konsep dari \textit{database} relasional, seperti tabel, baris, kolom, dan skema, untuk memudahkan pembelajaran. Namun perlu diingat karena Hive dibangun di atas Hadoop dan sifatnya yang dirancang untuk tipe \textit{batch oriented} dalam pemrosesan datanya, maka Hive bukanlah pengganti langsung untuk data warehouse SQL tradisional.
+HiveQL terinspirasi untuk memisahkan bahasa yang digunakan pengguna dengan kompleksitas MapReduce. HiveQL menggunakan kembali konsep dari \textit{database} relasional, seperti tabel, baris, kolom, dan skema, untuk memudahkan pembelajaran. Namun perlu diingat karena Hive dibangun di atas Hadoop dan sifatnya yang dirancang untuk tipe \textit{batch oriented} dalam pemrosesan datanya, maka Hive bukanlah pengganti langsung untuk \textit{data warehouse} SQL tradisional.
 
-Hive memiliki sedikit perbedaan dengan Hadoop dalam penyimpanan datanya. Di Hadoop data disimpan dalam bentuk flat file, sedangkan di Hive data dapat menggunakan direktori untuk melakukan partisi data. Dengan adanya partisi pada data di Hive, maka proses pencarian dapat dilakukan dengan lebih baik daripada disimpan dalam bentuk flat file. Untuk mendukung fitur-fitur tambahan ini, Hive memerlukan komponen tambahan seperti metastore. Metastore berfungsi untuk menyimpan informasi skema. Metastore ini biasanya berada dalam database relasional. Metastore disimpan di dalam sebuah direktori di dalam Hive.
+Hive memiliki sedikit perbedaan dengan Hadoop dalam penyimpanan datanya. Di Hadoop data disimpan dalam bentuk \textit{flat file}, sedangkan di Hive data dapat menggunakan direktori untuk melakukan partisi data. Dengan adanya partisi pada data di Hive, maka proses pencarian dapat dilakukan dengan lebih baik daripada disimpan dalam bentuk \textit{flat file}. Untuk mendukung fitur-fitur tambahan ini, Hive memerlukan komponen tambahan seperti metastore. Metastore berfungsi untuk menyimpan informasi skema. Metastore ini biasanya berada dalam basis data relasional. Metastore disimpan di dalam sebuah direktori di dalam Hive.
 
-Pengguna dapat berinteraksi dengan Hive menggunakan beberapa metode, termasuk GUI Web dan Java Database Connectivity (JDBC). Gambar \ref{fig:hive_architecture} menggambarkan sebuah diagram \textit{high level} arsitektur dari Hive. Pada arsitektur Hive kueri dipecah dan dijalankan pada Hadoop. Metastore merupakan komponen penting yang membantu menentukan bagaimana kueri akan dijalankan pada Hive.
+Pengguna dapat berinteraksi dengan Hive menggunakan beberapa metode, termasuk GUI Web dan Java Database Connectivity (JDBC). Gambar \ref{fig:hive_architecture} menggambarkan arsitektur dari Hive. Pada arsitektur Hive terdapat beberapa macam \textit{client driver} (Thrift, JDBC dan ODBC) yang dapat digunakan untuk menjembatani \textit{client} dengan \textit{service}. Metastore merupakan komponen penting yang membantu menentukan bagaimana kueri akan dijalankan oleh Hive.
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.5]{Gambar/arsitektur-hive.png}
-	\caption[Arsitektur Hive]{Arsitektur Hive} 
+	\includegraphics[scale=0.4]{Gambar/arsitektur-hive.png}
+	\caption[Arsitektur Hive]{Arsitektur Hive\cite{white2012hadoop}} 
 	\label{fig:hive_architecture}
 \end{figure}
 
+Hive mendukung tipe data primitif dan tipe data yang kompleks. Tipe data primitif terdiri dari TinyInt, SmallInt, Int, BigInt, Float, Double, Boolean, String, Binary, dan Timestamp sedangkan untuk tipe data yang kompleks terdiri dari Array, Map, Struct.
+
+\subsubsection{\textit{Managed Tables} dan \textit{External Tables}}
+Ketika tabel dibuat, Hive menerapkan \textit{managed table} yang akan memindahkan data ke dalam direktori \textit{warehouse} di dalam HDFS. Alternatif lainnya, dapat menggunakan \textit{external table} agar tabel yang dibuat dapat disimpan di luar direktori \textit{warehouse} namun masih di dalam HDFS. 
+
+Pada prinsipnya kedua jenis tabel ini hampir mirip, yang membedakan hanyalah ketika proses \textit{drop table}. \textit{Managed table} ketika menjalankan kueri \textit{drop table} maka akan melakukan penghapusan metadata serta file data di direktori \textit{warehouse}. Sedangkan \textit{external table} ketika menjalankan kueri \textit{drop table} maka akan melakukan penghapusan metadatanya saja sehingga file data di luar direktori \textit{warehouse} tetap utuh.
+
 \subsubsection{DDL Operation Hive}
-Seperti layaknya sebuah SQL tradisional, Hive memiliki fungsi-fungsi Data Definition Language (DDL) yang dapat digunakan untuk membantu pengguna dalam membuat dan mengelola tabel-tabel, view, index ataupun function. Berikut adalah \textit{statement} DDL yang dapat digunakan oleh pengguna.
+Seperti layaknya sebuah SQL tradisional, Hive memiliki fungsi-fungsi \textit{Data Definition Language} (DDL) yang dapat digunakan untuk membantu pengguna dalam membuat dan mengelola tabel-tabel, view, index ataupun function. Berikut adalah \textit{statement} DDL yang dapat digunakan oleh pengguna.
 
 \begin{itemize}
 	\item CREATE DATABASE/SCHEMA, TABLE, VIEW, FUNCTION, INDEX
@@ -264,42 +247,6 @@ Seperti layaknya sebuah SQL tradisional, Hive memiliki fungsi-fungsi Data Defini
 	\item SHOW DATABASES/SCHEMAS, TABLES, TBLPROPERTIES, PARTITIONS, FUNCTIONS, INDEX, COLUMNS, CREATE TABLE
 	\item DESCRIBE DATABASE SCHEMA
 \end{itemize}
-
-Berikut adalah \textit{keyword-keyword} yang dapat digunakan (Non-reserved) di dalam Hive.
-
-\begin{lstlisting}[basicstyle=\tiny,caption=Non-reserved Keywords]
-ADD, ADMIN, AFTER, ANALYZE, ARCHIVE, ASC, BEFORE, BUCKET, BUCKETS, CASCADE, CHANGE, CLUSTER, 
-CLUSTERED, CLUSTERSTATUS, COLLECTION, COLUMNS, COMMENT, COMPACT, COMPACTIONS, COMPUTE, 
-CONCATENATE, CONTINUE, DATA, DATABASES, DATETIME, DAY, DBPROPERTIES, DEFERRED, DEFINED, 
-DELIMITED, DEPENDENCY, DESC, DIRECTORIES, DIRECTORY, DISABLE, DISTRIBUTE, ELEM_TYPE, ENABLE, 
-ESCAPED, EXCLUSIVE, EXPLAIN, EXPORT, FIELDS, FILE, FILEFORMAT, FIRST, FORMAT, FORMATTED, 
-FUNCTIONS, HOLD_DDLTIME, HOUR, IDXPROPERTIES, IGNORE, INDEX, INDEXES, INPATH, INPUTDRIVER, 
-INPUTFORMAT, ITEMS, JAR, KEYS, KEY_TYPE, LIMIT, LINES, LOAD, LOCATION, LOCK, LOCKS, LOGICAL, LONG, 
-MAPJOIN, MATERIALIZED, MINUS, MINUTE, MONTH, MSCK, NOSCAN, NO_DROP, OFFLINE, OPTION, OUTPUTDRIVER, 
-OUTPUTFORMAT, OVERWRITE, OWNER, PARTITIONED, PARTITIONS, PLUS, PRETTY, PRINCIPALS, PROTECTION, 
-PURGE, READ, READONLY, REBUILD, RECORDREADER, RECORDWRITER, REGEXP, 
-RELOAD, RENAME, REPAIR, REPLACE, RESTRICT, REWRITE, RLIKE, ROLE, ROLES, 
-SCHEMA, SCHEMAS, SECOND, SEMI, SERDE, SERDEPROPERTIES, SERVER, SETS, SHARED, SHOW, SHOW_DATABASE, 
-SKEWED, SORT, SORTED, SSL, STATISTICS, STORED, STREAMTABLE, STRING, STRUCT, TABLES, TBLPROPERTIES, 
-TEMPORARY, TERMINATED, TINYINT, TOUCH, TRANSACTIONS, UNARCHIVE, UNDO, UNIONTYPE, UNLOCK, UNSET, 
-UNSIGNED, URI, USE, UTC, UTCTIMESTAMP, VALUE_TYPE, VIEW, WHILE, YEAR
-\end{lstlisting}
-
-Berikut adalah \textit{keyword-keyword} yang tidak dapat digunakan secara langsung (Reserved) di dalam Hive. \textit{Reserved keyword}  ini sebaiknya dihindari penggunaannya dalam menuliskan kueri-kueri Hive. Namun apabila tetap diperlukan maka untuk menggunakan \textit{reserved keyword} dapat menambahkan \textit{quoted identifier} atau mengatur parameter konfigurasi dari Hive (set hive.support.sql11.reserved.keywords=false)
-
-\begin{lstlisting}[basicstyle=\tiny,caption=Reserved Keywords]
-ALL, ALTER, AND, ARRAY, AS, AUTHORIZATION, BETWEEN, BIGINT, BINARY, BOOLEAN, BOTH, BY, CASE, CAST, 
-CHAR, COLUMN, CONF, CREATE, CROSS, CUBE, CURRENT, CURRENT_DATE, CURRENT_TIMESTAMP, CURSOR, 
-DATABASE, DATE, DECIMAL, DELETE, DESCRIBE, DISTINCT, DOUBLE, DROP, ELSE, END, EXCHANGE, EXISTS, 
-EXTENDED, EXTERNAL, FALSE, FETCH, FLOAT, FOLLOWING, FOR, FROM, FULL, FUNCTION, GRANT, GROUP, 
-GROUPING, HAVING, IF, IMPORT, IN, INNER, INSERT, INT, INTERSECT, INTERVAL, INTO, IS, JOIN, LATERAL, 
-LEFT, LESS, LIKE, LOCAL, MACRO, MAP, MORE, NONE, NOT, NULL, OF, ON, OR, ORDER, OUT, OUTER, OVER, 
-PARTIALSCAN, PARTITION, PERCENT, PRECEDING, PRESERVE, PROCEDURE, RANGE, READS, REDUCE, 
-REGEXP (Hive 2.0.0 onward), REVOKE, RIGHT, RLIKE (Hive 2.0.0 onward), ROLLUP, ROW, ROWS, 
-SELECT, SET, SMALLINT, TABLE, TABLESAMPLE, THEN, TIMESTAMP, TO, TRANSFORM, TRIGGER, TRUE, 
-TRUNCATE, UNBOUNDED, UNION, UNIQUEJOIN, UPDATE, USER, USING, VALUES, VARCHAR, WHEN, WHERE, 
-WINDOW, WITH
-\end{lstlisting}
 
 Berikut adalah format-format dan contoh-contoh DDL pada Hive.
 
@@ -338,10 +285,10 @@ DROP TABLE [IF EXISTS] table_name [PURGE];     -- (Note: PURGE available in Hive
 \end{lstlisting}
 
 \subsubsection{DML Operation Hive}
-Data Manipulation Languange (DML) digunakan untuk melakukan kueri-kueri terhadap isi data dari suatu tabel. Pada Hive ada beberapa operasi dalam melakukan manipulasi data seperti load, insert, update, dan delete. 
+Data Manipulation Languange (DML) digunakan untuk melakukan kueri-kueri terhadap isi data dari suatu tabel. Pada Hive ada beberapa operasi dalam melakukan manipulasi data seperti \textit{load, insert, update}, dan \textit{delete}. 
 
 \textbf{Load}\\
-Pada proses load Hive tidak melakukan transformasi data apapun. Proses ini murni hanya untuk melakukan operasi copy/move data files ke dalam lokasi yang sesuai pada tabel Hive. Berikut syntax dari proses load pada Hive.
+Pada proses \textit{load} Hive tidak melakukan transformasi data apapun. Proses ini murni hanya untuk melakukan operasi \textit{copy/move} data file ke dalam lokasi yang sesuai pada tabel Hive. Berikut \textit{syntax} dari proses \textit{load} pada Hive.
 
 \begin{lstlisting}[language=sql,basicstyle=\tiny,caption=Syntax DML Load]
 LOAD DATA [LOCAL] INPATH 'filepath' [OVERWRITE] INTO TABLE tablename [PARTITION (partcol1=val1, partcol2=val2 ...)]
@@ -370,7 +317,7 @@ Beberapa catatan yang perlu diingat dalam menggunakan kueri load ini adalah
 \end{itemize}
 
 \textbf{Insert}\\
-Perintah insert berfungsi untuk memasukan data ke dalam tabel pada Hive. Syntax kueri insert pada Hive memiliki \textit{standard syntax, multiple insert dan dynamic partition insert}. Standard syntax merupakan kueri dasar dari insert dalam melakukan input data ke dalam sebuah tabel. Multiple insert digunakan untuk melakukan proses input data ke dalam beberapa tabel sekaligus. Sedangkan dynamic partition insert digunakan untuk melakukan input data menggunakan partisi.
+Perintah \textit{insert} berfungsi untuk memasukan data ke dalam tabel pada Hive. \textit{Syntax} kueri insert pada Hive memiliki \textit{standard syntax, multiple insert dan dynamic partition insert}. \textit{Standard syntax} merupakan kueri dasar dari \textit{insert} dalam melakukan input data ke dalam sebuah tabel. \textit{Multiple insert} digunakan untuk melakukan proses input data ke dalam beberapa tabel sekaligus. Sedangkan \textit{dynamic partition insert} digunakan untuk melakukan input data menggunakan partisi.
 
 \begin{lstlisting}[language=sql,basicstyle=\tiny,caption=Syntax DML Insert]
 Standard syntax:
@@ -412,12 +359,8 @@ INSERT OVERWRITE LOCAL DIRECTORY '/tmp/dest4.out' SELECT src.value WHERE src.key
 \end{lstlisting}
 
 
-%TODO: Penjelasan
-
-
-
 \textbf{Update}\\
-Perintah update berfungsi untuk melakukan perubahan data yang sudah ada pada tabel. Perintah update pada Hive cukup sederhana layaknya pada SQL syntax lainnya. 
+Perintah \textit{update} berfungsi untuk melakukan perubahan data yang sudah ada pada tabel. Perintah \textit{update} pada Hive cukup sederhana layaknya pada SQL \textit{syntax} lainnya. 
 
 \begin{lstlisting}[language=sql,basicstyle=\tiny,caption=Syntax DML Update]
 UPDATE tablename SET column = value [, column = value ...] [WHERE expression]
@@ -430,7 +373,7 @@ UPDATE tablename SET column = value [, column = value ...] [WHERE expression]
 \end{itemize}
 
 \textbf{Delete}\\
-Perintah delete berfungsi untuk melakukan penghapusan data yang sudah ada pada tabel. Perintah delete pada Hive cukup sederhana layaknya pada SQL syntax lainnya. 
+Perintah \textit{delete} berfungsi untuk melakukan penghapusan data yang sudah ada pada tabel. Perintah \textit{delete} pada Hive cukup sederhana layaknya pada SQL \textit{syntax} lainnya. 
 
 \begin{lstlisting}[language=sql,basicstyle=\tiny,caption=Syntax DML Delete]
 DELETE FROM tablename [WHERE expression]
@@ -480,7 +423,7 @@ Tool impor data Sqoop berfungsi untuk melakukan pemindahan data dari luar HDFS k
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.5]{Gambar/sqoop-import.png}
-	\caption[Proses Impor Sqoop]{Proses Impor Sqoop} 
+	\caption[Proses Impor Sqoop]{Proses Impor Sqoop \cite{white2012hadoop}} 
 	\label{fig:sqoop_import}
 \end{figure}
 
@@ -518,7 +461,7 @@ Tool ekspor data Sqoop berfungsi untuk melakukan pemindahan data dari dalam HDFS
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.5]{Gambar/sqoop-export.png}
-	\caption[Proses Ekspor Sqoop]{Proses Ekspor Sqoop} 
+	\caption[Proses Ekspor Sqoop]{Proses Ekspor Sqoop \cite{white2012hadoop}} 
 	\label{fig:sqoop_ekspor}
 \end{figure}
 
@@ -543,12 +486,3 @@ Pada kode di atas, Sqoop akan melakukan ekspor data dari HDFS ke dalam basis dat
 \end{lstlisting}
 
 Pada kode di atas, Sqoop akan melakukan ekspor data dari Hive ke dalam basis data MySQL dengan karakter koma sebagai pemisah antar \textit{field} dan baris baru sebagai pemisah antar \textit{record}.
-
-\subsection{Apache Mahout}
-\label{sec:apache_mahout}
-
-\section{Algoritma Naive Bayes Classifier}
-\label{sec:algoritma_naive_bayes}
-
-\section{Algoritma SVN}
-\label{sec:algoritma_svn}

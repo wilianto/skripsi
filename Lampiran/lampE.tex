@@ -1,0 +1,513 @@
+\chapter{Kode Sumber Implementasi \textit{Streaming} Twitter dan \textit{Crawling} Instagram}
+\label{app:E}
+
+\singlespacing 
+\begin{lstlisting}[language=Java,basicstyle=\tiny,caption=Writer.java]
+package com.wilianto.operation;
+
+public interface Writer {
+    public void write(String path, String content);
+    public void close();
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java,basicstyle=\tiny,caption=LocalOperation.java]
+package com.wilianto.operation;
+
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class LocalOperation implements Writer{
+    protected String fileName;
+    protected FileWriter fw;
+
+    @Override
+    public void write(String path, String content) {
+        try {
+            if(this.fw == null){
+                this.fw = new FileWriter(path);
+            }
+            
+            fw.append(content);
+        } catch (IOException ex) {
+            System.out.println(ex.toString());
+        }
+    }
+
+    @Override
+    public void close() {
+        try {
+            if(this.fw != null) {
+                this.fw.close();
+            }
+        } catch (IOException ex) {
+            System.out.println(ex.toString());
+        }
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java,basicstyle=\tiny,caption=HDFSOperation.java]
+package com.wilianto.operation;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataInputStream;
+import org.apache.hadoop.fs.FSDataOutputStream;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+
+public class HDFSOperation implements Writer{
+    protected String hadoopPath;
+    protected Configuration conf;
+    protected FileSystem fs;
+    
+    public HDFSOperation(String hadoopPath){
+        this.hadoopPath = hadoopPath;
+        this.init();
+    }
+    
+    protected void init(){
+        conf = new Configuration();
+        conf.addResource(new Path(hadoopPath + "/core-site.xml"));
+        conf.addResource(new Path(hadoopPath + "/hdfs-site.xml"));
+        conf.set("fs.hdfs.impl", org.apache.hadoop.hdfs.DistributedFileSystem.class.getName());
+        conf.set("fs.file.impl", org.apache.hadoop.fs.LocalFileSystem.class.getName());
+        try {
+            fs = FileSystem.get(conf);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void write(String hdfsPath, String content) {
+        Path path = new Path(hdfsPath);
+        try{
+            FSDataOutputStream fos;
+            //delete file if exist
+            if(fs.exists(path)){
+                fos = fs.append(path);
+            }else{
+                fos = fs.create(path);
+            }
+            
+            //create file and write content to file
+            fos.writeUTF(content);
+            fos.close();
+        }catch(IOException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public String read(String hdfsPath) {
+        String content = null;
+        Path path = new Path(hdfsPath);
+        try{
+            //create file and write content to file
+            FSDataInputStream fis = fs.open(path);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fis.getWrappedStream()));
+            String s;
+            while((s = reader.readLine()) != null){
+                content += s;
+            }
+            reader.close();
+            fis.close();
+        }catch(IOException ex){
+            System.out.println(ex.getMessage());
+        }
+        return content;
+    }
+    
+    public void copyFromLocal(String localPath, String hdfsPath){
+        Path srcPath = new Path(localPath);
+        Path destPath = new Path(hdfsPath);
+        
+        try{
+            //check is path exist
+            if(fs.exists(destPath)){
+                System.out.println("No such destination " + destPath);
+                return;
+            }
+            
+            fs.copyFromLocalFile(srcPath, destPath);
+        }catch(IOException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void delete(String hdfsPath) {
+        Path path = new Path(hdfsPath);
+        try{
+            fs.delete(path, true);
+        }catch(IOException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void close(){
+        try {
+            if(this.fs != null) {
+                this.fs.close();
+            }
+        } catch (IOException ex) {
+            System.out.println(ex.toString());
+        }
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java,basicstyle=\tiny,caption=TwitterStreamer.java]
+package com.wilianto.stream;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+import com.wilianto.operation.*;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.json.JSONObject;
+import org.scribe.builder.ServiceBuilder;
+import org.scribe.builder.api.TwitterApi;
+import org.scribe.model.OAuthRequest;
+import org.scribe.model.Response;
+import org.scribe.model.Token;
+import org.scribe.model.Verb;
+import org.scribe.oauth.OAuthService;
+
+public class TwitterStreamer extends Thread {
+
+    private String streamUrl;
+    private String consumerKey;
+    private String consumerSecret;
+    private String accessToken;
+    private String accessTokenSecret;
+    private String keyword;
+    private String hadoopPath;
+    private String filePath;
+    private JTextArea textArea;
+    private JLabel lastStreamLabel;
+    private int counter = 1;
+    private boolean start;
+    private Writer writer;
+    
+    public TwitterStreamer(String streamUrl, String consumerKey, String consumerSecret, String accessToken, String accessTokenSecret, String keyword, String hadoopPath, String filePath, JTextArea textArea, JLabel lastStreamLabel) {
+        this.streamUrl = streamUrl;
+        this.consumerKey = consumerKey;
+        this.consumerSecret = consumerSecret;
+        this.accessToken = accessToken;
+        this.accessTokenSecret = accessTokenSecret;
+        this.keyword = keyword;
+        this.hadoopPath = hadoopPath;
+        this.filePath = filePath + "/twitter-" + System.currentTimeMillis() + ".txt";
+        this.textArea = textArea;
+        this.lastStreamLabel = lastStreamLabel;
+        this.start = true;
+        
+        if(this.hadoopPath != ""){
+            this.writer = new HDFSOperation(hadoopPath);
+        }else{
+            this.writer = new LocalOperation();
+        }
+    }
+    
+    public void stopStreaming(){
+        this.start = false;
+    }
+    
+    public void run() {
+        try {
+            OAuthService service = new ServiceBuilder()
+                    .provider(TwitterApi.class)
+                    .apiKey(consumerKey)
+                    .apiSecret(consumerSecret)
+                    .build();
+
+            //set access token
+            textArea.setText("Started...\n");
+            Token accessTokenGenerated = new Token(accessToken, accessTokenSecret);
+
+            //generate the request
+            OAuthRequest request = new OAuthRequest(Verb.POST, streamUrl);
+            request.addHeader("version", "HTTP/1.1");
+            request.addHeader("host", "stream.twitter.com");
+            request.setConnectionKeepAlive(true);
+            request.addHeader("user-agent", "Twitter Stream Reader");
+            request.addBodyParameter("track", keyword); 
+            request.addBodyParameter("language", "in");
+            service.signRequest(accessTokenGenerated, request);
+            Response response = request.send();
+            
+            BufferedReader reader = new BufferedReader(new InputStreamReader(response.getStream()));
+            
+            String line;
+            JSONObject jsonObj;
+            String sourceId, text, geo, place, timestampMs, appendLine;
+            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm:ss");    
+            Date date;
+            while ((line = reader.readLine()) != null && start) {
+                try{
+                    jsonObj = new JSONObject(line);
+                    if(jsonObj.has("text") && jsonObj.get("text") != null){
+                        sourceId = jsonObj.has("id_str") ? jsonObj.getString("id_str") : null;
+                        text = jsonObj.has("text") ? jsonObj.getString("text") : null;
+                        geo = jsonObj.has("geo") ? jsonObj.get("geo").toString() : null;
+                        place = jsonObj.has("place") ? jsonObj.get("place").toString() : null;
+                        timestampMs = jsonObj.has("timestamp_ms") ? jsonObj.getString("timestamp_ms") : null;
+                        appendLine = sourceId + "\t" + text.replaceAll("\\n", " ") + "\t" + geo + "\t" + place + "\t" + timestampMs + "\t";
+                        textArea.setText(counter + " data.");
+                        writer.write(filePath, appendLine + "\n");
+                        date = new Date(System.currentTimeMillis());
+                        lastStreamLabel.setText(sdf.format(date));
+                        counter++;
+                    }
+                }catch(Exception e){
+                }
+            }
+            writer.close();
+            textArea.setText(textArea.getText() + "Stopped...\n");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java,basicstyle=\tiny,caption=InstagramCrawler.java]
+import com.wilianto.operation.*;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+public class InstagramCrawler extends Thread{
+    protected String clientId;
+    protected String clientSecret;
+    protected String redirectUrl;
+    protected String code; 
+    protected String accessToken;
+    protected String nextMinId;
+    protected String tag;
+    protected String hadoopPath;
+    protected String filePath;
+    protected JTextArea textArea;
+    protected JTextArea jsonTextArea;
+    protected JLabel lastStreamLabel;
+    protected JTextField minTagIdTextField;
+    protected JButton triggerBtn;
+    protected InstagramForm form;
+    private int counter = 1;
+    private int depth = 1;
+    private boolean start;
+    protected Writer writer;
+    protected SimpleDateFormat sdf;    
+    protected Date date;
+    protected URL url;
+    protected HttpURLConnection conn;
+    protected BufferedReader br;
+    protected String line, result, text, appendLine, location, locationName, nextUrl;
+    protected JSONObject json, data, caption, pagination;
+    protected JSONArray datas;
+    protected boolean terminatedByUser;
+    protected Writer logWriter;
+
+    public InstagramCrawler(String clientId, String clientSecret, String redirectUrl, String code, String nextMinId, String tag, String hadoopPath, String filePath, JTextArea textArea, JLabel lastStreamLabel, JTextField minTagIdTextField, JTextArea jsonTextArea, JButton triggerBtn, InstagramForm form) {
+        this.clientId = clientId;
+        this.clientSecret = clientSecret;
+        this.redirectUrl = redirectUrl;
+        this.code = code;
+        this.accessToken = accessToken;
+        this.nextMinId = nextMinId;
+        this.tag = tag;
+        this.hadoopPath = hadoopPath;
+        this.filePath = filePath + "/instagram-" + tag + ".txt";
+        this.textArea = textArea;
+        this.lastStreamLabel = lastStreamLabel;
+        this.minTagIdTextField = minTagIdTextField;
+        this.jsonTextArea = jsonTextArea;
+        this.triggerBtn = triggerBtn;
+        this.start = false;
+        this.sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm:ss");
+        this.form = form;
+        this.terminatedByUser = false;
+        this.logWriter = new LocalOperation();
+        
+        if(this.hadoopPath != ""){
+            this.writer = new HDFSOperation(hadoopPath);
+        }else{
+            this.writer = new LocalOperation();
+        }
+    }
+    
+    public void setTerminatedByUser(){
+        this.terminatedByUser = true;
+    }
+    
+    @Override
+    public void run() {
+        try {
+            this.getAccessToken();
+            writer.close();
+            logWriter.close();
+        } catch (IOException ex) {
+            Logger.getLogger(InstagramCrawler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void stopCrawling(){
+        this.start = false;
+        this.triggerBtn.setText("Start Crawling!");
+    }
+    
+    public boolean isStarted(){
+        return this.start;
+    }
+    
+    protected String generateUrl(){
+        String url = "https://api.instagram.com/v1/tags/" + tag + "/media/recent"
+                + "?count=100"
+                + "&min_tag_id=" + nextMinId
+                + "&access_token=" + accessToken;
+        return url;
+    }
+    
+    public void getAccessToken() throws MalformedURLException, IOException{
+        this.start = true;
+        triggerBtn.setText("Stop Crawling!");
+        textArea.setText("Started...\n");
+        
+        if(this.accessToken == null || this.accessToken.isEmpty()){
+            textArea.setText("Requesting access token...\n");
+
+            //set URL
+            url = new URL("https://api.instagram.com/oauth/access_token");
+
+            //create connection with GET method
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            //create data in URL format
+            String data = "client_id=" + clientId
+                    + "&client_secret=" + clientSecret
+                    + "&grant_type=authorization_code"
+                    + "&redirect_uri=" + redirectUrl
+                    + "&code=" + code;
+
+            //get output stream from connection to send the data
+            conn.setDoOutput(true);
+            OutputStream os = new BufferedOutputStream(conn.getOutputStream());
+            os.write(data.getBytes());
+            os.flush();
+            os.close();
+
+            //read the returned data
+            br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            result = "";
+            while((line = br.readLine()) != null){
+                result += line;
+            }
+            json = new JSONObject(result);
+            if(json.has("access_token")){
+                this.accessToken = json.getString("access_token");
+                jsonTextArea.setText(this.accessToken); 
+                
+                textArea.setText("Access token created...\n");
+                this.getTagMediaRecent(this.generateUrl());
+            }else{
+                this.start = false;
+                triggerBtn.setText("Start Crawling!");
+                return;
+            }
+        }else{
+            textArea.setText("Access token created...\n");
+            this.getTagMediaRecent(this.generateUrl());
+        }
+    }
+    
+    public void getTagMediaRecent(String urlTagMediaRecent) 
+            throws MalformedURLException, IOException {
+        //set URL
+        url = new URL(urlTagMediaRecent);
+
+        //create connection with GET method
+        conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+
+        //read the returned data
+        br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+        result = "";
+        while((line = br.readLine()) != null){
+            result += line;
+        }
+
+        //parse json object
+        json = new JSONObject(result);
+        datas = json.getJSONArray("data");
+
+        for(int i = 0; i < datas.length(); i++){
+            data = datas.getJSONObject(i);
+
+            try{
+                caption = (data.get("caption") != null) ? data.getJSONObject("caption") : null;
+                location = (data.get("location") != null) ? data.get("location").toString() : null;
+                locationName = (location != null) ? data.getJSONObject("location").getString("name") : "";
+                text = caption != null ? caption.getString("text") : " ";
+                text = text.replaceAll("\\n", " ");
+                text = text + " " + locationName;
+                //standard format with twitter streamer
+                appendLine = "instagram-" + data.getString("id") + "\t" + text + "\t instagram \t" + location + "\t" + data.getString("created_time") + "000\t";
+                textArea.setText(counter + " data.");
+                writer.write(filePath, appendLine + "\n");
+                date = new Date(System.currentTimeMillis());
+                lastStreamLabel.setText(sdf.format(date));
+                counter++;
+            }catch(Exception ex){
+            }
+        }
+        br.close();
+
+        //do recursively
+        pagination = json.getJSONObject("pagination");
+        nextMinId = pagination.getString("next_min_id");
+        nextUrl = pagination.has("next_url") ? pagination.getString("next_url") : null;
+        logWriter.write("log.txt", sdf.format(date) + "\t" + tag + "\t" + nextMinId + "\n");
+
+        if(nextUrl != null && start && counter < 15000){ 
+            depth++;
+            minTagIdTextField.setText(nextMinId);
+            getTagMediaRecent(nextUrl);
+        }else{
+            minTagIdTextField.setText(nextMinId);
+            textArea.setText(textArea.getText() + "\nStopped...");
+            this.stopCrawling();
+            //if not terminated by user, run new thread again
+            if(!this.terminatedByUser){
+                this.form.run();
+            }else{
+                this.writer.close();
+            }
+        }
+    }
+}
+\end{lstlisting}

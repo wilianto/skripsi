@@ -1,0 +1,116 @@
+\chapter{Kueri-kueri DDL \textit{Data Warehouse}}
+\label{app:G}
+
+\singlespacing 
+\begin{lstlisting}[language=SQL,basicstyle=\tiny,caption=Kueri MySQL]
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `init_dates`()
+BEGIN
+  	SET @start_date = "2010-01-01";
+	SET @end_date = "2017-12-31";
+    
+    WHILE(@start_date < @end_date) DO 
+    	INSERT INTO dim_dates (`full_date`, `year`, `month`, `day`, `year_week`, `week`, `quarter`, `weekday`, `month_name`, `day_name`) VALUES (DATE_FORMAT(@start_date, "%Y%m%d"), YEAR(@start_date), MONTH(@start_date), DAY(@start_date), DATE_FORMAT(@start_date, "%x"), WEEK(@start_date, 3), QUARTER(@start_date), WEEKDAY(@start_date)+1, MONTHNAME(@start_date), DAYNAME(@start_date));
+        SET @start_date = DATE_ADD(@start_date, INTERVAL 1 DAY);
+    END WHILE;
+END$$
+
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dim_dates`
+--
+
+CREATE TABLE IF NOT EXISTS `dim_dates` (
+  `full_date` date NOT NULL DEFAULT '0000-00-00',
+  `year` smallint(6) DEFAULT NULL,
+  `month` smallint(6) DEFAULT NULL,
+  `day` smallint(6) DEFAULT NULL,
+  `year_week` smallint(6) DEFAULT NULL,
+  `week` smallint(6) DEFAULT NULL,
+  `quarter` smallint(6) DEFAULT NULL,
+  `weekday` smallint(6) DEFAULT NULL,
+  `month_name` char(10) DEFAULT NULL,
+  `day_name` char(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dim_locations`
+--
+
+CREATE TABLE IF NOT EXISTS `dim_locations` (
+  `name` varchar(100) NOT NULL DEFAULT '',
+  `type` varchar(10) NOT NULL,
+  `region_name` varchar(100) DEFAULT NULL,
+  `province_name` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fact_trend_locations`
+--
+
+CREATE TABLE IF NOT EXISTS `fact_trend_locations` (
+  `destination` varchar(100) NOT NULL,
+  `post_date` date NOT NULL,
+  `qty` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `dim_dates`
+--
+ALTER TABLE `dim_dates`
+  ADD PRIMARY KEY (`full_date`);
+
+--
+-- Indexes for table `dim_locations`
+--
+ALTER TABLE `dim_locations`
+  ADD PRIMARY KEY (`name`);
+\end{lstlisting}
+
+\begin{lstlisting}[language=SQL,basicstyle=\tiny,caption=Kueri Hive]
+CREATE TABLE dim_dates (
+  full_date date,
+  year int,
+  month int,
+  day int,
+  year_week int,
+  week int,
+  quarter int,
+  weekday int,
+  month_name string,
+  day_name string
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t';
+
+CREATE TABLE fact_trend_locations (
+  destination string,
+  post_date date,
+  qty int
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t';
+
+CREATE TABLE dim_locations (
+  name string,
+  type string,
+  region_name string,
+  province_name string
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t';
+\end{lstlisting}

@@ -1,0 +1,2162 @@
+\chapter{Kode Sumber Implementasi Sistem Kecerdasan Bisnis}
+\label{app:H}
+
+\singlespacing 
+\section{Aplikasi \textit{client}}
+\begin{lstlisting}[language=HTML,basicstyle=\tiny,caption=index.html]
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Dashboard</title>
+        <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+        <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="assets/css/style.css" rel="stylesheet">
+
+        <script src="bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
+        <script src="bower_components/jquery-ui/jquery-ui.js" type="text/javascript"></script>
+        <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="bower_components/amcharts3/amcharts/amcharts.js" type="text/javascript"></script>
+        <script src="bower_components/amcharts3/amcharts/serial.js" type="text/javascript"></script>
+        <script src="bower_components/amcharts3/amcharts/pie.js" type="text/javascript"></script>
+        <script src="bower_components/ammap3/ammap/ammap.js" type="text/javascript"></script>
+        <script src="bower_components/ammap3/ammap/maps/js/indonesiaHigh.js" type="text/javascript"></script>
+        <script src="assets/js/script-dashboard.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Skripsi</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="index.html">Dashboard</a></li>
+                        <li><a href="reporting.html">Analytics</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </nav>
+
+        <div class="container-fluid main-area">
+            <div class="row">
+                <div class="col-lg-7">
+                    <h1 style="padding: 0px; margin: 0px;">Dashboard</h1>
+                </div>
+                <div class="col-lg-5">
+                    <form class="form-horizontal">
+                        <select class="form-control" id="select-date">
+                            <option value="all">All Time</option>
+                            <option value="last-week">Last 7 Days</option>
+                            <option value="last-month">Last 30 Days</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                        <div class="input-date" style="display: none;">
+                            <input type="date" id="startDate" class="form-control" value="2016-01-01" style="width: 50%; float: left;">
+                            <input type="date" id="endDate" class="form-control" value="2016-06-01" style="width: 50%;  float: left;">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-7">
+                    <div id="map" style="height: 500px"></div>
+                    <div id="map-query-time"></div>
+                </div>
+                <div class="col-lg-5">
+                    <div id="bar-chart" style="height: 500px"></div>
+                    <div id="bar-chart-query-time"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="col-lg-6">
+                        <div id="bar-chart-wisata"></div>
+                        <div id="bar-chart-wisata-query-time"></div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div id="line-chart-wisata"></div>
+                        <div id="line-chart-wisata-query-time"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div id="type" style="height: 500px"></div>
+                    <div id="type-query-time"></div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><h3 style="margin: 5px; font-size: 18px">Top 10 Kota/Kabupaten Wisata</h3></div>
+                        <div class="panel-body">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Kota/Kabupaten</th>
+                                        <th>Frekuensi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="top-10-kota">
+
+                                </tbody>
+                            </table>
+                            <div id="top-10-kota-query-time"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><h3 style="margin: 5px; font-size: 18px">Top 10 Lokasi Wisata</h3></div>
+                        <div class="panel-body">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Lokasi</th>
+                                        <th>Frekuensi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="top-10">
+
+                                </tbody>
+                            </table>
+                            <div id="top-10-query-time"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container -->
+    </body>
+</html>
+\end{lstlisting}
+
+\begin{lstlisting}[language=HTML,basicstyle=\tiny,caption=reporting.html]
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Reporting & Analytics</title>
+        <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+        <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="assets/css/style.css" rel="stylesheet">
+
+        <script src="bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
+        <script src="bower_components/jquery-ui/jquery-ui.js" type="text/javascript"></script>
+        <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="bower_components/amcharts3/amcharts/amcharts.js" type="text/javascript"></script>
+        <script src="bower_components/amcharts3/amcharts/serial.js" type="text/javascript"></script>
+        <script src="bower_components/amcharts3/amcharts/pie.js" type="text/javascript"></script>
+        <script src="bower_components/ammap3/ammap/ammap.js" type="text/javascript"></script>
+        <script src="bower_components/ammap3/ammap/maps/js/indonesiaHigh.js" type="text/javascript"></script>
+        <script src="assets/js/script.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Skripsi</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="index.html">Dashboard</a></li>
+                        <li class="active"><a href="#">Analytics</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </nav>
+
+        <div class="container-fluid main-area">
+            <div class="row">
+                <div class="col-lg-2">
+                    <div id="source-area">
+                        <h3>Cube <a href="#" data-toggle="modal" data-target="#cube-modal"><span class="glyphicon glyphicon-plus"><span></a></h3>
+                        <select class="form-control" name="cube" id="connection-select"><option></option></select>
+                        <h3>Dimension</h3>
+                        <div id="dimensions-area">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div id="query-area">
+                        <h3>Measure</h3>
+                        <ul id="measure-sortable" class="sortable measure-sortable query-measure-sortable">
+                        </ul>
+                        <button type="button" class="btn btn-default btn-block" data-toggle="modal" data-target="#measure-modal" style="display: none" id="measure-sortable-btn"><span class="glyphicon glyphicon-plus"></span> Add Measure</button>
+                        <h3>Row</h3>
+                        <ul id="row-sortable" class="sortable source-sortable">
+                        </ul>
+                        <h3>Column</h3>
+                        <ul id="column-sortable" class="sortable source-sortable">
+                        </ul>
+                        <h3>Filter</h3>
+                        <textarea class="form-control" rows="5" id="filter"></textarea>
+                        <h3>Sort</h3>
+                        <ul id="sort-sortable" class="sortable measure-sortable query-measure-sortable">
+                        </ul>
+                        <button type="button" class="btn btn-default btn-block" data-toggle="modal" data-target="#sort-modal" style="display: none" id="sort-sortable-btn"><span class="glyphicon glyphicon-plus"></span> Add Sort</button>
+                        <h3>Having</h3>
+                        <textarea class="form-control" rows="5" id="having"></textarea>
+                        <h3>Limit</h3>
+                        <input type="number" class="form-control" id="limit"><br><br>
+
+                        <button type="button" name="button" class="btn btn-success btn-block" id="run-query">Run Query</button>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div id="result-option">
+                        <button type="button" class="btn btn-default active reporting-type" data-type="table"><span class="fa fa-table"></span></button>
+                        <button type="button" class="btn btn-default reporting-type" data-type="line"><span class="fa fa-line-chart"></span></button>
+                        <button type="button" class="btn btn-default reporting-type" data-type="bar"><span class="fa fa-bar-chart"></span></button>
+                        <button type="button" class="btn btn-default reporting-type" data-type="pie"><span class="fa fa-pie-chart"></span></button>
+                    </div>
+                    <div id="query-time"></div>
+                    <div id="result-area" style="width: 100%; height: 1000px; overflow: scroll;">
+
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container -->
+
+        <!-- .modal -->
+        <div class="modal fade" id="cube-modal" tabindex="-1" role="dialog" aria-labelledby="CubeModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Connection & Cube</h4>
+                    </div>
+                    <div class="modal-body">
+                        <textarea class="form-control" id="connections-editor" rows="20"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="save-connections">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="measure-modal" tabindex="-1" role="dialog" aria-labelledby="MeasureModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Measure</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <select id="measure-aggregate" class="form-control">
+                                    <option value="SUM">SUM</option>
+                                    <option value="COUNT">COUNT</option>
+                                    <option value="AVG">AVG</option>
+                                    <option value="MIN">MIN</option>
+                                    <option value="MAX">MAX</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-5">
+                                <select id="measure-attr" class="form-control">
+
+                                </select>
+                            </div>
+                            <div class="col-lg-2">
+                                <button type="button" class="btn btn-info btn-block" onclick="addMeasure()">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="sort-modal" tabindex="-1" role="dialog" aria-labelledby="SortModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Measure</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <select id="sort-order" class="form-control">
+                                    <option value="ASC">ASC</option>
+                                    <option value="DESC">DESC</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-5">
+                                <select id="sort-attr" class="form-control">
+
+                                </select>
+                            </div>
+                            <div class="col-lg-2">
+                                <button type="button" class="btn btn-info btn-block" onclick="addSort()">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal -->
+    </body>
+</html>
+\end{lstlisting}
+
+\begin{lstlisting}[language=HTML,basicstyle=\tiny,caption=script-dashboard.js]
+var globalMapData, globalMaps, globalTopTen, globalTopTenKota, globalTypeData, globalBarData, globalLineData;
+var baseUrl = "http://localhost:8080/WisataWebService";
+
+$(function(){
+    //init
+    initMap();
+    loadData();
+
+    $("#select-date").change(function(){
+        loadData();
+        if($("#select-date").find(":selected").val() == "custom"){
+            $(".input-date").show();
+        }else{
+            $(".input-date").hide();
+        }
+    });
+
+    $("#startDate").change(function(){
+        loadData();
+    });
+
+    $("#endDate").change(function(){
+        loadData();
+    });
+});
+
+Date.prototype.yyyymmdd = function() {
+    var yyyy = this.getFullYear().toString();
+    var mm = (this.getMonth()+1).toString();
+    var dd  = this.getDate().toString();
+    return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]);
+};
+
+function getDateRange(){
+    var dateRange = "";
+    var selectedDate = $("#select-date").find(":selected").val();
+    var startDate = new Date();
+    var endDate = new Date();
+
+    if(selectedDate == "last-week"){
+        startDate.setDate(startDate.getDate() - 7);
+        dateRange = "dim_dates.full_date >= '" + startDate.yyyymmdd() + "' AND dim_dates.full_date <= '" + endDate.yyyymmdd() + "'";
+    }else if(selectedDate == "last-month"){
+        startDate.setDate(startDate.getDate() - 30);
+        dateRange = "dim_dates.full_date >= '" + startDate.yyyymmdd() + "' AND dim_dates.full_date <= '" + endDate.yyyymmdd() + "'";
+    }else if(selectedDate == "custom"){
+        startDate = $("#startDate").val();
+        endDate = $("#endDate").val();
+        dateRange = "dim_dates.full_date >= '" + startDate + "' AND dim_dates.full_date <= '" + endDate + "'";
+    }
+
+    return dateRange;
+}
+
+function loadData(){
+    //hide field
+    $("#bar-chart").html("");
+    $("#bar-chart-query-time").html("");
+    $("#bar-chart-wisata").html("");
+    $("#bar-chart-wisata-query-time").html("");
+    $("#line-chart-wisata").html("");
+    $("#line-chart-wisata-query-time").html("");
+    $("#bar-chart-wisata").css({"height": 0});
+    $("#line-chart-wisata").css({"height": 0});
+
+    //load ajax
+    var rowAttrs = "dim_locations.province_name,";
+    var columnAttrs = "";
+    var aggregate = "SUM(fact_trend_locations.qty),";
+    var condition = getDateRange();
+    var sort = "";
+    var limit = 0;
+    var having = "";
+
+    $.ajax({
+        method: "POST",
+        url: baseUrl + "/generator",
+        data: {rowAttrs: rowAttrs, columnAttrs: columnAttrs, aggregate: aggregate, condition: condition, sort: sort, limit: limit, having: having, connectionId: 0, cubeId: 0},
+        success: function(data){
+            globalMapData = data;
+            createMap();
+        },
+        beforeSend: function(){
+            $("#map").html("Loading...");
+        }
+    });
+
+    //get top ten kota
+    rowAttrs = "dim_locations.region_name,";
+    columnAttrs = "";
+    aggregate = "SUM(fact_trend_locations.qty),";
+    condition = getDateRange();
+    sort = "SUM(fact_trend_locations.qty) DESC,";
+    limit = 10;
+
+    $.ajax({
+        method: "POST",
+        url: baseUrl + "/generator",
+        data: {rowAttrs: rowAttrs, columnAttrs: columnAttrs, aggregate: aggregate, condition: condition, sort: sort, limit: limit, having: having, connectionId: 0, cubeId: 0},
+        success: function(data){
+            globalTopTenKota = data;
+            createTopTenKota();
+        },
+        beforeSend: function(){
+            $("#top-10-kota").html("Loading...");
+        }
+    });
+
+    //get top ten
+    rowAttrs = "dim_locations.name,";
+    columnAttrs = "";
+    aggregate = "SUM(fact_trend_locations.qty),";
+    condition = getDateRange();
+    sort = "SUM(fact_trend_locations.qty) DESC,";
+    limit = 10;
+
+    $.ajax({
+        method: "POST",
+        url: baseUrl + "/generator",
+        data: {rowAttrs: rowAttrs, columnAttrs: columnAttrs, aggregate: aggregate, condition: condition, sort: sort, limit: limit, having: having, connectionId: 0, cubeId: 0},
+        success: function(data){
+            globalTopTen = data;
+            createTopTen();
+        },
+        beforeSend: function(){
+            $("#top-10").html("Loading...");
+        }
+    });
+
+    //get location type
+    rowAttrs = "dim_locations.type,";
+    columnAttrs = "";
+    aggregate = "SUM(fact_trend_locations.qty),";
+    condition = getDateRange();
+    sort = "";
+    limit = 0;
+
+    $.ajax({
+        method: "POST",
+        url: baseUrl + "/generator",
+        data: {rowAttrs: rowAttrs, columnAttrs: columnAttrs, aggregate: aggregate, condition: condition, sort: sort, limit: limit, having: having, connectionId: 0, cubeId: 0},
+        success: function(data){
+            globalTypeData = data;
+            createTypeData();
+        },
+        beforeSend: function(){
+            $("#type").html("Loading...");
+        }
+    });
+}
+
+function initMap(){
+    globalMaps = {};
+    globalMaps["ACEH"] = "ID-AC";
+    globalMaps["BALI"] = "ID-BA";
+    globalMaps["KEPULAUAN BANGKA BELITUNG"] = "ID-BB";
+    globalMaps["BENGKULU"] = "ID-BE";
+    globalMaps["BANTEN"] = "ID-BT";
+    globalMaps["GORONTALO"] = "ID-GO";
+    globalMaps["JAMBI"] = "ID-JA";
+    globalMaps["JAWA BARAT"] = "ID-JB";
+    globalMaps["JAWA TIMUR"] = "ID-JI";
+    globalMaps["DKI JAKARTA"] = "ID-JK";
+    globalMaps["JAWA TENGAH"] = "ID-JT";
+    globalMaps["KALIMANTAN BARAT"] = "ID-KB";
+    globalMaps["KALIMANTAN TIMUR"] = "ID-KI";
+    globalMaps["KEPULAUAN RIAU"] = "ID-KR";
+    globalMaps["KALIMANTAN SELATAN"] = "ID-KS";
+    globalMaps["KALIMANTAN TENGAH"] = "ID-KT";
+    globalMaps["KALIMANTAN UTARA"] = "ID-KU";
+    globalMaps["LAMPUNG"] = "ID-LA";
+    globalMaps["MALUKU"] = "ID-MA";
+    globalMaps["MALUKU UTARA"] = "ID-MU";
+    globalMaps["NUSA TENGGARA BARAT"] = "ID-NB";
+    globalMaps["NUSA TENGGARA TIMUR"] = "ID-NT";
+    globalMaps["PAPUA"] = "ID-PA";
+    globalMaps["PAPUA BARAT"] = "ID-PB";
+    globalMaps["RIAU"] = "ID-RI";
+    globalMaps["SULAWESI UTARA"] = "ID-SA";
+    globalMaps["SUMATERA BARAT"] = "ID-SB";
+    globalMaps["SULAWESI TENGGARA"] = "ID-SG";
+    globalMaps["SULAWESI SELATAN"] = "ID-SN";
+    globalMaps["SULAWESI BARAT"] = "ID-SR";
+    globalMaps["SUMATERA SELATAN"] = "ID-SS";
+    globalMaps["SULAWESI TENGAH"] = "ID-ST";
+    globalMaps["SUMATERA UTARA"] = "ID-SU";
+    globalMaps["DI YOGYAKARTA"] = "ID-YO";
+}
+
+function clickGraph(event){
+    var map_id = event.mapObject.id;
+    var province_name;
+    $.each(globalMaps, function(k, v){
+        if(v == map_id){
+            province_name = k;
+        }
+    });
+
+    var rowAttrs = "dim_locations.region_name,";
+    var columnAttrs = "";
+    var aggregate = "SUM(fact_trend_locations.qty),";
+    var condition = "dim_locations.province_name = '" + province_name + "'";
+    if(getDateRange() != ""){
+        condition += " AND " + getDateRange();
+    }
+    var sort = "";
+    var limit = 0;
+    var having = "";
+
+    $.ajax({
+        method: "POST",
+        url: baseUrl + "/generator",
+        data: {rowAttrs: rowAttrs, columnAttrs: columnAttrs, aggregate: aggregate, condition: condition, sort: sort, limit: limit, having: having, connectionId: 0, cubeId: 0},
+        success: function(data){
+            globalBarData = data;
+            createBarChart(province_name, "bar-chart", "#bar-chart-query-time", clickBarChart);
+        },
+        beforeSend: function(){
+            $("#bar-chart").html("Loading...");
+        }
+    });
+}
+
+function clickBarChart(event){
+    var kota = event.item.category;
+
+    var rowAttrs = "dim_locations.name,";
+    var columnAttrs = "";
+    var aggregate = "SUM(fact_trend_locations.qty),";
+    var condition = "dim_locations.region_name = '" + kota + "'";
+    if(getDateRange() != ""){
+        condition += " AND " + getDateRange();
+    }
+    var sort = "";
+    var limit = 0;
+    var having = "";
+
+    $.ajax({
+        method: "POST",
+        url: baseUrl + "/generator",
+        data: {rowAttrs: rowAttrs, columnAttrs: columnAttrs, aggregate: aggregate, condition: condition, sort: sort, limit: limit, having: having, connectionId: 0, cubeId: 0},
+        success: function(data){
+            globalBarData = data;
+            $("#bar-chart-wisata").css({"height": 500});
+            createBarChart(kota, 'bar-chart-wisata', '#bar-chart-wisata-query-time', showLineChart);
+        },
+        beforeSend: function(){
+            $("#bar-chart-wisata").css({"height": 0});
+            $("#bar-chart-wisata").html("Loading...");
+        }
+    });
+}
+
+function showLineChart(event){
+    var wisata = event.item.category;
+
+    var rowAttrs = "dim_dates.full_date,";
+    var columnAttrs = "";
+    var aggregate = "SUM(fact_trend_locations.qty),";
+    var condition = "dim_locations.name = '" + wisata + "'";
+    if(getDateRange() != ""){
+        condition += " AND " + getDateRange();
+    }
+    var sort = "dim_dates.full_date ASC,";
+    var limit = 0;
+    var having = "";
+
+    $.ajax({
+        method: "POST",
+        url: baseUrl + "/generator",
+        data: {rowAttrs: rowAttrs, columnAttrs: columnAttrs, aggregate: aggregate, condition: condition, sort: sort, limit: limit, having: having, connectionId: 0, cubeId: 0},
+        success: function(data){
+            globalLineData = data;
+            $("#line-chart-wisata").css({"height": 500});
+            createLineChart(wisata, 'line-chart-wisata', '#line-chart-wisata-query-time');
+        },
+        beforeSend: function(){
+            $("#line-chart-wisata").css({"height": 0});
+            $("#line-chart-wisata").html("Loading...");
+        }
+    });
+}
+
+function createLineChart(label, e_chart, e_query){
+    var chartData = [];
+
+    for (var i = 0; i < globalLineData.data.length; i++) {
+        var data = globalLineData.data[i];
+        var obj = {};
+        obj['date'] = data.rows[0];
+        obj['value'] = data.values[0];
+        chartData.push(obj);
+    }
+
+    //LINE CHART
+    var line_chart = new AmCharts.AmSerialChart();
+    line_chart.titles = [{"text" : label + "'s Trends"}];
+    line_chart.dataProvider = chartData;
+    line_chart.marginLeft = 10;
+    line_chart.categoryField = "date";
+    line_chart.dataDateFormat = "YYYY-MM-DD";
+
+    // AXES
+    // category
+    var categoryAxis = line_chart.categoryAxis;
+    categoryAxis.parseDates = true; // as our data is date-based, we set parseDates to true
+    categoryAxis.minPeriod = "DD";
+    categoryAxis.dashLength = 0;
+    categoryAxis.minorGridEnabled = true;
+    categoryAxis.minorGridAlpha = 0.1;
+
+    // value
+    var valueAxis = new AmCharts.ValueAxis();
+    valueAxis.axisAlpha = 0;
+    valueAxis.inside = true;
+    valueAxis.dashLength = 0;
+    line_chart.addValueAxis(valueAxis);
+
+    // GRAPH
+    graph = new AmCharts.AmGraph();
+    graph.type = "smoothedLine"; // this line makes the graph smoothed line.
+    graph.lineColor = "#d1655d";
+    graph.bullet = "round";
+    graph.bulletSize = 8;
+    graph.bulletBorderColor = "#FFFFFF";
+    graph.bulletBorderAlpha = 1;
+    graph.bulletBorderThickness = 2;
+    graph.lineThickness = 2;
+    graph.valueField = "value";
+    graph.precision = 0;
+    graph.balloonText = "[[category]]<br><b><span style='font-size:14px;'>[[value]]</span></b>";
+    line_chart.addGraph(graph);
+
+    // CURSOR
+    var chartCursor = new AmCharts.ChartCursor();
+    chartCursor.cursorAlpha = 0;
+    chartCursor.cursorPosition = "mouse";
+    chartCursor.categoryBalloonDateFormat = "YYYY-MM-DD";
+    line_chart.addChartCursor(chartCursor);
+
+    // SCROLLBAR
+    var chartScrollbar = new AmCharts.ChartScrollbar();
+    line_chart.addChartScrollbar(chartScrollbar);
+    line_chart.creditsPosition = "bottom-right";
+
+    // WRITE
+    line_chart.write(e_chart);
+    $(e_query).html("Query time : " + globalLineData.query_time / 1000 + "s");
+}
+
+function createBarChart(label, e_chart, e_query, e_click_listener){
+    var chartData = [];
+
+    if(globalBarData.data.length == 0){
+        $(e_chart).html("Tidak ada data untuk " + label);
+    }else{
+        for (var i = 0; i < globalBarData.data.length; i++) {
+            var data = globalBarData.data[i];
+            var obj = {};
+            obj['key'] = data.rows[0];
+            obj['value'] = data.values[0];
+            chartData.push(obj);
+        }
+
+        var bar_chart = new AmCharts.AmSerialChart();
+        bar_chart.dataProvider = chartData;
+        bar_chart.categoryField = "key";
+        bar_chart.rotate = true;
+        bar_chart.depth3D = 0;
+        bar_chart.creditsPosition = "bottom-right";
+        bar_chart.titles = [{"text" : "Frequencies " + label}];
+
+        var categoryAxis = bar_chart.categoryAxis;
+        categoryAxis.gridPosition = "start";
+        categoryAxis.axisColor = "#DADADA";
+        categoryAxis.fillAlpha = 1;
+        categoryAxis.gridAlpha = 0;
+        categoryAxis.fillColor = "#FAFAFA";
+
+        var valueAxis = new AmCharts.ValueAxis();
+        valueAxis.axisColor = "#DADADA";
+        valueAxis.title = "Frequencies";
+        valueAxis.gridAlpha = 0.1;
+        bar_chart.addValueAxis(valueAxis);
+
+        var graph = new AmCharts.AmGraph();
+        graph.title = "Frequencies Provinsi " + label;
+        graph.valueField = "value";
+        graph.type = "column";
+        graph.balloonText = "Frequencies " + label + " [[category]]:[[value]]";
+        graph.lineAlpha = 0;
+        graph.fillAlphas = 1;
+        bar_chart.addGraph(graph);
+        bar_chart.addListener("clickGraphItem", e_click_listener);
+
+        bar_chart.write(e_chart);
+    }
+
+    $(e_query).html("Query time : " + globalBarData.query_time / 1000 + "s");
+}
+
+function createMap(){
+    var areas = [];
+
+    for (var i = 0; i < globalMapData.data.length; i++) {
+        var data = globalMapData.data[i];
+        var value = {};
+        value['id'] = globalMaps[data.rows[0]];
+        value['value'] = data.values[0];
+        areas.push(value);
+    }
+
+    var map = new AmCharts.AmMap();
+    map.titles = [{"text" : "Trend Lokasi Wisata Berdasarkan Provinsi"}]
+    map.colorSteps = 10;
+    map.dataProvider = {
+        map: "indonesiaHigh",
+        areas: areas
+    };
+    map.areasSettings = {
+        autoZoom: true
+    };
+    map.imagesSettings.balloonText = "<span style='font-size:14px;'><b>[[title]]</b>: [[value]]</span>";
+
+    var valueLegend = new AmCharts.ValueLegend();
+    valueLegend.right = 20;
+    valueLegend.minValue = "low";
+    valueLegend.maxValue = "high";
+    map.valueLegend = valueLegend;
+
+    map.addListener("clickMapObject", clickGraph);
+    map.write("map");
+
+    $("#map-query-time").html("Query time : " + globalMapData.query_time / 1000 + "s");
+}
+
+function createTopTen(){
+    var str = "";
+    for (var i = 0; i < globalTopTen.data.length; i++) {
+        var data = globalTopTen.data[i];
+        str += "<tr><td>" + data.rows[0] + "</td><td>" + data.values[0] + "</td></tr>";
+    }
+    $("#top-10").html(str);
+    $("#top-10-query-time").html("Query time : " + globalTopTen.query_time / 1000 + "s");
+}
+
+function createTopTenKota(){
+    var str = "";
+    for (var i = 0; i < globalTopTenKota.data.length; i++) {
+        var data = globalTopTenKota.data[i];
+        str += "<tr><td>" + data.rows[0] + "</td><td>" + data.values[0] + "</td></tr>";
+    }
+    $("#top-10-kota").html(str);
+    $("#top-10-kota-query-time").html("Query time : " + globalTopTenKota.query_time / 1000 + "s");
+}
+
+function createTypeData(){
+    var chartData = [];
+    for (var i = 0; i < globalTypeData.data.length; i++) {
+        var data = globalTypeData.data[i];
+        var obj = {};
+        obj['type'] = data.rows[0];
+        obj['frequencies'] = data.values[0];
+        chartData.push(obj);
+    }
+
+    // PIE CHART
+    var pie_chart = new AmCharts.AmPieChart();
+    pie_chart.dataProvider = chartData;
+    pie_chart.titles = [{"text" : "Trend Tipe Lokasi Wisata"}]
+    pie_chart.titleField = "type";
+    pie_chart.valueField = "frequencies";
+    pie_chart.outlineColor = "#FFFFFF";
+    pie_chart.outlineAlpha = 0.8;
+    pie_chart.outlineThickness = 2;
+    pie_chart.creditsPosition = "bottom-right";
+
+    // WRITE
+    pie_chart.write("type");
+
+    $("#type-query-time").html("Query time : " + globalTypeData.query_time / 1000 + "s");
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=HTML,basicstyle=\tiny,caption=script.js]
+/** start: global variable **/
+var globalData, globalConnections, globalCube, globalColumns, globalRows, globalIndex, globalRowIndex, globalColumnIndex, globalMaps;
+var txtPreffix = "-"; //to keep data sorted
+var baseUrl = "http://localhost:8080/WisataWebService";
+var colorPalletes = ['#D32F2F', '#448AFF', '#00796B', '#B2DFDB', '#F44336', '#FFEB3B', '#689F38'];
+/** end: global variable **/
+
+$(function(){
+    /** start: load initial */
+    connectionReader();
+    /** end: load initial */
+
+    /** start: listener **/
+    $("#run-query").click(function(){
+        var rowAttrs = "";
+        var columnAttrs = "";
+        var aggregate = "";
+        var sort = "";
+        var limit = 0;
+
+        //get from measure
+        $("#measure-sortable li").each(function(){
+            aggregate += $(this).data("column") + ",";
+        });
+
+        //get from row
+        $("#row-sortable li").each(function(){
+            rowAttrs += $(this).data("column") + ",";
+        });
+
+        //get from column
+        $("#column-sortable li").each(function(){
+            columnAttrs += $(this).data("column") + ",";
+        });
+
+        //get sorting
+        $("#sort-sortable li").each(function(){
+            sort += $(this).data("column") + ",";
+        });
+
+        //get selected cube
+        var option = $("#connection-select").find(":selected");
+
+        //get limit
+        if($("#limit").val() != "" && $("#limit").val() != 0){
+            limit = $("#limit").val();
+        }
+
+        $.ajax({
+            method: "POST",
+            url: baseUrl + "/generator",
+            data: {rowAttrs: rowAttrs, columnAttrs: columnAttrs, aggregate: aggregate, condition: $("#filter").val(), having: $("#having").val(), limit: limit, sort: sort, connectionId: option.data("connection"), cubeId: option.data("cube")},
+            success: function(data){
+                if(data.data.length > 0){
+                    globalData = data;
+
+                    var resultOption = $("#result-option").find(".active").data("type");
+
+                    if(resultOption == "bar"){
+                        createBarChart();
+                    }else if(resultOption == "line"){
+                        createLineChart();
+                    }else if(resultOption == "table"){
+                        generateTable();
+                    }else if(resultOption == "pie"){
+                        createPieChart();
+                    }
+                }else{
+                    $("#query-time").html("Query time: " + data.query_time / 1000 + "s");
+                    $("#result-area").html("No data found.");
+                }
+            },
+            beforeSend: function(){
+                $("#result-area").html("");
+                $("#query-time").html("Loading...");
+            }
+        })
+    });
+
+    $("#connection-select").change(function(){
+        resetCube();
+        var option = $(this).find(":selected");
+        if(option.html() != ""){
+            var connection_id = option.data("connection");
+            var cube_id = option.data("cube");
+
+            $.ajax({
+                method: "GET",
+                url: baseUrl + "/connection?connection_id=" + connection_id + "&cube_id=" + cube_id,
+                success: function(response){
+                    globalCube = response;
+                    renderCube();
+                }
+            });
+        }
+    });
+
+    $(".reporting-type").click(function(){
+        $(".reporting-type").each(function(){
+            $(this).removeClass("active");
+        });
+        $(this).addClass("active");
+
+        //create chart
+        if($(this).data("type") == "bar"){
+            createBarChart();
+        }else if($(this).data("type") == "line"){
+            createLineChart();
+        }else if($(this).data("type") == "table"){
+            generateTable();
+        }else if($(this).data("type") == "pie"){
+            createPieChart();
+        }
+    });
+
+    $("#save-connections").click(function(){
+        var connections = $("#connections-editor").val();
+        $.ajax({
+            method: "POST",
+            data: {connections: connections},
+            url: baseUrl + "/connection",
+            success: function(data){
+                if(data == "OK"){
+                    alert("Connection & cube was saved!");
+                    location.reload();
+                }else{
+                    alert(data);
+                }
+            }
+        });
+    });
+    /** end: listener **/
+});
+
+/** start: chart **/
+var createPieChart = function(){
+    var chartData = [];
+
+    for (var i = 0; i < globalData.data.length; i++) {
+        var data = globalData.data[i];
+        var strValue = "";
+
+        for(var j = 0; j < data.rows.length; j++){
+            if(j == data.rows.length - 1){
+                strValue += data.rows[j];
+            }else{
+                strValue += data.rows[j] + " / ";
+            }
+        }
+
+        if(data.columns.length > 0){
+            strValue += " / ";
+        }
+
+        for(var j = 0; j < data.columns.length; j++){
+            if(j == data.columns.length - 1){
+                strValue += data.columns[j];
+            }else{
+                strValue += data.columns[j] + " / ";
+            }
+        }
+
+        var value = {};
+        for(var j = 0; j < data.values.length; j++){
+            value['value_' + j] = data.values[j];
+        }
+
+        value['key'] = strValue;
+
+        chartData.push(value);
+    }
+
+    var pie_chart = new AmCharts.AmPieChart();
+    pie_chart.dataProvider = chartData;
+    pie_chart.titleField = "key";
+    pie_chart.valueField = "value_0";
+    pie_chart.outlineColor = "#FFFFFF";
+    pie_chart.outlineAlpha = 0.8;
+    pie_chart.outlineThickness = 2;
+    pie_chart.creditsPosition = "bottom-right";
+
+    // WRITE
+    pie_chart.write("result-area");
+}
+
+var createBarChart = function(){
+    var chartData = [];
+
+    for (var i = 0; i < globalData.data.length; i++) {
+        var data = globalData.data[i];
+        var strValue = "";
+
+        for(var j = 0; j < data.rows.length; j++){
+            if(j == data.rows.length - 1){
+                strValue += data.rows[j];
+            }else{
+                strValue += data.rows[j] + " / ";
+            }
+        }
+
+        if(data.columns.length > 0){
+            strValue += " / ";
+        }
+
+        for(var j = 0; j < data.columns.length; j++){
+            if(j == data.columns.length - 1){
+                strValue += data.columns[j];
+            }else{
+                strValue += data.columns[j] + " / ";
+            }
+        }
+
+        var value = {};
+        for(var j = 0; j < data.values.length; j++){
+            value['value_' + j] = data.values[j];
+        }
+
+        value['key'] = strValue;
+
+        chartData.push(value);
+    }
+
+    var bar_chart = new AmCharts.AmSerialChart();
+    bar_chart.dataProvider = chartData;
+    bar_chart.categoryField = "key";
+    bar_chart.rotate = true;
+    bar_chart.depth3D = 0;
+    bar_chart.creditsPosition = "bottom-right";
+
+    var categoryAxis = bar_chart.categoryAxis;
+    categoryAxis.gridPosition = "start";
+    categoryAxis.axisColor = "#DADADA";
+    categoryAxis.fillAlpha = 1;
+    categoryAxis.gridAlpha = 0;
+    categoryAxis.fillColor = "#FAFAFA";
+
+    var valueAxis = new AmCharts.ValueAxis();
+    valueAxis.axisColor = "#DADADA";
+    valueAxis.title = "Frequencies";
+    valueAxis.gridAlpha = 0.1;
+    bar_chart.addValueAxis(valueAxis);
+
+    for (var i = 0; i < globalData.data[0].values.length; i++) {
+        var graph = new AmCharts.AmGraph();
+        var title = $($("#measure-sortable").find("li")[i]).data("column");
+        graph.title = title;
+        graph.valueField = "value_" + i;
+        graph.type = "column";
+        graph.balloonText = title + " [[category]]:[[value]]";
+        graph.lineAlpha = 0;
+        graph.fillColors = colorPalletes[i % colorPalletes.length];
+        graph.fillAlphas = 1;
+        bar_chart.addGraph(graph);
+    }
+
+    bar_chart.write("result-area");
+}
+
+var createLineChart = function(){
+    var chartData = [];
+    var line_chart;
+
+    var rows = [];
+
+    //CREATE CHARTS
+    line_chart = new AmCharts.AmSerialChart();
+    line_chart.marginLeft = 10;
+    line_chart.categoryField = "key";
+    // line_chart.dataDateFormat = "YYYY-MM-DD";
+
+    // AXES
+    // category
+    var categoryAxis = line_chart.categoryAxis;
+    //categoryAxis.parseDates = true;
+    //categoryAxis.minPeriod = "DD";
+    categoryAxis.dashLength = 0;
+    categoryAxis.minorGridEnabled = true;
+    categoryAxis.minorGridAlpha = 0.1;
+    categoryAxis.twoLineMode = true;
+
+    // CURSOR
+    var chartCursor = new AmCharts.ChartCursor();
+    chartCursor.cursorAlpha = 0;
+    chartCursor.cursorPosition = "mouse";
+    //chartCursor.categoryBalloonDateFormat = "YYYY-MM-DD";
+    line_chart.addChartCursor(chartCursor);
+
+    // SCROLLBAR
+    var chartScrollbar = new AmCharts.ChartScrollbar();
+    line_chart.addChartScrollbar(chartScrollbar);
+
+    line_chart.creditsPosition = "bottom-right";
+
+    if(globalData.data[0].rows.length == 1 && globalData.data[0].columns.length == 1 && globalData.data[0].values.length == 1){
+        for (var i = 0; i < globalData.data.length; i++) {
+            var data = globalData.data[i];
+
+            //push to rows
+            if(rows.indexOf(data.rows[0]) == -1){
+                rows.push(data.rows[0]);
+            }
+
+            var value = {};
+            var isKeyFound = false;
+            for (var j = 0; j < chartData.length; j++) {
+                if(chartData[j].key == data.columns[0]){
+                    value = chartData[j];
+                    isKeyFound = true;
+                    break;
+                }
+            }
+            value['value_' + data.rows[0]] = data.values[0];
+            value['key'] = data.columns[0];
+
+            if(!isKeyFound){
+                chartData.push(value);
+            }
+        }
+    }else{
+        for (var i = 0; i < globalData.data.length; i++) {
+            var data = globalData.data[i];
+            var strValue = "";
+            for(var j = 0; j < data.rows.length; j++){
+                if(j == data.rows.length - 1){
+                    strValue += data.rows[j];
+                }else{
+                    strValue += data.rows[j] + " / ";
+                }
+            }
+
+            if(data.columns.length > 0){
+                strValue += " / ";
+            }
+
+            for(var j = 0; j < data.columns.length; j++){
+                if(j == data.columns.length - 1){
+                    strValue += data.columns[j];
+                }else{
+                    strValue += data.columns[j] + " / ";
+                }
+            }
+
+            var value = {};
+            for(var j = 0; j < data.values.length; j++){
+                value['value_' + j] = data.values[j];
+            }
+
+            value['key'] = strValue;
+
+            chartData.push(value);
+        }
+    }
+
+    //set data
+    line_chart.dataProvider = chartData;
+
+    if(globalData.data[0].rows.length == 1 && globalData.data[0].columns.length == 1 && globalData.data[0].values.length == 1){
+
+        for (var i = 0; i < rows.length; i++) {
+            // value
+            var valueAxis = new AmCharts.ValueAxis();
+            valueAxis.axisAlpha = 0;
+            valueAxis.axisColor = colorPalletes[0];
+            valueAxis.inside = true;
+            valueAxis.dashLength = 0;
+            line_chart.addValueAxis(valueAxis);
+
+            // GRAPH
+            var title = rows[i];
+            var graph = new AmCharts.AmGraph();
+            graph.valueAxis = valueAxis;
+            graph.title = title;
+            graph.type = "smoothedLine"; // this line makes the graph smoothed line.
+            graph.bullet = "round";
+            graph.bulletSize = 8;
+            graph.bulletBorderColor = "#FFFFFF";
+            graph.bulletBorderAlpha = 1;
+            graph.bulletBorderThickness = 2;
+            graph.lineThickness = 2;
+            graph.valueField = "value_" + title;
+            graph.precision = 0;
+            graph.balloonText = title + " / [[category]]<br><b><span style='font-size:14px;'>[[value]]</span></b>";
+            line_chart.addGraph(graph);
+        }
+
+        var legend = new AmCharts.AmLegend();
+       legend.marginLeft = 110;
+       legend.useGraphSettings = true;
+       line_chart.addLegend(legend)
+    }else{
+        for (var i = 0; i < globalData.data[0].values.length; i++) {
+            // GRAPH
+            var title = $($("#measure-sortable").find("li")[i]).data("column");
+            var graph = new AmCharts.AmGraph();
+            graph.title = title;
+            graph.type = "smoothedLine"; // this line makes the graph smoothed line.
+            graph.lineColor = colorPalletes[i % colorPalletes.length];
+            graph.bullet = "round";
+            graph.bulletSize = 8;
+            graph.bulletBorderColor = "#FFFFFF";
+            graph.bulletBorderAlpha = 1;
+            graph.bulletBorderThickness = 2;
+            graph.lineThickness = 2;
+            graph.valueField = "value_" + i;
+            graph.precision = 0;
+            graph.balloonText = title + " [[category]]<br><b><span style='font-size:14px;'>[[value]]</span></b>";
+            line_chart.addGraph(graph);
+        }
+    }
+
+    line_chart.write("result-area");
+}
+/** start: end chart **/
+
+/** start: connection & cube function **/
+var connectionReader = function(){
+    $.ajax({
+        method: "GET",
+        url: baseUrl + "/connection",
+        success: function(response){
+            globalConnections = response;
+            $("#connections-editor").val(JSON.stringify(globalConnections, null, 4));
+            writeConnectionSelectBox();
+        }
+    })
+};
+
+var writeConnectionSelectBox = function(){
+    for (var i = 0; i < globalConnections.length; i++) {
+        var options = "<optgroup label='" + globalConnections[i].name + "'>";
+        for(var c = 0; c < globalConnections[i].cubes.length; c++){
+            options += "<option value='" + c + "' data-connection='" + i + "' data-cube='" + c + "'>" + globalConnections[i].cubes[c].name + "</option>";
+        }
+        options += "</optgroup>";
+        $("#connection-select").append(options);
+    }
+};
+
+var renderCube = function(){
+    var dims = globalCube.dims;
+    var fact = globalCube.fact;
+    var dim, column;
+
+    //set dim
+    var html = "";
+    for (var i = 0; i < dims.length; i++) {
+        dim = dims[i];
+        html += "<b>" + dim.name + "</b>";
+        html += "<ul id='source-" + dim.name + "' class='sortable source-sortable'>";
+        for (var j = 0; j < dim.columns.length; j++) {
+            column = dim.columns[j];
+            html += "<li data-column='" + dim.name + "." + column.field + "'>" + column.field + "</li>";
+        }
+        html += "</ul>";
+    }
+    $("#dimensions-area").html(html);
+
+    //set measure
+    html = "";
+    for (var j = 0; j < fact.columns.length; j++) {
+        column = fact.columns[j];
+        html += "<option value='" + fact.name + "." + column.field + "'>" + column.field + "</option>";
+    }
+    $("#measure-attr").html(html);
+
+    //set sortable
+    $(".source-sortable").sortable({
+        connectWith: ".source-sortable"
+    });
+
+    //enable btn add measure
+    $("#measure-sortable-btn").show();
+    $("#sort-sortable-btn").show();
+
+    //rendert sort
+    renderSort();
+};
+
+var resetCube = function(){
+    $("#dimensions-area").html("");
+    $("#measure-attr").html("");
+    $("#row-sortable").html("");
+    $("#column-sortable").html("");
+    $("#measure-sortable").html("");
+    $("#measure-attr").html("");
+    $("#measure-sortable-btn").hide();
+    $("#sort-sortable").html("");
+    $("#sort-sortable-btn").hide();
+    $("#sort-attr").html("");
+};
+
+var renderSort = function(){
+    var dims = globalCube.dims;
+    var fact = globalCube.fact;
+    var dim, column;
+    var sort = "";
+    for (var i = 0; i < dims.length; i++) {
+        dim = dims[i];
+        sort += "<optgroup label='" + dim.name + "'>";
+        for (var j = 0; j < dim.columns.length; j++) {
+            column = dim.columns[j];
+            sort += "<option value='" + dim.name + "." + column.field + "'>" + column.field + "</option>";
+        }
+        sort += "</optgroup>";
+    }
+
+    //get data from measure
+    sort += "<optgroup label='Measure'>";
+    $("#measure-sortable li").each(function(){
+        sort += "<option value='" + $(this).data("column") + "'>" + $(this).data("column") + "</option>";
+    });
+    sort += "</optgroup>";
+
+    $("#sort-attr").html(sort);
+}
+
+var addMeasure = function(){
+    var aggregate = $("#measure-aggregate").find(":selected").val();
+    var measure = $("#measure-attr").find(":selected").val();
+    var value = aggregate + "(" + measure + ")";
+    var fullValue = value;
+    if(value.length > 15){
+        value = value.substring(0, 15) + "...";
+    }
+    var html = "<li data-column='" + fullValue + "' title='" + fullValue + "'>" + value + " <a href='#' class='text text-danger' onclick='removeMeasure(this)'><span class='glyphicon glyphicon-remove'></span></a></li>";
+    $("#measure-sortable").append(html);
+    $("#measure-sortable").sortable();
+
+    //add to sorter
+    renderSort();
+}
+
+var addSort = function(){
+    var order = $("#sort-order").find(":selected").val();
+    var attr = $("#sort-attr").find(":selected").val();
+
+    var value = attr + " " + order;
+    var fullValue = value;
+    if(value.length > 15){
+        value = value.substring(0, 15) + "...";
+    }
+    var html = "<li data-column='" + fullValue + "' title='" + fullValue + "'>" + value + " <a href='#' class='text text-danger' onclick='removeSort(this)'><span class='glyphicon glyphicon-remove'></span></a></li>";
+    $("#sort-sortable").append(html);
+    $("#sort-sortable").sortable();
+}
+
+var removeMeasure = function(e){
+    $(e).parent().remove();
+}
+
+var removeSort = function(e){
+    $(e).parent().remove();
+}
+/** end: connection & cube function **/
+
+/** start: table generator function **/
+var rowsTmp = [];
+var rows = [];
+var headersTmp = [];
+var headers = [];
+var ct = 0;
+var rowCt = 0;
+var columnCt = 0;
+var measureCt = 0;
+
+/**
+ *
+ * @param data in json format
+ */
+function generateTable(){
+    rows = [];
+    headers = [];
+    globalIndex = [];
+
+    //get from row
+    rowCt = 0;
+    $("#row-sortable li").each(function(){
+        rowCt++;
+    });
+
+    columnCt = 0;
+    $("#column-sortable li").each(function(){
+        columnCt++;
+    });
+
+    measureCt = 0;
+    $("#measure-sortable li").each(function(){
+        measureCt++;
+    });
+
+    createColumns();
+    createRows();
+    loadValues();
+
+    var table = "<table class='table table-bordered table-hover' id='result-table'><thead>";
+
+    for (var i = 0; i < headers.length; i++) {
+        if(headers[i] != undefined){
+            table += "<tr>" + headers[i] + "</tr>";
+        }
+    }
+
+    table += "</thead><tbody>";
+
+    for (var i = 0; i < rows.length; i++) {
+        if(rows[i] != undefined){
+            table += "<tr>" + rows[i] + "</tr>";
+        }
+    }
+
+    table += "</tbody></table>";
+
+    $("#result-area").html(table);
+    $("#result-area").css({"overflow": "auto"});
+    $("#query-time").html("Query time: " + globalData.query_time / 1000 + " s");
+}
+
+//create columns
+function createColumns(){
+    globalColumns = {};
+
+    for (var i = 0; i < globalData.data.length; i++) {
+        var localColumn = globalColumns;
+        for (var j = 0; j < globalData.data[i].columns.length; j++) {
+            var column = txtPreffix + globalData.data[i].columns[j];
+            if(localColumn[column] == undefined){
+                localColumn[column] = {};
+            }
+
+            localColumn = localColumn[column];
+        }
+    }
+
+    //render table
+    var ct = 0;
+    var thPerLine = 0;
+    var totalLeaves = countTotalLeaf(globalColumns) * measureCt;
+    if(columnCt > 0 && rowCt > 0){
+        headers[ct] = "<th rowspan='" + columnCt + "' colspan='" + rowCt + "'></th>";
+    }
+    //buat queue untuk handle kolom-kolomnya
+    var queue = [];
+    queue.unshift(globalColumns);
+    while(queue.length > 0){
+        var q = queue.pop();
+        if(headers[ct] == undefined){
+            headers[ct] = "";
+        }
+        $.each(q, function(k, v){
+            var th = (countTotalLeaf(v) * measureCt);
+            thPerLine += th;
+            headers[ct] += "<th colspan='" + th + "'>" + k.substring(1, k.length) + "</th>";
+            queue.unshift(v);
+        });
+        //handle barisnya
+        if(thPerLine == totalLeaves){
+            ct++;
+            thPerLine = 0;
+        }
+    }
+}
+
+//create rows
+function createRows(){
+    //TODO: change to array, because we need sorting
+    globalRows = {};
+
+    for (var i = 0; i < globalData.data.length; i++) {
+        var localRows = globalRows;
+        for (var j = 0; j < globalData.data[i].rows.length; j++) {
+            var row = txtPreffix + globalData.data[i].rows[j];
+            if(localRows[row] == undefined){
+                localRows[row] = {};
+            }
+            localRows = localRows[row];
+        }
+    }
+
+    //render rows
+    var ct = 0;
+    var totalRowspan = 0;
+    var totalRows = countTotalLeaf(globalRows);
+    //buat queue untuk handle baris-barisnya
+    var queue = [];
+    queue.unshift(globalRows);
+    while(queue.length > 0){
+        var q = queue.pop();
+        $.each(q, function(k, v){
+            var rowspan = countTotalLeaf(v);
+            totalRowspan += rowspan;
+            if(rows[ct] == undefined){
+                rows[ct] = "";
+            }
+            rows[ct] += "<th rowspan='" + rowspan + "'>" + k.substring(1, k.length) + "</th>";
+            ct += rowspan;
+            queue.unshift(v);
+        });
+
+        //handle barisnya
+        if(totalRowspan == totalRows){
+            ct = 0;
+            totalRowspan = 0;
+        }
+    }
+}
+
+//load value into table
+function loadValues(){
+    createIndex(globalRows);
+    createIndex(globalColumns);
+    globalIndex = [];
+
+    for (var i = 0; i < globalData.data.length; i++) {
+        var localRows = globalRows;
+        for(var r = 0; r < globalData.data[i].rows.length; r++){
+            localRows = localRows[txtPreffix + globalData.data[i].rows[r]];
+        }
+
+        var localColumns = globalColumns;
+        for(var c = 0; c < globalData.data[i].columns.length; c++){
+            localColumns = localColumns[txtPreffix + globalData.data[i].columns[c]];
+        }
+
+        var rowIndex = localRows.index;
+        var columnIndex = localColumns.index;
+
+        for (var j = 0; j < globalData.data[i].values.length; j++) {
+            var data = globalData.data[i].values[j];
+            if(globalIndex[rowIndex] == undefined){
+                globalIndex[rowIndex] = [];
+            }
+            if(globalIndex[rowIndex][columnIndex] == undefined){
+                globalIndex[rowIndex][columnIndex] = [];
+            }
+            globalIndex[rowIndex][columnIndex][j] = data;
+        }
+    }
+
+    for(var i = 0; i < countTotalLeaf(globalRows); i++){
+        if(rows[i] == undefined){
+            rows[i] = "";
+        }
+
+        for (var j = 0; j < countTotalLeaf(globalColumns); j++) {
+            for(var x = 0; x < measureCt; x++){
+                if(globalIndex[i][j] == undefined || globalIndex[i][j][x] == undefined){
+                    rows[i] += "<td>-</td>";
+                }else{
+                    rows[i] += "<td>" + globalIndex[i][j][x] + "</td>";
+                }
+            }
+        }
+    }
+}
+
+//create index
+var ctIndex;
+var tmpArr;
+function createIndex(arr){
+    ctIndex = 0;
+    _createIndex(arr);
+}
+
+function _createIndex(arr){
+    if(arr != null && arr != undefined){
+        if(Object.keys(arr).length == 0){
+            arr.index = ctIndex;
+            ctIndex++;
+        }else{
+            $.each(arr, function(k, v){
+                tmpArr = arr;
+                _createIndex(v);
+            });
+        }
+    }
+}
+
+//get total leafs
+var ct;
+function countTotalLeaf(arr){
+    ct = 0;
+    _countTotalLeaf(arr);
+    return ct;
+}
+
+function _countTotalLeaf(arr){
+    if(arr != null && arr != undefined){
+        if(Object.keys(arr).length == 0){
+            ct++;
+        }else{
+            $.each(arr, function(k, v){
+                _countTotalLeaf(v);
+            });
+        }
+    }
+}
+/** end: table generator function **/
+\end{lstlisting}
+
+\section{Aplikasi \textit{server}}
+\begin{lstlisting}[language=Java,basicstyle=\tiny,caption=Config.java]
+package com.wilianto.wisata.helper;
+
+public class Config {
+    public static String connectionFile = "/WEB-INF/connections.json";
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java,basicstyle=\tiny,caption=DbConnection.java]
+package com.wilianto.wisata.helper;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class DbConnection {
+    public static String user = "root";
+    public static String pass = "admin123";
+    public static String driver = "com.mysql.jdbc.Driver"; //"org.apache.hive.jdbc.HiveDriver";
+    public static int port = 3306;
+    public static String host = "localhost";
+    public static String db = "skripsi_star";
+    public static String url = "jdbc:mysql://localhost:3306/skripsi_star"; //"jdbc:hive2://localhost:10000/default";
+    
+    private static Connection con;
+    
+    public static Connection getConnection(){
+        return getConnection(host, user, pass, port, db, driver);
+    }
+    
+    public static Connection getConnection(String host, String user, String pass, int port, String db, String driver){
+        try {
+            String url = "";
+
+            switch(driver){
+                case "com.mysql.jdbc.Driver":
+                    url = "jdbc:mysql://" + host + ":" + port + "/" + db + "";
+                    break;
+                case "org.apache.hive.jdbc.HiveDriver":
+                    url = "jdbc:hive2://" + host + ":" + port + "/" + db + "";
+                    break;
+            }
+
+            Class.forName(driver).newInstance();
+            DbConnection.con = (Connection) DriverManager.getConnection(url, user, pass);
+        } catch (Exception ex) {
+            Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+        return DbConnection.con;
+    }
+}
+\end{lstlisting}
+\begin{lstlisting}[language=Java,basicstyle=\tiny,caption=ConnectionReaderWriter.java]
+package com.wilianto.wisata.helper;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletContext;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class ConnectionReaderWriter {
+    private ServletContext context;
+    private Connection conn;
+    
+    public ConnectionReaderWriter(ServletContext context){
+        this.context = context;
+    }
+        
+    public String getConnection(int connectionId){
+        try {
+            JSONArray connections = new JSONArray(this.getConnections());
+            JSONObject connection = connections.getJSONObject(connectionId);
+            return connection.toString();
+        } catch (JSONException ex) {
+            Logger.getLogger(ConnectionReaderWriter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectionReaderWriter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public String getCube(int connectionId, int cubeId){
+        try {
+            JSONObject connection = new JSONObject(this.getConnection(connectionId));
+            JSONObject cube = connection.getJSONArray("cubes").getJSONObject(cubeId);
+            return cube.toString();
+        } catch (JSONException ex) {
+            Logger.getLogger(ConnectionReaderWriter.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        return null;
+    }
+    
+    public String getConnections() throws FileNotFoundException, IOException{
+        String str = "";
+        
+        FileReader fr = new FileReader(context.getRealPath("/") + Config.connectionFile);
+        BufferedReader br = new BufferedReader(fr);
+        
+        String line;
+        while((line = br.readLine()) != null){
+            str += line;
+        }
+        
+        br.close();
+        fr.close();
+        
+        return str;
+    }
+        
+    public String getCubeDetail(int connectionId, int cubeId){
+        
+        try {
+            JSONArray connections = new JSONArray(this.getConnections());
+            JSONObject connection = (new JSONObject(this.getConnection(connectionId))).getJSONObject("connection");
+            JSONObject cube = connections.getJSONObject(connectionId).getJSONArray("cubes").getJSONObject(cubeId);
+            JSONArray dims = cube.getJSONArray("dim");
+            
+            String host = connection.getString("host");
+            String user = connection.getString("username");
+            String pass = connection.getString("password");
+            String db = connection.getString("database");
+            int port = connection.getInt("port");
+            String driver = connection.getString("driver");
+            
+            conn = DbConnection.getConnection(host, user, pass, port, db, driver);
+            String table = cube.getString("fact");
+            
+            //init json object as parent
+            JSONObject json = new JSONObject();
+            
+            //fetch fact data
+            JSONObject tableNodeJson = new JSONObject();
+            tableNodeJson.put("name", table);
+            tableNodeJson.put("columns", this.getColumn(table));            
+            json.put("fact", tableNodeJson);
+            
+            //fetch dim data
+            JSONArray dimsJson = new JSONArray();
+            for (int i = 0; i < dims.length(); i++) {
+                table = dims.getJSONObject(i).getString("table");
+                tableNodeJson = new JSONObject();
+                tableNodeJson.put("name", table);
+                tableNodeJson.put("columns", this.getColumn(table)); 
+                dimsJson.put(tableNodeJson);
+            }
+            json.put("dims", dimsJson);
+            
+            return json.toString();
+        } catch (JSONException ex) {
+            Logger.getLogger(ConnectionReaderWriter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectionReaderWriter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnectionReaderWriter.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+        return null;
+    }
+    
+    private JSONArray getColumn(String tableName) throws SQLException, JSONException{
+        JSONArray columns = new JSONArray();
+        //running query
+        String sql = "DESC `" + tableName + "`";
+        PreparedStatement pStmt = conn.prepareStatement(sql);
+        ResultSet rs = pStmt.executeQuery();
+
+        JSONObject tmpJson;
+        while(rs.next()){
+            tmpJson = new JSONObject();
+            tmpJson.put("field", rs.getString(1));
+            tmpJson.put("type", rs.getString(2));
+            columns.put(tmpJson);
+        }
+        
+        return columns;
+    }
+    
+    public void write(String connections) throws IOException{
+        FileWriter fw = new FileWriter(context.getRealPath("/") + Config.connectionFile);
+        fw.append(connections);
+        fw.close();
+    }
+}
+\end{lstlisting}
+\begin{lstlisting}[language=Java,basicstyle=\tiny,caption=QueryBuilder.java]
+package com.wilianto.wisata.helper;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class QueryBuilder {
+    private String from, join, rowAttrs, columnAttrs, aggregate;
+
+    public QueryBuilder(JSONObject cube) {
+        this.init(cube);
+    }
+    
+    public QueryBuilder(String cubeString) throws JSONException {
+        JSONObject cube = new JSONObject(cubeString);
+        this.init(cube);
+    }
+    
+    private void init(JSONObject cube){
+        try{
+            from = "FROM " + cube.getString("fact");
+            
+            join = "";
+            JSONArray dims = cube.getJSONArray("dim");
+            JSONObject dim;
+            for (int j = 0; j < dims.length(); j++) {
+                dim = dims.getJSONObject(j);
+                join += dim.getString("join") 
+                    + " " + dim.getString("table") 
+                    + " ON " + dim.getString("relation") + " ";
+            }
+        }catch(JSONException ex){
+            ex.printStackTrace();
+        }
+    }
+    
+    /**
+     * Create a query
+     * @param attrs attribute
+     * @param aggregate aggregate function
+     * @param condition condition full
+     * @param order order
+     * @param asc order by asc?
+     * @return 
+     */
+    public String create(String rowAttrs, String columnAttrs , String aggregate, String condition, String order, int limit, String having){
+        /**
+         * SELECT ..., ..., SUM(...)
+         * FROM fact
+         * JOIN dim ON relation
+         * JOIN dim ON relation
+         * JOIN dim ON relation
+         * WHERE ...
+         * ORDER BY ... ASC
+         * GROUP BY ..., ...
+         */
+        //set global so other methods can use it
+        String attrs = (rowAttrs + columnAttrs);
+        this.rowAttrs = rowAttrs;
+        this.columnAttrs = columnAttrs;
+        this.aggregate = aggregate;
+        String sql = "SELECT ";
+        //create select query
+        sql += rowAttrs + columnAttrs;
+        //create aggregate function
+        sql += aggregate.substring(0, aggregate.length() - 1) + " ";
+        //create from query
+        sql += from + " ";
+        //create join query
+        sql += join + " ";
+        //create where query
+        if(condition != null && !condition.isEmpty()){
+            sql += "WHERE " + condition + " ";
+        }
+        //create group query
+        sql += "GROUP BY " + attrs.substring(0, attrs.length() - 1) + " ";
+        
+        if(having != null && !having.isEmpty()){
+            sql += "HAVING " + having + " ";
+        }
+        
+        //create order query
+        if(!order.isEmpty()){
+            sql += "ORDER BY " + order.substring(0, order.length() - 1) + " ";
+        }
+        if(limit != 0){
+            sql += "LIMIT " + limit + " ";
+        }
+        
+        return sql;
+    }
+    
+    public int getRowAttrsCount(){
+        return rowAttrs.isEmpty() ? 0 : rowAttrs.split(",").length;
+    }
+    
+    public int getColumnAttrsCount(){
+        return columnAttrs.isEmpty() ? 0 : columnAttrs.split(",").length;
+    }
+    
+    public int getAttrsCount(){
+        return this.getRowAttrsCount() + this.getColumnAttrsCount();
+    }
+    
+    public int getAggregateCount(){
+        return aggregate.split(",").length;
+    }
+}
+\end{lstlisting}
+\begin{lstlisting}[language=Java,basicstyle=\tiny,caption=ConnectionServlet.java]
+package com.wilianto.wisata;
+
+import com.wilianto.wisata.helper.ConnectionReaderWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
+import org.json.JSONException;
+
+@WebServlet("/connection")
+public class ConnectionServlet extends HttpServlet{
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        String data = "";
+        ConnectionReaderWriter connectionReaderWriter = new ConnectionReaderWriter(getServletContext());
+        if(request.getParameter("connection_id") != null && request.getParameter("cube_id") != null){
+            int connectionId = Integer.parseInt(request.getParameter("connection_id"));
+            int cubeId = Integer.parseInt(request.getParameter("cube_id"));
+            data = connectionReaderWriter.getCubeDetail(connectionId, cubeId);
+        }else if(request.getParameter("connection_id") != null && request.getParameter("cube_id") == null){
+            int connectionId = Integer.parseInt(request.getParameter("connection_id"));
+            data = connectionReaderWriter.getConnection(connectionId);
+        }else{
+            data = connectionReaderWriter.getConnections();
+        }
+        
+        response.setContentType("text/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().print(data);
+    }
+    
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        ConnectionReaderWriter connectionReaderWriter = new ConnectionReaderWriter(getServletContext());
+        String connections = request.getParameter("connections");
+        String msg = "OK";
+        try {
+            JSONArray jsonArray = new JSONArray(connections);
+            
+            connectionReaderWriter.write(connections);
+        } catch (JSONException ex) {
+            msg = "Invalid JSON Format";
+        }
+        
+        response.setContentType("text/html");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().print(msg);
+    }
+}
+\end{lstlisting}
+\begin{lstlisting}[language=Java,basicstyle=\tiny,caption=GeneratorServlet.java]
+package com.wilianto.wisata;
+
+import com.wilianto.wisata.helper.QueryBuilder;
+import com.wilianto.wisata.helper.ConnectionReaderWriter;
+import com.wilianto.wisata.helper.DbConnection;
+import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.LinkedHashMap;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+@WebServlet("/generator")
+public class GeneratorServlet extends HttpServlet{
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        String rowAttrs = request.getParameter("rowAttrs");
+        String columnAttrs = request.getParameter("columnAttrs");
+        String aggregate = request.getParameter("aggregate");
+        String sort = request.getParameter("sort");
+        String condition = request.getParameter("condition");
+        String having = request.getParameter("having");
+        int limit = Integer.parseInt(request.getParameter("limit"));
+        int connectionId = Integer.parseInt(request.getParameter("connectionId"));
+        int cubeId = Integer.parseInt(request.getParameter("cubeId"));
+        
+        ConnectionReaderWriter connectionReaderWriter = new ConnectionReaderWriter(getServletContext());
+        
+        try{
+            long startedTime = System.currentTimeMillis();
+            QueryBuilder queryBuilder = new QueryBuilder(connectionReaderWriter.getCube(connectionId, cubeId));
+            String sql = queryBuilder.create(rowAttrs, columnAttrs, aggregate, condition, sort, limit, having);
+            JSONObject connectionJson = (new JSONObject(connectionReaderWriter.getConnection(connectionId)))
+                    .getJSONObject("connection");
+            String host = connectionJson.getString("host");
+            String user = connectionJson.getString("username");
+            String pass = connectionJson.getString("password");
+            String db = connectionJson.getString("database");
+            int port = connectionJson.getInt("port");
+            String driver = connectionJson.getString("driver");
+            
+            System.out.println(sql);
+            PreparedStatement pStmt = DbConnection.getConnection(host, user, pass, port, db, driver)
+                    .prepareStatement(sql);
+            ResultSet rs = pStmt.executeQuery();
+            
+            LinkedHashMap map = new LinkedHashMap();
+            JSONObject json = new JSONObject();
+            JSONArray dataArray = new JSONArray();
+            String tmpString;
+            double tmpDouble;
+            
+            int keys = queryBuilder.getAttrsCount();
+            int rowsCount = queryBuilder.getRowAttrsCount();
+            int columnsCount = queryBuilder.getColumnAttrsCount();
+            int values = queryBuilder.getAggregateCount();
+            
+            JSONObject jsonTemp;
+            JSONArray rowArray, columnArray, valueArray;
+            while(rs.next()){
+                jsonTemp = new JSONObject();
+                rowArray = new JSONArray();
+                columnArray = new JSONArray();
+                valueArray = new JSONArray();
+                
+                //set to rows
+                for (int i = 1; i <= rowsCount; i++) {
+                    rowArray.put(rs.getString(i));
+                }
+                
+                //set to columns
+                for (int i = rowsCount + 1; i <= keys; i++) {
+                    columnArray.put(rs.getString(i));
+                }
+                
+                //set to values
+                for (int i = keys + 1; i <= keys + values; i++) {
+                    valueArray.put(rs.getDouble(i));
+                }
+                
+                jsonTemp.put("rows", rowArray);
+                jsonTemp.put("columns", columnArray);
+                jsonTemp.put("values", valueArray);
+                
+                dataArray.put(jsonTemp);
+            }
+            long finishedTime = System.currentTimeMillis();
+            
+            json.put("query_time", finishedTime - startedTime);
+            json.put("data", dataArray);
+            
+            response.setContentType("text/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().print(json.toString());
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }catch(JSONException ex){
+            ex.printStackTrace();
+        }
+    }
+}
+\end{lstlisting}
+\begin{lstlisting}[language=HTML,basicstyle=\tiny,caption=connections.json]
+[
+    {
+        "name" : "Lab 0301 MySQL",
+        "connection" : {
+            "host" : "10.100.73.201",
+            "username" : "root",
+            "password" : "hduser",
+            "database" : "skripsi",
+            "port"  : 3306,
+            "driver" : "com.mysql.jdbc.Driver"
+        },
+        "cubes": [
+            {
+                "name"  : "Wisata Counter",
+                "fact"  : "fact_trend_locations",
+                "dim"   : [
+                    {
+                        "table"     : "dim_locations",
+                        "join"      : "INNER JOIN",
+                        "relation"  : "dim_locations.name = fact_trend_locations.destination"
+                    },
+                    {
+                        "table"     : "dim_dates",
+                        "join"      : "LEFT JOIN",
+                        "relation"  : "dim_dates.full_date = fact_trend_locations.post_date"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name" : "Localhost MySQL",
+        "connection" : {
+            "host" : "localhost",
+            "username" : "root",
+            "password" : "",
+            "database" : "skripsi",
+            "port"  : 3306,
+            "driver" : "com.mysql.jdbc.Driver"
+        },
+        "cubes": [
+            {
+                "name"  : "Wisata Counter",
+                "fact"  : "fact_trend_locations",
+                "dim"   : [
+                    {
+                        "table"     : "dim_locations",
+                        "join"      : "INNER JOIN",
+                        "relation"  : "dim_locations.name = fact_trend_locations.destination"
+                    },
+                    {
+                        "table"     : "dim_dates",
+                        "join"      : "LEFT JOIN",
+                        "relation"  : "dim_dates.full_date = fact_trend_locations.post_date"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name" : "Localhost Hive",
+        "connection" : {
+            "host" : "10.100.73.201",
+            "username" : "hduser",
+            "password" : "",
+            "database" : "default",
+            "port"  : 10000,
+            "driver" : "org.apache.hive.jdbc.HiveDriver"
+        },
+        "cubes": [
+            {
+                "name"  : "Wisata Counter",
+                "fact"  : "fact_trend_locations",
+                "dim"   : [
+                    {
+                        "table"     : "dim_locations",
+                        "join"      : "INNER JOIN",
+                        "relation"  : "dim_locations.name = fact_trend_locations.destination"
+                    },
+                    {
+                        "table"     : "dim_dates",
+                        "join"      : "LEFT JOIN",
+                        "relation"  : "dim_dates.full_date = fact_trend_locations.post_date"
+                    }
+                ]
+            }
+        ]
+    }
+]
+\end{lstlisting}
