@@ -1,0 +1,23 @@
+\chapter{Kesimpulan dan Saran}
+
+\section{Kesimpulan}
+Banyak informasi yang tersimpan di dalam pesan-pesan sosial media. Salah satunya adalah informasi tentang tren lokasi wisata. Data tren ini dapat bermanfaat bagi para pemilik usaha di bidang pariwisata dalam pengambilan keputusan. Namun dalam memperoleh data tersebut diperlukan sebuah sistem yang dapat berjalan dengan cepat dan akurat, mengingat data dari sosial media yang ukurannya sangat besar dan pergerakannya sangat cepat. 
+
+Pada penelitian ini telah berhasil dibangun sistem terdistribusi Hadoop untuk mengolah data-data dari sosial media tersebut untuk keperluan informasi tren lokasi wisata. Berikut adalah kesimpulan-kesimpulan yang didapatkan dari hasil penelitian ini. 
+
+\begin{itemize}
+	\item Media sosial Twitter dan Instagram dapat dimanfaatkan untuk menunjang pengambilan keputusan di bidang usaha pariwisata. Salah satu pemanfaatannya adalah untuk mencari tren lokasi wisata yang sedang ramai dibicarakan para pengguna sosial media. Hal ini dapat berdampak pada keputusan strategis perusahaan dalam pengambilan keputusan.
+	\item Secara keseluruhan sistem yang dibangun pada penelitian ini diawali dengan proses pengambilan data dari sosial media Twitter dan Instagram. Data yang sudah diambil kemudian dimasukan ke dalam HDFS untuk diolah secara berkala menggunakan modul program yang berjalan di sistem distribusi Hadoop. Hasil keluaran dari program berupa lokasi wisata, tanggal dan frekuensi kemunculan lokasi wisata. Keluaran tersebut diekspor ke Hive menggunakan kueri yang sudah tersedia di Hive dan diekspor ke basis data di luar Hadoop, yaitu MySQL menggunakan Apache Sqoop. 
+	\item Selain dari sisi pengolahan data mentah, modul program kecerdasan bisnis yang dibangun dapat menganalisis keluaran-keluaran yang dihasilkan untuk memperoleh informasi-informasi yang dibutuhkan. Seluruh rangkaian proses yang dilakukan, mulai dari pemrosesan data di HDFS hingga hasilnya diekspor ke Hive dan MySQL dilakukan secara otomatis dan berkala menggunakan modul ETL yang dibangun menggunakan Pentaho Data Integration.
+	\item Sistem yang dibuat ini dapat berjalan dengan baik dan cepat. Hal ini dapat dilihat pada pengujian modul program yang berhasil memberikan keluaran yang tepat dan dapat berjalan dengan lebih cepat dibandingkan program \textit{standalone}. Jumlah \textit{node} juga sangat berpengaruh pada kecepatan program yang dibuat. Semakin banyak \textit{node} yang digunakan, maka proses tersebut akan berjalan semakin cepat. Hal ini disebabkan karena semakin banyak \textit{node} yang bekerja untuk menjalankan proses tersebut sehingga waktu eksekusi menjadi semakin cepat.
+	\item Kecepatan sistem yang dibuat juga dipengaruhi oleh ukuran blok. Maka dari itu diperlukan eksperimen dalam pemilihan ukuran blok yang paling optimal.
+\end{itemize}
+
+
+
+\section{Saran Penelitian Lanjutan}
+Agar penelitian ini dapat terus berkembang, berikut saran-saran yang diusulkan:
+\begin{itemize}
+	\item Penelitian ini dikembangkan lagi dengan menambahkan jenis-jenis analisis lainnya dengan menggunakan teknik penambangan data, seperti misalnya analisis sentimen terhadap suatu lokasi wisata.
+	\item Penelitian ini dikembangkan lagi dengan memperluas cakupan data sosial media yang diambil, tidak terbatas hanya Twitter dan Instagram, tapi juga dapat diambil dari Facebook, Path atau sosial media lainnya.
+\end{itemize}

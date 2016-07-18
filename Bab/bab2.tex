@@ -3,12 +3,9 @@
 	
 \section{Kecerdasan Bisnis}
 \label{sec:kecerdasan_bisnis}
-Kecerdasan bisnis dapat diartikan sebagai suatu kumpulan metode, proses, teori, arsitektur dan teknologi yang dapat mengubah data menjadi informasi yang bermanfaat dan memiliki nilai yang berguna dalam kepentingan bisnis. Sistem kecerdasan bisnis dapat dimanfaatkan untuk proses identifikasi informasi yang berjumlah sangat banyak untuk kepentingan pengembangan peluang-peluang bisnis baru. Dengan menemukan peluang-peluang bisnis baru dan mengimplementasikan strategi yang efektif, maka sebuah perusahan dapat mendapatkan keuntungan dari sisi daya saing dan stabilitas jangka panjang.
+Kecerdasan bisnis adalah sekumpulan teknik dan alat untuk mentransformasi dari data mentah menjadi informasi yang berguna dan bermakna untuk tujuan analisis bisnis. Teknologi kecerdasan bisnis dapat menangani data yang tak terstruktur dalam jumlah yang sangat besar untuk membantu mengidentifikasi, mengembangkan, dan selain itu membuat kesempatan strategi bisnis yang baru. Tujuan dari kecerdasan bisnis yaitu untuk memudahkan interpretasi dari jumlah data yang besar tersebut. Mengidentifikasi kesempatan yang baru dan mengimplementasikan suatu strategi yang efektif berdasarkan wawasan dapat menyediakan bisnis suatu keuntungan pasar yang kompetitif dan stabilitas jangka panjang. \cite{rud2009business}
 
 Sistem kecerdasan bisnis dapat menyediakan data di masa lalu dan saat ini. Data yang ditampilkan dapat berupa laporan, statistik, dll. Selain itu data data yang ditampilkan dapat dilihat berdasarkan suatu dimensi tertentu, misal berdasarkan dimensi waktu, pelanggan, dll. Kecerdasan bisnis menghasilkan suatu pengetahuan yang berisi tentang kebutuhan pelanggan, keputusan konsumen dalam melakukan proses bisnis, kondisi di perusahaan, dan tren ekonomi, teknologi serta tren budaya yang terjadi saat ini. Oleh karena itu, pengetahuan yang dihasilkan ini akan menjadi bagian penting dari perencanaan organisasi dan pengambilan keputusan untuk memahami keadaan konsumen atau persaingan yang terjadi saat ini.
-
-\subsection{Arsitektur Kecerdasan Bisnis}
-\label{sec:arsitektur_kecerdasan_bisnis}
 
 Dalam membangun sebuah sistem kecerdasan bisnis diperlukan masukan dari berbagai sumber data. Data-data yang terkumpul dari berbagai sumber tentunya memiliki format dan bentuk yang berbeda, sehingga diperlukan proses-proses pembersihan data untuk menghasilkan data yang baik dan siap diolah lebih lanjut. Data yang sudah dibersihkan kemudian akan dikumpulkan dalam sebuah \textit{data warehouse}. Di dalam \textit{data warehouse} data-data yang terkumpul dapat dipecah kembali menjadi beberapa \textit{OLAP Cubes} yang dapat ditampilkan secara visual kepada pengguna ataupun berupa laporan berharga yang dapat diolah lebih lanjut.
 
@@ -57,8 +54,6 @@ Twitter adalah sebuah situs web yang dimiliki dan dioperasikan oleh Twitter Inc.
 
 Pengguna Twitter dapat mengelompokan tweetnya dengan menggunakan \textit{hastags} - kata atau frasa yang diawali dengan tanda "\#". Selain itu pengguna juga dapat menunjuk pengguna lainnya dengan menuliskan \textit{username} mereka diawali dengan tanda "@". Setiap tweet yang dibuat dapat dibalas ataupun di tweet ulang (re-tweet) oleh pengguna lainnya.
 
-\subsection{Twitter Streaming API}
-\label{sec:twitter_streaming_api}
 Twitter menyediakan Streaming API yang memudahkan pengembang aplikasi untuk mendapatkan tweet-tweet yang dibuat pengguna Twitter secara \textit{realtime}. Streaming API yang tersedia memiliki beberapa jenis sesuai dengan kegunaannya, yaitu:
 
 \begin{enumerate}
@@ -80,7 +75,6 @@ Instagram adalah sebuah aplikasi berbagi foto yang dapat digunakan oleh pengguna
 
 Dalam proses mengunggah foto, pengguna juga dapat memasukan informasi pendukung lainnya seperti lokasi dan keterangan (biasa disebut \textit{caption}). Pada bagian \textit{caption} pengguna dapat menambahkan tag yang diawal dengan tanda \# atau menunjuk pengguna lain yang diawali dengan tanda @. Tag berfungsi sebagai penghubung gambar dengan suatu topik tertentu. 
 
-\subsection{Instagram API}
 Instagram menyediakan API untuk digunakan secara umum. Untuk menggunakannya pengembang harus mendaftarkan aplikasinya terlebih dahulu di https://www.instagram.com/developer/. Setelah pengembang mendaftar maka Instagram akan memberikan data-data yang diperlukan untuk melakukan \textit{request} ke API, seperti \textit{client ID, client secret}, website URL, \textit{redirect URL} dan juga \textit{support} email dari aplikasi.
 
 Dengan menggunakan Instagram API, pengembang dapat dengan mudah melakukan autentikasi, mendapatkan data-data pengguna, media, tag, \textit{likes} dan lokasi. \cite{InstagramApi:2016}
@@ -126,7 +120,7 @@ Hadoop bekerja dengan menggunakan penyimpanan terdistribusi dan mentransfer kode
 	\label{fig:komponen_utama_hadoop}
 \end{figure}
 
-Gambar \ref{fig:komponen_utama_hadoop} menjelas tentang arsitektur Hadoop. Terdapat HDFS, YARN dan MapReduce yang menjadi komponen dasar pembentuk Hadoop. Di bagian atasnya terdapat ekosistem lainnya yang dapat berjalan di atas Hadoop.
+Gambar \ref{fig:komponen_utama_hadoop} menjelas tentang arsitektur Hadoop. Terdapat Hadoop Distributed File System (HDFS), Hadoop Yet Another Resource Negotiator (YARN) dan MapReduce yang menjadi komponen dasar pembentuk Hadoop. Di bagian atasnya terdapat ekosistem lainnya yang dapat berjalan di atas Hadoop.
 
 \subsubsection{Hadoop Distributed File System (HDFS)}
 HDFS adalah sebuah file sistem yang didesain untuk memproses data distribusi skala besar di dalam framework seperti MapReduce. HDFS dapat menyimpan sebuat dataset sebesar 100TB sebagai sebuah \textit{single} file.\cite{Lam:2010:HA:1965594} HDFS bisa bersifat \textit{single} node atau \textit{multiple} node. HDFS bukan \textit{native} File System seperti layaknya EXT3, EXT4, FAT atau NTFS. HDFS ada pada layer di atasnya.
@@ -206,7 +200,7 @@ Gambar \ref{fig:reducer_works} menggambarkan cara kerja Reduce pada HDFS.
 	\label{fig:reducer_works}
 \end{figure}
 	
-\subsubsection{Hadoop YARN}
+\subsubsection{Hadoop Hadoop Yet Another Resource Negotiator (YARN)}
 Hadoop Yet Another Resource Negotiator atau YARN adalah teknologi untuk mengatur \textit{resource} dan \textit{scheduling} pada sebuah cluster. YARN berada suatu layer diatas HDFS yang memungkinkan aplikasi lain untuk memproses data yang sama di Hadoop secara paralel dengan MapReduce. Pada Hadoop versi 2.x MapReduce dianggap sebuah aplikasi YARN.
 
 \subsection{Hive}

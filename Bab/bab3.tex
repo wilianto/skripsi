@@ -1,9 +1,8 @@
 \chapter{Eksplorasi Streaming Pesan Twitter, Sistem Hadoop, Hive dan Sqoop}
 
-\section{Eksperimen}
 Pada bagian ini, dilakukan uji coba beberapa kasus sederhana yang masih berhubungan dengan proses analisis teks pada sosial media Twitter. Eksperimen yang dilakukan seperti membuat program Java untuk melakukan \textit{streaming} data melalui Streaming API Twitter dan menyimpan hasilnya ke dalam file teks. Selain itu dilakukan juga eksperimen untuk melakukan pra pengolahan teks sederhana pada data tweet di lingkungan Hadoop.
 
-\subsection{Streaming Tweet}
+\section{Eksplorasi Streaming Tweet}
 Dalam penelitian ini dibutuhkan tweet-tweet yang berhubungan dengan kegiatan pariwisata. Oleh karena itu dibuatlah sebuah program sederhana berbasis Java untuk melakukan streaming tweet. Kode sumber untuk eksperimen ini dapat dilihat pada Lampiran \ref{app:B}. Pada proses streaming tweet penulis menggunakan kata kunci libur, liburan, travel, travelling, wisata, tour, pariwisata, dan destinasi. Data tweet yang diambil juga dibatasi berdasarkan bahasa yang digunakan, hanya yang dalam bahasa Indonesia saja yang diambil. Berikut adalah salah satu contoh hasil tweet yang dihasilkan.
 
 \begin{lstlisting}[language=Java,basicstyle=\tiny,caption=Hasil Streaming]
@@ -119,7 +118,7 @@ Dari hasil eksperimen ini ada beberapa hal yang perlu dievaluasi dan dikembangka
 \end{itemize}
 
 
-\subsection{\textit{Text Preprocessing} Tweet Sederhana di Lingkungan Hadoop}
+\section{Eksplorasi \textit{Text Preprocessing} Tweet Sederhana di Lingkungan Hadoop}
 Untuk melakukan pengolahan pada tweet perlu diawali dengan \textit{text preprocessing} terlebih dahulu. Oleh karena itu perlu dilakukan eksperimen untuk melakukan text preprocessing sederhana pada data tweet di lingkungan sistem terdistribusi Hadoop. Kode sumber untuk eksperimen ini dapat dilihat pada Lampiran \ref{app:C}. Berikut adalah proses yang dilakukan pada eksperimen ini.
 
 \begin{enumerate}
@@ -128,7 +127,7 @@ Untuk melakukan pengolahan pada tweet perlu diawali dengan \textit{text preproce
 	\item Membuang tag ke pengguna lain (diawali dengan @) dan hashtag topik tertentu (diawali dengan \#).
 	\item Membuang URL yang terdapat pada tweet.
 	\item Menghilangkan karakter-karakter lainnya selain alfabet dari A sampai Z atau angka 0 sampai 9.
-	\item Membuan spasi di awal dan akhir tweet serta menghilangkan multiple spasi.
+	\item Membuang spasi di awal dan akhir tweet serta menghilangkan multiple spasi.
 \end{enumerate}
  
 Untuk mendukung proses tersebut di atas dibutuhkan \textit{library} pendukung lainnya yaitu org.apache.hadoop versi 2.7.1. Berikut adalah beberapa contoh masukan dan keluaran dari program sederhana ini.\\
@@ -160,7 +159,7 @@ Dari hasil eksperimen ini ada beberapa hal yang perlu dievaluasi dan dikembangka
 	\item Mengatasi penggunaan bahasa slang dan singkatan kata.
 \end{itemize}
 
-\subsection{Eksperimen dengan Hive}
+\section{Eksplorasi dengan Hive}
 \label{sec:eksperimen-hive}
 Pada eksperimen kali ini akan dibuat beberapa kode program sederhana untuk melakukan percobaan membuat tabel, mengimpor data ke dalam tabel, dan membaca isi dari tabel. Eksperimen ini menggunakan driver JDBC (org.apache.hive.jdbc.HiveDriver) untuk melakukan koneksi dari program java ke Hive. 
 
@@ -236,7 +235,7 @@ Keluaran dari program ImportTweets.java dan ImportStopWords.java digambarkan pad
 \end{figure}
 
 
-\subsection{Eksperimen dengan Sqoop}
+\section{Eksplorasi dengan Sqoop}
 \label{sec:eksperimen-sqoop}
 Ekperimen Sqoop dilakukan untuk mencoba proses impor dan ekpor data ke dalam HDFS khususnya menggunakan Hive. Berikut adalah perintah-perintah yang digunakan untuk melakukan proses impor dan ekspor. Parameter --connect digunakan untuk melakukan koneksi ke basis data lain menggunakan konektor Sqoop dan JDBC. --username, --password adalah data-data yang diperlukan untuk melakukan akses ke dalam basisdata. --table adalah tabel asal yang akan diimpor datanya. --hive-import digunakan untuk menandakan bahwa data yang diimpor akan disimpan dalam bentuk tabel hive, apabila parameter ini tidak digunakan maka data akan disimpan sebagai file teks biasa di HDFS. --bindir adalah lokasi direktori tempat file java otomatis dibuat oleh Sqoop. --fields-terminated-by dan --lines-terminated-by digunakan untuk pemisah antar nilai \textit{field} dan pemisah antar \textit{record}. Hasil dari proses impor berhasil dibuktikan pada Gambar \ref{fig:cek-hasil-impor-sqoop}, terdapat 28.526 data yang berhasil diimpor.
 

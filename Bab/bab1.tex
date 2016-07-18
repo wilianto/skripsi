@@ -3,7 +3,7 @@
 
 \section{Latar Belakang}
 \label{sec:latar_belakang}
-Pada saat ini, sosial media telah menjadi alat komunikasi yang sangat populer di kalangan pengguna internet. Setiap harinya jutaan orang saling berinteraksi satu sama lain melalui sosial media. Para pengguna sosial media sering menulis pesan tentang kehidupan pribadi, kegiatan yang sedang dilakukan, tempat yang sedang dikunjungi, berdiskusi tentang berbagai topik dan pembahasan isu-isu yang sedang terjadi. Dua sosial media yang cukup populer digunakan oleh masyarakat adalah Twitter dan Instagram. Twitter adalah sosial media yang berbasis teks dengan panjang 140 karakter dalam sebuah pesan. Sedangkan Instagram adalah sosial media berbasis gambar, namun terdapat juga \textit{caption} yang digunakan untuk mendeskripsikan gambar yang diunggah.
+Saat ini, sosial media telah menjadi alat komunikasi yang sangat populer di kalangan pengguna internet. Setiap harinya jutaan orang saling berinteraksi satu sama lain melalui sosial media. Para pengguna sosial media sering menulis pesan tentang kehidupan pribadi, kegiatan yang sedang dilakukan, tempat yang sedang dikunjungi, berdiskusi tentang berbagai topik dan pembahasan isu-isu yang sedang terjadi. Dua sosial media yang cukup populer digunakan oleh masyarakat adalah Twitter dan Instagram. Twitter adalah sosial media yang berbasis teks dengan panjang 140 karakter dalam sebuah pesan. Sedangkan Instagram adalah sosial media berbasis gambar, namun terdapat juga \textit{caption} yang digunakan untuk mendeskripsikan gambar yang diunggah.
 
 Pesan yang dibuat oleh para pengguna sosial media tentu saja sangat bermanfaat bagi pemilik usaha, salah satunya di bidang pariwisata. Para pemilik usaha di bidang pariwisata dapat mengetahui tren wisata yang sedang terjadi di suatu wilayah. Dengan adanya data tersebut maka pemilik usaha di bidang pariwisata dapat lebih mudah dalam mengambil keputusan bisnis. Namun kendalanya adalah pesan yang diperoleh dari sosial media jumlahnya sangat banyak dan berkembang dengan sangat cepat. Oleh karena itu pemrosesan pesan dari sosial media secara manual akan menyulitkan pemilik usaha untuk mendapatkan pengetahuan berharga yang mereka butuhkan untuk keperluan bisnis.
 
@@ -16,19 +16,19 @@ Sistem ini akan dibuat pada sistem terdistribusi Hadoop, karena besarnya jumlah 
 Berdasarkan latar belakang di atas, maka permasalahan yang muncul dapat dirumuskan ke dalam poin-poin berikut ini.
 \begin{enumerate}
 	\item Bagaimana pemanfaatan analisis data media sosial Twitter dan Instagram untuk menunjang pengambilan keputusan di bidang usaha pariwisata?
-	\item Bagaimana mengembangkan teknik-teknik analisis \textit{big data} media sosial di dalam sistem terdistribusi Hadoop?
+	\item Bagaimana mengembangkan langkah-langkah / tahapan analisis \textit{big data} media sosial di dalam sistem terdistribusi Hadoop?
 	\item Bagaimana mengembangkan sistem kecerdasan bisnis yang dapat menunjang pengambilan keputusan di bidang usaha pariwisata?
-	\item Bagaimana melakukan eksperimen untuk menguji performa sistem yang dibuat?
+	\item Bagaimana hasil dari eksperimen untuk menguji performa sistem yang dibuat?
 \end{enumerate}
 
 \section{Tujuan}
 \label{sec:tujuan}
 Berdasarkan rumusan masalah di atas, maka tujuan dari topik skripsi ini adalah 
 \begin{enumerate}
-	\item Mencarai manfaat analisis data media sosial Twitter dan Instagram untuk menunjang pengambilan keputusan di bidang usaha pariwisata
+	\item Mencari manfaat analisis data media sosial Twitter dan Instagram untuk menunjang pengambilan keputusan di bidang usaha pariwisata
 	\item Membangun sistem untuk mencari tren lokasi wisata dari sosial media Twitter dan Instagram dengan memanfaatkan MapReduce di lingkungan sistem terdistribusi Hadoop.
 	\item Membangun sistem kecerdasan bisnis yang dapat mengolah data hasil analisis menjadi data yang berguna dalam pengambilan keputusan.
-	\item Melakukan eksperimen untuk menguji performa sistem yang dibuat.
+	\item Melakukan eksperimen untuk menguji pengaruh ukuran blok dan jumlah node terhadap kecepatan promrosesan data oleh sistem yang dibuat.
 \end{enumerate}
 
 \section{Batasan Masalah}
@@ -65,10 +65,13 @@ Bab 2 berisi teori-teori yang akan mendukung pembahasan pada bab selanjutnya, se
 Bab 3 Eksplorasi Streaming pesan Twitter, sistem Hadoop, Hive dan Sqoop\\
 Bab 3 berisi ekplorasi-eksplorasi yang dilakukan untuk lebih memahami tentang streaming pesan Twitter, sistem Hadoop, Hive dan Sqoop.
 \\\\
-Bab 4 Analisis dan Perancangan\\
-Bab 4 berisi tentang analisis masalah dan data yang dimiliki. Serta rancangan-rancangan program dan antarmuka yang akan dibuat.
+Bab 4 Analisis Sistem Kecerdasan Bisnis\\
+Bab 4 berisi tentang analisis masalah dan data yang dimiliki dalam membangun sistem kecerdasan bisnis.
 \\\\
-Bab 5 Implementasi dan Pengujian\\
-Bab 5 berisi tentang hasil implementasi kode program dan antarmuka yang dibuat berdasarkan rancangan pada Bab 4. Pada bab ini juga terdapat hasil pengujian dan eksperimen modul program.
+Bab 5 Rancangan Sistem Kecerdasan Bisnis\\
+Bab 5 berisi rancangan-rancangan program dan antarmuka yang akan dibuat berdasarkan hasil analisis pada Bab 4.
 \\\\
-Bab 6 Kesimpulan dan Saran berisi kesimpulan dari keseluruhan bab serta saran.\\
+Bab 6 Implementasi dan Pengujian\\
+Bab 6 berisi tentang hasil implementasi kode program dan antarmuka yang dibuat berdasarkan rancangan pada Bab 5. Pada bab ini juga terdapat hasil pengujian dan eksperimen modul program.
+\\\\
+Bab 7 Kesimpulan dan Saran berisi kesimpulan dari keseluruhan bab serta saran.\\

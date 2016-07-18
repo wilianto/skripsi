@@ -1,8 +1,8 @@
-\chapter{Analisis dan Rancangan Sistem Kecerdasan Bisnis}
+\chapter{Analisis Sistem Kecerdasan Bisnis}
 
 \section{Analisis Data}
 \subsection{Data Twitter}
-Sumber data yang diambil dari Twitter menggunakan Twitter Streaming API akan menghasilkan data dalam format json. Tabel \ref{tab:twitter_fields} adalah \textit{field-field} yang diambil untuk keperluan analisis pada penelitian ini. 
+Sumber data yang diambil dari Twitter menggunakan Twitter Streaming API akan menghasilkan data dalam format JavaScript Object Notation (JSON). Tabel \ref{tab:twitter_fields} adalah \textit{field-field} yang diambil untuk keperluan analisis pada penelitian ini. 
 
 \begin{table}[!htb]
 	\centering
@@ -197,236 +197,17 @@ Selain mengembalikan data-data media, \textit{endpoint} ini juga mengembalikan a
 \end{lstlisting}
 
 \section{Analisis Masalah}
+\label{sec:analisis_masalah}
 Keberadaan sosial media khususnya Twitter dan Instagram di Indonesia sudah menjadi bagian hidup bagi kebanyakan orang. Masyarakat dapat menulis tentang apapun di sosial media miliknya. Namun sayangnya data yang tersebar di sosial media belum diolah dengan baik oleh para pemilik usaha. Padahal potensi yang dimiliki dari sosial media sangatlah besar bagi pertumbuhan usaha.
 
-Salah satu sektor yang dapat memanfaatkan data dari sosial media adalah sektor pariwisata. Di sektor ini para pemilik usaha dapat memanfaatkan pesan dari sosial media untuk mendapatkan informasi tren wisata saat itu. 
+Salah satu sektor yang dapat memanfaatkan data dari sosial media adalah sektor pariwisata. Di sektor ini para pemilik usaha (\textit{travel agent}) dapat memanfaatkan pesan dari sosial media untuk mendapatkan informasi tren wisata saat itu. Selain para pemilik usaha, masih terdapat pihak-pihak lain yang dapat memanfaatkan pesan dari sosial media, seperti pemerintah melalui dinas pariwisata, wisatawan / \textit{backpacker} dan maskapai penerbangan atau penyedia layanan transportasi. 
 
 Pesan media sosial saat ini khususnya Twitter dan Instagram jumlahnya sudah sangat banyak. Hal ini mengakibatkan pemilik usaha di bidang pariwisata kesulitan dalam menganalisis tren wisata yang sedang terjadi secara manual. Masalah lainnya bagi mereka adalah pertumbungan pesan-pesan di sosial media yang berjalan dengan sangat cepat bahkan dalam hitungan detik datanya sudah berubah. 
 
-Oleh karena itu, para pemilik usaha di bidang pariwisata memerlukan sebuah sistem yang dapat membantu mereka dalam menganalisis tren wisata di sosial media yang jumlahnya sangat banyak dan berkembang sangat cepat. Sistem yang dilengkapi dengan kecerdasan bisnis diharapkan dapat membantu para pemilik usaha di bidang pariwisata untuk melakukan pengambilan keputusan berdasarkan laporan, grafik dan hasil analisis dari pesan-pesan sosial media yang terkumpul di dalam \textit{data warehouse}. 
-
-\section{Rancangan Arsitektur dan Data Flow}
-\subsection{Rancangan Arsitektur}
-Berdasarkan analisis data dan masalah yang dilakukan maka dibuatlah rancangan arsitektur sistem yang dapat membantu memecahkan masalah yang ada dengan data-data yang dimiliki. Gambar \ref{fig:rancangan_arsitektur} menggambarkan tentang rancangan arsitektur yang dimulai dengan pengambilan data hingga terbentuklah laporan-laporan dan analisis. Berikut adalah penjelasan lebih detail mengenai rancangan tersebut.
+Oleh karena itu, para pemilik usaha di bidang pariwisata memerlukan sebuah sistem yang dapat membantu mereka dalam menganalisis tren wisata di sosial media yang jumlahnya sangat banyak dan berkembang sangat cepat. Sistem yang dilengkapi dengan kecerdasan bisnis diharapkan dapat membantu para pemilik usaha di bidang pariwisata untuk melakukan pengambilan keputusan berdasarkan laporan, grafik dan hasil analisis dari pesan-pesan sosial media yang terkumpul di dalam \textit{data warehouse}. Contoh pengetahuan-pengetahuan yang dapat dihasilkan dari sistem kecerdasan bisnis ini antara lain:
 
 \begin{itemize}
-	\item Data diambil dari Twitter dan Instagram melalui masing-masing API.
-	\item Data yang diterima kemudian dimasukan langsung ke dalam HDFS untuk kemudian dianalisis menggunakan MapReduce.
-	\item Hasil dari analisisnya dimasukan ke dalam tabel Hive dan juga dimasukan ke MySQL database menggunakan Sqoop.
-	\item Data yang sudah tersimpan di Hive dan MySQL kemudian dianalisis menggunakan sistem kecerdasan bisnis agar menghasilkan laporan-laporan dan analisis yang berharga.
+	\item Mengetahui waktu-waktu ramai suatu lokasi wisata dikunjungi wisatawan. Dengan adanya informasi ini pemilik usaha dapat lebih mudah dalam melakukan promosi serta mempersiapkan pelayanan yang lebih baik untuk pelanggan ketika waktu-waktu ramai dan mengurangi pengeluaran-pengeluaran ketika waktu-waktu sepi. 
+	\item Mengukur potensi wisata suatu daerah. Dengan adanya informasi ini pemerintah dapat melihat potensi-potensi wisata yang dimiliki suatu daerah, sehingga mempermudah dalam menentukan prioritas pembangunan di suatu lokasi wisata yang cukup favorit untuk dikunjungi.
+	\item Mempersiapkan infrastruktur dan fasilitas yg memadai di saat-saat ramai. Dengan adanya informasi ini instansi pemerintah terkait juga dapat mempersiapkan dengen lebih matang infrastruktur, fasilitas, serta pengamanan di lokasi maupun akses menuju lokasi untuk kepuasan dan keselamatan para wisatawan selama berwisata. 
 \end{itemize}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{Gambar/rancangan-arsitektur-sistem.png}
-	\caption[Rancangan Arsitektur]{Rancangan Arsitektur} 
-	\label{fig:rancangan_arsitektur}
-\end{figure}
-
-
-\subsection{Rancangan Data Flow Diagram}
-Rancangan Data Flow Diagram (DFD) adalah rancangan alur data yang terjadi di dalam rancangan arsitektur yang sudah dibuat sebelumnya. Gambar \ref{fig:rancangan_dfd} adalah rancangan DFD yang dibuat untuk penelitian ini. Sumber data utama dari sistem ini adalah Twitter dan Instagram, maka diperlukan modul-modul program untuk melakukan \textit{streaming} dan \textit{crawling} untuk mendapatkan data dari sumber-sumber tersebut. Setelah itu data yang diambil akan dimasukan ke HDFS. Data kemudian diolah oleh modul program lainnya untuk mencari frekuensi lokasi wisata secara berkala. Data master lokasi wisata dan nama aliasnya sudah terdapat di dalam HDFS. Modul program untuk mencari frekuensi lokasi wisata dibuat di dalam MapReduce. Output dari modul program ditulis kembali ke dalam HDFS.
-
-Setelah data frekuensi lokasi wisata didapatkan, maka data tersebut akan dikonversi menjadi data di dalam tabel Hive serta diekspor ke luar HDFS menggunakan Sqoop. Data yang diekspor keluar akan disimpan di dalam \textit{data warehouse} yang sudah dibuat di MySQL. Kemudian data-data tersebut akan dianalisis dengan sistem kecerdasan bisnis agar menghasilkan laporan dan analisis yang berharga untuk organisasi.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{Gambar/DFD-Sistem.png}
-	\caption[Rancangan Data Flow Diagram Sistem]{Rancangan Data Flow Diagram Sistem} 
-	\label{fig:rancangan_dfd}
-\end{figure}
-
-\section{Rancangan Modul Program Data Warehouse}
-\subsection{Modul Program \textit{Streaming} Twitter}
-Modul program ini berfungsi untuk melakukan pengambilan data dari twitter berdasarkan kata kunci tertentu yang relevan dengan kebutuhan organisasi. Modul ini dapat mengambil data dari Twitter secara \textit{realtime} melalui Twitter Streaming API. 
-
-\subsubsection{Flow Diagram \textit{Streaming} Twitter}
-Flow diagram yang berisi alur proses pengambilan data dari Twitter Streaming API digambarkan di Gambar \ref{fig:flow_streaming_twitter}. Proses diawali dengan membuat OAuth service. Dalam membuat OAuth service dibutuhkan Consumer Key dan Consumer Secret (lihat Bab \ref{sec:twitter} untuk cara memperolehnya). Setelah itu dibuatlah sebuah Request ke stream.twitter.com dengan \textit{keyword} dan kriteria lain yang sudah ditentukan. Sebelum memulai \textit{streaming}, modul program akan membuat sebuah \textit{sign request} terlebih dahulu untuk mendapatkan OAuth Signature yang diperlukan untuk melakukan \textit{streaming}. 
-
-Setelah OAuth Signature didapatkan maka proses \textit{streaming} dimulai dan modul program melakukan \textit{listening} ke server twitter melalui protokol HTTP. Ketika ada \textit{tweet} yang diterima maka akan langsung ditulis ke file di HDFS. Proses ini akan terus berlangsung selama koneksi ke server twitter tetap hidup.
- 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{Gambar/DFD-Streaming-Twitter.png}
-	\caption[Flow Diagram Streaming Twitter]{Flow Diagram Streaming Twitter} 
-	\label{fig:flow_streaming_twitter}
-\end{figure}
-
-\subsubsection{Kelas Diagram \textit{Streaming} Twitter}
-Modul program ini memiliki tiga buah kelas utama dan satu buat interface (Gambar \ref{fig:class_streaming_twitter}). Kelas HDFSOperation dan kelas LocalOperation merupakan turunan dari interface Writer karena fungsi dari kedua kelas tersebut yang sama-sama dapat menulis ke dalam file hanya saja lokasi file yang berbeda, yang satu menulis di HDFS sedangkan yang lainnya menulis di lokal file. Sedangkan kelas TwitterStreamer berfungsi untuk melakukan pengambilan data ke server twitter sesuai dengan \textit{flow} yang sudah dirancang. Kelas TwitterStreamer akan dijalankan sebagai Thread agar tidak melakukan \textit{blocking} pada bagian modul lainnya seperti tampilan dan penulisan. Ketika ada data baru yang diterima oleh TwitterStreamer maka akan langsung ditulis oleh Writer ke dalam HDFS ataupun lokal file.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.45]{Gambar/Class-Diagram-Twitter-Streaming.png}
-	\caption[Class Diagram Streaming Twitter]{Class Diagram Streaming Twitter} 
-	\label{fig:class_streaming_twitter}
-\end{figure}
-
-\subsubsection{Antar Muka \textit{Streaming} Twitter}
-Pada modul program ini diperlukan beberapa input dari pengguna, seperti streaming URL twitter, consumer key, consumer secret, access token, access token secret, keyword, pilihan lokasi \textit{ouput}. Selain itu pengguna juga perlu mengetahui jumlah data yang sudah diambil, status modul program saat ini dan waktu data terakhir yang diambil. Berdasarkan kebutuhan-kebutuhan tersebut maka tampilan dari modul ini akan dirancang seperti pada Gambar \ref{fig:ui_streaming_twitter}.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{Gambar/UI-Twitter-Streaming.png}
-	\caption[Rancangan Antar Muka Streaming Twitter]{Rancangan Antar Muka Streaming Twitter} 
-	\label{fig:ui_streaming_twitter}
-\end{figure}
-
-\subsection{Modul Program \textit{Crawling} Instagram}
-Modul program ini berfungsi untuk melakukan pengambilan data dari Instagram berdasarkan tag tertentu yang relevan dengan kebutuhan organisasi. Berbeda dengan modul \textit{Streaming} Twitter, modul ini tidak mengambil data dari Instagram secara realtime. Modul ini mengambil data secara \textit{crawling} dengan memanfaatkan Instagram API. Oleh karena itu ada beberapa hal yang perlu diperhatikan di modul ini seperti penggunaan memori pada komputer, karena dapat mengakibatkan error StackOverflow. Untuk lebih jelasnya akan dibahas pada bagian flow diagram dari modul program ini.
-
-\subsubsection{Flow Diagram \textit{Crawling} Instagram}
-\label{sec:dfd_streaming_instagram}
-Flow diagram yang berisi alur proses pengambilan data dari Instagram API digambarkan di Gambar \ref{fig:dfd_streaming_instagram}. Proses diawali dengan melakukan autentikasi di server Instagram. Autentikasi ini perlu dilakukan agar bisa mendapatkan \textit{code} yang kemudian akan dipakai dalam meminta \textit{acces\_token} ke Instagram API. Apabila proses yang dilakukan dalam mendapatkan \textit{acces\_token} berhasil dan dinyatakan \textit{valid} oleh Instagram API, maka proses pengambilan data secara \textit{crawling} dapat dilakukan.
-
-Setiap kali data hasil \textit{crawling} API diterima, modul program akan menulis ke dalam HDFS atau lokal file. Proses pengambilan data akan diulangi terus menerus dengan pembaharuan nilai dari parameter NEXT\_URL. Program akan dihentikan apabila nilai dari NEXT\_URL yang dikembalikan dari API bernilai null. Selain itu program juga akan berhenti dan menginisialisasi modul program yang sama dengan sendirinya ketika data yang diterima sudah mencapai lebih dari 15.000 data. Hal ini dilakukan untuk mencegah terjadinya StackOverflow error.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{Gambar/DFD-Streaming-Instagram.png}
-	\caption[Flow Diagram \textit{Crawling} Instagram]{Flow Diagram \textit{Crawling} Instagram} 
-	\label{fig:dfd_streaming_instagram}
-\end{figure}
-
-\subsubsection{Kelas Diagram \textit{Crawling} Instagram}
-Modul program ini memiliki tiga buah kelas utama dan satu buat interface (Gambar \ref{fig:class_crawling_instagram}). Kelas HDFSOperation dan kelas LocalOperation merupakan turunan dari interface Writer karena fungsi dari kedua kelas tersebut yang sama-sama dapat menulis ke dalam file hanya saja lokasi file yang berbeda, yang satu menulis di HDFS sedangkan yang lainnya menulis di lokal file. Sedangkan kelas InstagramStreamer berfungsi untuk melakukan pengambilan data ke Instagram API sesuai dengan \textit{flow} yang sudah dirancang. Kelas InstagramStreamer akan dijalankan sebagai Thread agar tidak melakukan \textit{blocking} pada bagian modul lainnya seperti tampilan dan penulisan. Ketika data diterima oleh InstagramStreamer maka akan langsung ditulis oleh Writer ke dalam HDFS ataupun lokal file.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.45]{Gambar/Class-Diagram-Instagram-Crawling.png}
-	\caption[Class Diagram Crawling Instagram]{Class Diagram Crawling Instagram} 
-	\label{fig:class_crawling_instagram}
-\end{figure}
-
-\subsubsection{Antar Muka \textit{Crawling} Instagram}
-Pada modul program ini diperlukan beberapa input dari pengguna, seperti client ID, client secret, redirect url, next min ID, code, tag, pilihan lokasi \textit{ouput}. Selain itu pengguna juga perlu mengetahui access token yang dihasilkan, jumlah data yang sudah diambil, status modul program saat ini dan waktu data terakhir yang diambil. Berdasarkan kebutuhan-kebutuhan tersebut maka tampilan dari modul ini akan dirancang seperti pada Gambar \ref{fig:ui_instagram_crawling}.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{Gambar/UI-Instagram-Crawling.png}
-	\caption[Rancangan Antar Muka Instagram Crawling]{Rancangan Antar Muka Instagram Crawling} 
-	\label{fig:ui_instagram_crawling}
-\end{figure}
-
-
-\subsection{Modul Program Pembersihan Data dan Penghitungan Frekuensi Lokasi Wisata}
-Pada modul program ini akan dilakukan proses pembersihan data dan penghitungan frekuensi lokasi wisata yang muncul di dalam pesan sosial media. Input dari modul program ini adalah data pesan twitter dan instagram yang sudah tersimpan di lokal maupun HDFS, data lokasi wisata, data kata-kata perulangan dan data nama-nama alias dari lokasi wisata. Terdapat dua buah rancangan untuk modul program ini, yang pertama dengan MapReduce dan yang kedua tanpa MapReduce untuk keperluan eksperimen.
-
-\subsubsection{Modul Program dengan MapReduce}
-Pada modul program dengan MapReduce proses yang dilakukan dibagi menjadi dua bagian, yaitu bagian Map dan bagian Reduce (Gambar \ref{fig:flow_frekuensi_mapreduce}). Di bagian Map pesan-pesan akan dipisahkan berdasarkan spasi dan kemudian akan dibersihkan. Pembersihan yang dilakukan seperti mengganti kata ulang dan nama alias dari lokasi-lokasi wisata. Setelah pembersihan dilakukanlah penghitungan frekuensi kemunculan data suatu lokasi wisata. Cara yang dilakukan dengan mencocokan kata pada pesan yang sudah di \textit{split} dengan data yang ada pada \textit{dictionary} Trie. Ketika data ditemukan maka akan ditulis ke dalam context untuk kemudian dikumpulkan oleh \textit{reduce}, dihitung dan ditulis kembali ke dalam HDFS. 
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{Gambar/DFD-Cleaning-Counting.png}
-	\caption[Flow Diagram Pembersihan dan Perhitungan Frekuensi Lokasi Wisata dengan MapReduce]{Flow Diagram Pembersihan dan Perhitungan Frekuensi Lokasi Wisata dengan MapReduce} 
-	\label{fig:flow_frekuensi_mapreduce}
-\end{figure}
-
-Berdasarkan kebutuhan pada rancangan flow diagram, maka dirancang kelas-kelas seperti pada Gambar \ref{fig:class_frekuensi_mapreduce}. Terdapat kelas Trie dan TrieNode yang digunakan untuk membentuk \textit{dictionary} dari lokasi-lokasi wisata. Kemudian ada kelas Cleaner yang akan digunakan untuk melakukan pembersihan data. Kelas WordMapper dan DateReducer digunakan untuk melakukan MapReduce di dalam sistem terdistribusi Hadoop.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{Gambar/Class-Diagram-Counter-MapReduce.png}
-	\caption[Kelas Diagram Pembersihan dan Perhitungan Frekuensi Lokasi Wisata dengan MapReduce]{Kelas Diagram Pembersihan dan Perhitungan Frekuensi Lokasi Wisata dengan MapReduce} 
-	\label{fig:class_frekuensi_mapreduce}
-\end{figure}
-
-\subsubsection{Modul Program Tanpa MapReduce}
-Proses yang dilakukan pada modul ini mirip dengan modul program dengan MapReduce, hanya saja tidak dilakukan proses recude. Sebagai penggantinya hasil langsung disimpan ke dalam HashMap dengan key berupa string dan value berupa integer (Gambar \ref{flow_frekuensi_tanpa_mapreduce}).
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{Gambar/DFD-Cleaning-Counting-without-MapReduce.png}
-	\caption[Flow Diagram Pembersihan dan Perhitungan Frekuensi Lokasi Wisata Tanpa MapReduce]{Flow Diagram Pembersihan dan Perhitungan Frekuensi Lokasi Wisata Tanpa MapReduce} 
-	\label{fig:flow_frekuensi_tanpa_mapreduce}
-\end{figure}
-
-Gambar \ref{fig:class_frekuensi_tanpa_mapreduce} adalah rancangan diagram kelas untuk modul pembersihan dan perhitungan frekuensi lokasi wisata tanpa MapReduce. Untuk kelas-kelas TrieNode, Trie dan Cleaner tidak ada perbedaan dengan yang menggunakan MapReduce. Perbedaan yang ada hanya pada kelas Counter. Kelas ini berfungsi untuk melakukan pembersihan data, penghitungan dan penulisan ke file.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{Gambar/Class-Diagram-Counter-without-MapReduce.png}
-	\caption[Kelas Diagram Pembersihan dan Perhitungan Frekuensi Lokasi Wisata tanpa MapReduce]{Kelas Diagram Pembersihan dan Perhitungan Frekuensi Lokasi Wisata tanpa MapReduce} 
-	\label{fig:class_frekuensi_tanpa_mapreduce}
-\end{figure}
-
-\subsection{Modul Modul ETL di Pentaho Data Integration}
-Pada penelitian ini diperlukan ekstrak, \textit{transform} dan \textit{load} (ETL) data dari data mentah hasil \textit{streaming} dan \textit{crawling} sosial media hingga data siap untuk diolah oleh modul program kecerdasan bisnis. Untuk melakukan proses ETL pada penelitian kali ini akan membangun modul program berisi perintah-perintah untuk melakukan hal tersebut di dalam program Pentaho Data Integration (PDI). Gambar \ref{fig:dfd_pdi} menjelaskan proses yang perlu dilakukan di dalam modul program ini. 
-
-Proses dimulai dari pemindahan data dari folder \textit{streaming} ke folde input, setelah itu penghapusan folder \textit{output} yang bertujuan menghilangkan hasil keluaran dari modul program jika sudah pernah dijalankan. Kemudian dilakukan pembersihan dan penghitungan frekuensi lokasi wisata oleh modul program yang sudah dibuat sebelumnya. Data yang dihasilkan akan dikonversi ke Hive dan juga diekspor keluar HDFS ke MySQL menggunakan Sqoop. Setelah proses selesai maka isi dari folder input akan dikosongkan.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.6]{Gambar/DFD-PDI.png}
-	\caption[Flow ETL di Pentaho Integration]{Flow ETL di Pentaho Integration} 
-	\label{fig:dfd_pdi}
-\end{figure}
-
-\subsection{Modul Program Sistem Kecerdasan Bisnis}
-\subsubsection{Rancangan Arsitektur}
-Pada modul program sistem kecerdasan bisnis akan dibangun menggunakan arsitektur seperti pada Gambar \ref{fig:bi_arsitektur}. Sistem nantinya akan terdiri dari dua buah program, yang pertama akan berjalan di sisi \textit{client side} sedangkan yang kedua akan berjalan di \textit{server side}. 
-
-Fungsi dari program client adalah membuat tampilan seperti \textit{dashboard}, tampilan \textit{drag and drop} untuk pembuatan kueri, serta menampilkan hasil data yang dikembalikan oleh program server. Fungsi dari program server adalah menerima \textit{request} dari program \textit{client} kemudian mengolah \textit{request} tersebut menjadi kueri-kueri yang dapat dijalankan untuk mengambil data dari \textit{data warehouse}. Hasil dari kueri-kueri tersebut akan dikembalikan ke program \textit{client} setelah diformat ke dalam bentuk JSON.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.6]{Gambar/Arsitektur-Kecerdasaan-Bisnis.png}
-	\caption[Arsitektur Sistem Kecerdasaan Bisnis]{Arsitektur Sistem Kecerdasaan Bisnis} 
-	\label{fig:bi_arsitektur}
-\end{figure}
-
-\subsubsection{Rancangan Flow Diagram}
-Berdasarkan rancangan arsitektur sebelumnya, maka dirancanglah sebuah diagram \textit{flow} untuk menjelaskan fungsi tiap program secara lebih mendetail. Diagram flow digambarkan pada Gambar \ref{fig:bi_flow}. Pada diagram \textit{flow} terlihat dengan jelas jika program mengawalinya dengan mengirimkan \textit{request} berdasarkan permintaan user ke server melalui metode POST. Kemudian dari sis server akan menerima \textit{request} tersebut, lalu memulainya dengan membaca file koneksi terlebih dahulu. Setelah itu data-data yang didapat dari file koneksi akan digunakan untuk membuat koneksi ke sumber data. Setelah koneksi berhasil dibuat maka dibuatkanlah kueri-kueri yang sesuai dengan \textit{request} dari \textit{client}. Proses berikutnya adalah menjalankan kueri dan mendapatkan datanya, kemudian data-data tersebut akan diparsing ke dalam format JSON dan dikembalikan ke program \textit{client} untuk diolah menjadi tampilan-tampilan seperti tabel ataupun \textit{chart}.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.6]{Gambar/DFD-Kecerdasaan-Bisnis.png}
-	\caption[Diagram Flow Sistem Kecerdasan Bisnis]{Diagram Flow Sistem Kecerdasan Bisnis} 
-	\label{fig:bi_flow}
-\end{figure}
-
-\subsubsection{Rancangan Kelas Diagram}
-Gambar \ref{fig:bi_kelas} adalah rancangan diagram kelas program server yang dirancang berdasarkan \textit{flow} dari program. Di dalam kelas diagram terdapat dua buah \textit{package}, yaitu helper dan servlet. \textit{Package} helper akan digunakan untuk menyimpan kelas-kelas yang digunakan untuk menjalankan program sedangkan \textit{package} servlet digunakan untuk menyimpan kelas-kelas \textit{servlet} yang akan menerima request dari program \textit{client}.
-
-Pada \textit{package} helper terdapat kelas-kelas seperti:
-\begin{itemize}
-	\item Config yang hanya berfungsi menyimpan konfigurasi yang akan digunakan kelas lainnya.
-	\item DbConnection yang bertugas untuk membuat koneksi ke sumber data (MySQL dan Hive).
-	\item ConnectionReaderWriter yang bertugas untuk membaca dan menulis ke koneksi file.
-	\item QueryBuilder yang bertugas membuat kueri berdasarkan \textit{request} dari client.
-\end{itemize}
-
-Sedangkan pada \textit{package} servlet terdapat kelas-kelas seperti:
-\begin{itemize}
-	\item ConnectionServlet yang mewariskan kelas HttpServlet milik Java. Kelas ini bertugas untuk melayani \textit{request} terkait data-data koneksi oleh \textit{client}.
-	\item GeneratorServlet yang mewariskan kelas HttpServlet milik Java. Kelas ini bertugas untuk melayani \textit{request} terkait kriteria kueri-kueri yang diminta.
-\end{itemize}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.45]{Gambar/Class-Diagram-Kecerdasaan-Bisnis.png}
-	\caption[Diagram Kelas Sistem Kecerdasaan Bisnis]{Diagram Kelas Sistem Kecerdasaan Bisnis} 
-	\label{fig:bi_kelas}
-\end{figure}
-
-\subsubsection{Rancangan Antar Muka}
-Sesuai dengan kebutuhan organisasi terkait analisis tren lokasi wisata maka dirancanglah tampilan tampak muka sistem kecerdasan bisnis seperti pada Gambar \ref{fig:bi_ui}. Terdapat dua buah tampilan tampak muka yang dibuat, yang pertama adalah \textit{dashboard} yang berisi data-data yang umumnya dibutuhkan untuk analisis tren. Untuk tampilan yang kedua adalah tampilan untuk membuat laporan serta analisis secara lebih mendetail berdasarkan dimensi-dimensi yang ada. 
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{Gambar/UI-Kecerdasan-Bisnis.png}
-	\caption[Rancangan Antar Muka Sistem Kecerdasaan Bisnis]{Rancangan Antar Muka Sistem Kecerdasaan Bisnis} 
-	\label{fig:bi_ui}
-\end{figure}
-
-\section{Rancangan Skema \textit{Data Warehouse}}
-Berdasarkan kebutuhan organisasi dalam menyelesaikan masalah tren lokasi wisata, maka dirancanglah Entity Relationship Diagram (ERD) \textit{data warehouse} seperti pada Gambar \ref{fig:erd_data_warehouse}. Rancangan ERD pada \textit{data warehouse} sengaja dibuat berbentuk tidak normal, tujuannya untuk mengurangi operasi join yang dilakukan. Apalagi data yang disimpan adalah data yang berasal dari sosial media yang jumlahnya bisa sangat besar dan membutuhkan waktu yang lama apabila harus melakukan operasi join yang kompleks.
-
-Pada ERD terdapat satu buah \textit{fact table} dan dua buah \textit{dimension table}. \textit{Fact table} digunakan untuk menyimpan data-data hasil perhitungan frekuensi di HDFS. Sedangka untuk mengetahui lebih detail tentang tren suatu lokasi wisata dari waktu ke waktu maka dibuatlah sebuah dimensi data yang menyimpan hal-hal yang berhubungan dengan tanggal, tahun, bulan, minggu, dsb. Lokasi wisata akan disimpan di dalam dimensi \textit{locations} lengkap dengan tipe lokasi wisata (budaya, alam atau lainnya), kota/kabupaten lokasi wisata dan provinsinya. Rancangan ERD ini akan digunakan baik di Hive maupun di MySQL.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.6]{Gambar/ERD-Data-Warehouse.png}
-	\caption[Rancangan ERD Data Warehouse]{Rancangan ERD Data Warehouse} 
-	\label{fig:erd_data_warehouse}
-\end{figure}
