@@ -1,5 +1,5 @@
 \chapter{Rancangan Sistem Kecerdasan Bisnis}
-\section{Rancangan Use Case Diagram}
+\section{Rancangan Diagram Use Case}
 Berdasarkan analisis yang dilakukan pada Bab 4, maka dapat disimpulkan terdapat empat buah \textit{user} yang akan menggunakan sistem kecerdasan bisnis ini. Selain para \textit{user} tersebut, diperlukan juga seorang administrator yang akan menjalankan dan melakukan pengaturan pada proses \textit{Extract Transform Loading} (ETL). Maka dari itu dibuatlah perancangan diagram \textit{Use Case} pada Gambar \ref{fig:rancangan_use_case_diagram} untuk memperjelas peran-peran yang dimiliki setiap \textit{user} serta fitur-fitur yang dapat digunakannya.
 
 \begin{figure}[H]
@@ -234,13 +234,13 @@ Untuk tampilan yang kedua adalah tampilan untuk membuat laporan serta analisis s
 \end{figure}
 
 \section{Rancangan Skema \textit{Data Warehouse}}
-Berdasarkan kebutuhan organisasi dalam menyelesaikan masalah tren lokasi wisata, maka dirancanglah Entity Relationship Diagram (ERD) \textit{data warehouse} seperti pada Gambar \ref{fig:erd_data_warehouse}. ERD pada \textit{data warehouse} sengaja dibuat berbentuk tidak normal, tujuannya untuk mengurangi operasi join yang dilakukan. Apalagi data yang disimpan adalah data yang berasal dari sosial media yang jumlahnya bisa sangat besar dan membutuhkan waktu yang lama apabila harus melakukan operasi join yang kompleks.
+Berdasarkan kebutuhan organisasi dalam menyelesaikan masalah tren lokasi wisata, maka dirancanglah skema \textit{data warehouse} seperti pada Gambar \ref{fig:erd_data_warehouse}. Skema pada \textit{data warehouse} sengaja dibuat berbentuk tidak normal, tujuannya untuk mengurangi operasi join yang dilakukan. Apalagi data yang disimpan adalah data yang berasal dari sosial media yang jumlahnya bisa sangat besar dan membutuhkan waktu yang lama apabila harus melakukan operasi join yang kompleks.
 
-Pada ERD terdapat satu buah \textit{fact table} dan dua buah \textit{dimension table}. \textit{Fact table} digunakan untuk menyimpan data-data hasil perhitungan frekuensi di HDFS. Sedangkan untuk mengetahui lebih detail tentang tren suatu lokasi wisata dari waktu ke waktu maka dibuatlah sebuah dimensi data yang menyimpan hal-hal yang berhubungan dengan tanggal, tahun, bulan, minggu, dsb. Lokasi wisata akan disimpan di dalam dimensi \textit{locations} lengkap dengan tipe lokasi wisata (budaya, alam atau lainnya), kota/kabupaten lokasi wisata dan provinsinya. Rancangan ERD ini akan digunakan baik di Hive maupun di MySQL.
+Pada skema terdapat satu buah \textit{fact table} dan dua buah \textit{dimension table}. \textit{Fact table} digunakan untuk menyimpan data-data hasil perhitungan frekuensi di HDFS. Sedangkan untuk mengetahui lebih detail tentang tren suatu lokasi wisata dari waktu ke waktu maka dibuatlah sebuah dimensi data yang menyimpan hal-hal yang berhubungan dengan tanggal, tahun, bulan, minggu, dsb. Lokasi wisata akan disimpan di dalam dimensi \textit{locations} lengkap dengan tipe lokasi wisata (budaya, alam atau lainnya), kota/kabupaten lokasi wisata dan provinsinya. Skema ini akan digunakan baik di Hive maupun di MySQL.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.6]{Gambar/ERD-Data-Warehouse.png}
-	\caption[ERD Data Warehouse]{ERD Data Warehouse} 
+	\caption[Skema Data Warehouse]{Skema Data Warehouse} 
 	\label{fig:erd_data_warehouse}
 \end{figure}

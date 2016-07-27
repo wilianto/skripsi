@@ -69,8 +69,8 @@
 % \mode{kosong}
 % \mode{cover}
 % \mode{sidang}
-\mode{sidang_akhir}
-%\mode{final} 
+%\mode{sidang_akhir}
+\mode{final} 
 %=============================================================================
 
 %_____________________________________________________________________________
@@ -170,9 +170,9 @@
 % !!Lihat singkatan pembimbing dan penguji anda di file dosen.tex
 %=============================================================================
 \namanpm{Wilianto Indrawan}{2012730007}	%hilangkan tanda << & >>
-\tanggal{<<tanggal>>}{<<bulan>>}{2016}			%hilangkan tanda << & >>
-\pembimbing{\vsm}{<<pembimbing pendamping/2>>} %hilangkan tanda << & >>    
-\penguji{<<penguji 1>>}{<<penguji 2>>} 				%hilangkan tanda << & >>
+\tanggal{6}{6}{2016}			%hilangkan tanda << & >>
+\pembimbing{\VSM}{} %hilangkan tanda << & >>    
+\penguji{\GDK}{\VAN} 				%hilangkan tanda << & >>
 %=============================================================================
 
 %_____________________________________________________________________________
@@ -200,7 +200,7 @@
 % PERHATIAN: langsung mulai setelah '{' awal, jangan mulai menulis di baris 
 %			 bawahnya
 %=============================================================================
-\abstrakINA{Sosial media saat ini sudah menjadi bagian dari kehidupan masyarakat. Hal-hal dalam kehidupan sehari-hari banyak dibagikan melalui sosial media, seperti foto makanan yang dimakan, foto atau posisi lokasi yang sedang dikunjungi, dan banyak hal lainnya yang dibagikan di sana. Saat ini sosial media dapat dianggap sebagai sumber informasi yang paling terkini dan paling jujur, karena ditulis langsung oleh penggunanya secara bebas. Oleh karena itu, informasi yang tersimpan di sosial media sangatlah berharga, sehingga perlu dimanfaatkan semaksimal mungkin untuk kepentingan organisasi. Salah satunya adalah mencari tren lokasi wisata yang sedang populer. Dua sosial media yang cukup banyak digunakan saat ini adalah Twitter dan Instagram.
+\abstrakINA{Sosial media saat ini sudah menjadi bagian dari kehidupan masyarakat. Hal-hal dalam kehidupan sehari-hari banyak dibagikan melalui sosial media, seperti foto makanan, foto atau posisi lokasi yang sedang dikunjungi, dan banyak hal lainnya yang dibagikan di sana. Saat ini sosial media dapat dianggap sebagai sumber informasi yang paling terkini dan paling jujur, karena ditulis langsung oleh penggunanya secara bebas. Oleh karena itu, informasi yang tersimpan di sosial media sangatlah berharga, sehingga perlu dimanfaatkan semaksimal mungkin untuk kepentingan organisasi. Salah satunya adalah mencari tren lokasi wisata yang sedang populer. Dua sosial media yang cukup banyak digunakan saat ini adalah Twitter dan Instagram.
 
 Data mentah yang terdapat di dalam sosial media cukup besar dan perlu diproses dengan cepat, sehingga diperlukan sebuah sistem terdistribusi yang dapat mengolah data dari Twitter dan Instagram dengan cepat. Salah satu sistem terdistribusi yang populer saat ini adalah Apache Hadoop. Setelah data mentah diproses maka diperlukan sebuah sistem kecerdasan bisnis yang dapat digunakan untuk membuat laporan dan menganalisa trennya. 
 
@@ -232,7 +232,7 @@ In this research, we will be built a business intelligence system on Apache Hado
 %=============================================================================
 % Persembahan : kepada siapa anda mempersembahkan skripsi ini ...
 %=============================================================================
-\untuk{<<kepada siapa anda mempersembahkan skripsi ini\ldots?>>}
+\untuk{dipersembahkan untuk masyarakat Indonesia}
 %=============================================================================
 
 %_____________________________________________________________________________
@@ -242,7 +242,7 @@ In this research, we will be built a business intelligence system on Apache Hado
 % Kata Pengantar: tempat anda menuliskan kata pengantar dan ucapan terima 
 % kasih kepada yang telah membantu anda bla bla bla ....  
 %=============================================================================
-\prakata{\lipsum[3]}
+\prakata{Puji syukur saya panjatkan kepada Tuhan Yang Maha Esa atas segala kasih dan karunia-Nya, sehingga saya dapat menyelesaikan skripsi ini tepat pada waktunya. Skripsi berjudul \textbf{Sistem Kecerdasan Bisnis pada Sistem Terdistribusi Hadoop, Studi Kasus: Teks Sosial Media Twitter \& Instagram} yang diajukan untuk memenuhi salah satu syarat untuk memperoleh gelar Sarjana Teknik pada jurusan Teknik Informatika di Fakultas Teknologi Informasi dan Sains (FTIS), Universitas Katolik Parahyangan. Pada kesempatan ini, saya mengucapkan terima kasih sebesar-besarnya kepada Yth: \begin{itemize}\item Kedua orang tua saya dan kedua adik saya yang telah senantiasa mendoakan dan mendukung saya selama proses pengerjaan skripsi ini.\item Ibu Dr. Veronica Sri Moertini selaku pembimbing utama yang telah meluangkan waktu untuk membantu, membimbing, dan memberikan saran dengan penuh kesabaran kepada saya selama pengerjaan skripsi ini.\item Bapak Gede Karya M.T.,CISA dan Ibu Vania Natali, M.T. selaku penguji saya yang telah bersedia meluangkan waktu untuk menguji dan memberikan masukan-masukan yang bermanfaat untuk skripsi ini.\item Dea Firda Rachmawati, selaku rekan dan sahabat yang telah menemani, mendukung dan membantu selama proses pengerjaan skripsi ini.\item Administrator laboratorium FTIS Unpar yang telah bersedia meluangkan waktu dan tenaganya membantu proses pengerjaan skripsi ini di laborarium FTIS.\item Sherly, Vinsensius Kevin, Adrian Aldo, dan Theodorus Kurniawan selaku teman seperjuangan yang telah saling membantu selama proses pengerjaan skripsi ini.\item Teman-teman kabinet dan staff Lembaga Kepresidenan Mahasiswa (LKM) periode 2015-2016 yang telah turut memberikan dukungan dalam proses pengerjaan skripsi ini.\item Liptia Venica, Herfan Heryandi, Fahrizal Septrianto, Adli Fariz, Florentina Sutanto, Hasan Putramas serta teman-teman mahasiswa seperjuangan lainnya yang telah mendukung, memberikan semangat dan membantu dalam banyak hal dalam proses penyusunan skripsi ini.\end{itemize}Saya berharap semoga skripsi ini dapat memberikan pengetahuan yang bermanfaat bagi para pembaca dan masyarakat luas. Saya selaku penulis menyadari bahwa penyusunan skripsi ini masih jauh dari sempurna. Oleh karena itu, saya mengharapkan kritik dan saran yang bersifat membangun sehingga dapat menjadi bekal bagi saya untuk masa mendatang.}
 %=============================================================================
 
 %_____________________________________________________________________________
